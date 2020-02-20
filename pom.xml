@@ -42,7 +42,4 @@
             </properties>
         </profile>
     </profiles>
-    <modules>
-        <module>untitled</module>
-    </modules>
 </project>
