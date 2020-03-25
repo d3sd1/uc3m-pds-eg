@@ -1,4 +1,4 @@
-//Requisitos que debe cumplir
+//Requisitos que debe cumplir:
 {
   "Device Name": "<Device Name (20)>",
   "Type of Device": "<Sensor|Actuator>",
