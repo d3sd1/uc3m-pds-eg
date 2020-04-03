@@ -25,7 +25,6 @@ import java.util.regex.Pattern;
 /**
  * The type Token request.
  */
-//TODO: esto se ha jodido con el merge
 public class TokenRequest {
 
     @JsonProperty(required = true)
