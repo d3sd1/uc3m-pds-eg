@@ -1,7 +1,17 @@
-package transport4future.tokenManagement.model.storage;
+/*
+ * Copyright (c) 2020.
+ * Content created by:
+ * - Andrei García Cuadra
+ * - Miguel Hernández Cassel
+ *
+ * For the module PDS, on university Carlos III de Madrid.
+ * Do not share, review nor edit any content without implicitly asking permission to it's owners, as you can contact by this email:
+ * andreigarciacuadra@gmail.com
+ *
+ * All rights reserved.
+ */
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+package transport4future.tokenManagement.model.storage;
 
 /**
  * The enum Token algorythm.

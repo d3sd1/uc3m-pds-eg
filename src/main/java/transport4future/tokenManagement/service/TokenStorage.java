@@ -1,3 +1,16 @@
+/*
+ * Copyright (c) 2020.
+ * Content created by:
+ * - Andrei García Cuadra
+ * - Miguel Hernández Cassel
+ *
+ * For the module PDS, on university Carlos III de Madrid.
+ * Do not share, review nor edit any content without implicitly asking permission to it's owners, as you can contact by this email:
+ * andreigarciacuadra@gmail.com
+ *
+ * All rights reserved.
+ */
+
 package transport4future.tokenManagement.service;
 
 import transport4future.tokenManagement.exception.TokenEncodingException;
@@ -14,12 +27,13 @@ import java.util.List;
 public class TokenStorage implements StorageInterface<Token> {
     private static List<Token> tokenGenerationStorage = new ArrayList<>();
     private Crypt crypt = new Crypt();
+
     @Override
     public void add(Token obj) throws TokenStorageException {
         // throw TokenStorageException si no se pudo almacenar
         try {
-            if(!this.tokenGenerationStorage.contains(obj)) {
-                this.tokenGenerationStorage.add(obj);
+            if (!tokenGenerationStorage.contains(obj)) {
+                tokenGenerationStorage.add(obj);
             }
         } catch(Exception e) {
             throw new TokenStorageException("El token no se pudo almacenar.");

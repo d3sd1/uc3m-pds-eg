@@ -1,3 +1,16 @@
+/*
+ * Copyright (c) 2020.
+ * Content created by:
+ * - Andrei García Cuadra
+ * - Miguel Hernández Cassel
+ *
+ * For the module PDS, on university Carlos III de Madrid.
+ * Do not share, review nor edit any content without implicitly asking permission to it's owners, as you can contact by this email:
+ * andreigarciacuadra@gmail.com
+ *
+ * All rights reserved.
+ */
+
 package transport4future.tokenManagement.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -5,15 +18,10 @@ import transport4future.tokenManagement.exception.TokenManagementException;
 import transport4future.tokenManagement.model.TokenRequest;
 import transport4future.tokenManagement.model.implementation.TokenRequestGeneratorInterface;
 import transport4future.tokenManagement.service.Crypt;
-import transport4future.tokenManagement.service.TokenStorage;
 import transport4future.tokenManagement.utils.Constants;
 
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.security.MessageDigest;
-import java.util.Arrays;
 
 /**
  * This is STEP 1 for token management process.

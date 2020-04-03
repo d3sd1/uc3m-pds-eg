@@ -1,10 +1,21 @@
+/*
+ * Copyright (c) 2020.
+ * Content created by:
+ * - Andrei García Cuadra
+ * - Miguel Hernández Cassel
+ *
+ * For the module PDS, on university Carlos III de Madrid.
+ * Do not share, review nor edit any content without implicitly asking permission to it's owners, as you can contact by this email:
+ * andreigarciacuadra@gmail.com
+ *
+ * All rights reserved.
+ */
+
 package transport4future.tokenManagement.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import transport4future.tokenManagement.model.storage.TokenAlgorythm;
 import transport4future.tokenManagement.model.storage.TokenType;
 

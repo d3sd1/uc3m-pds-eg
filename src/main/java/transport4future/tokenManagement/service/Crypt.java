@@ -1,17 +1,26 @@
+/*
+ * Copyright (c) 2020.
+ * Content created by:
+ * - Andrei García Cuadra
+ * - Miguel Hernández Cassel
+ *
+ * For the module PDS, on university Carlos III de Madrid.
+ * Do not share, review nor edit any content without implicitly asking permission to it's owners, as you can contact by this email:
+ * andreigarciacuadra@gmail.com
+ *
+ * All rights reserved.
+ */
+
 package transport4future.tokenManagement.service;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import transport4future.tokenManagement.exception.TokenEncodingException;
 import transport4future.tokenManagement.model.Token;
-import transport4future.tokenManagement.model.TokenIssue;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 import java.util.Base64;
 
 /**
@@ -66,7 +75,7 @@ public class Crypt {
     public String md5Encoder(String message) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         String digest;
         MessageDigest md = MessageDigest.getInstance("MD5");
-        byte[] hash = md.digest(message.getBytes("UTF-8"));
+        byte[] hash = md.digest(message.getBytes(StandardCharsets.UTF_8));
 
         //converting byte array to Hexadecimal String
         StringBuilder sb = new StringBuilder(2 * hash.length);

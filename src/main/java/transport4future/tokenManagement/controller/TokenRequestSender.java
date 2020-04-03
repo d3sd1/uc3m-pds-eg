@@ -1,19 +1,32 @@
+/*
+ * Copyright (c) 2020.
+ * Content created by:
+ * - Andrei García Cuadra
+ * - Miguel Hernández Cassel
+ *
+ * For the module PDS, on university Carlos III de Madrid.
+ * Do not share, review nor edit any content without implicitly asking permission to it's owners, as you can contact by this email:
+ * andreigarciacuadra@gmail.com
+ *
+ * All rights reserved.
+ */
+
 package transport4future.tokenManagement.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import transport4future.tokenManagement.exception.TokenEncodingException;
 import transport4future.tokenManagement.exception.TokenManagementException;
-import transport4future.tokenManagement.exception.TokenStorageException;
-import transport4future.tokenManagement.model.*;
+import transport4future.tokenManagement.model.Token;
+import transport4future.tokenManagement.model.TokenHeader;
+import transport4future.tokenManagement.model.TokenIssue;
+import transport4future.tokenManagement.model.TokenPayload;
+import transport4future.tokenManagement.model.implementation.TokenRequestInterface;
 import transport4future.tokenManagement.model.storage.TokenAlgorythm;
 import transport4future.tokenManagement.model.storage.TokenType;
 import transport4future.tokenManagement.service.Crypt;
 import transport4future.tokenManagement.service.TokenStorage;
-import transport4future.tokenManagement.model.implementation.TokenRequestInterface;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
 
 /**
  * Step 2: This will generate a token doing a request, but it needs a TokenRequest.
@@ -47,7 +60,6 @@ public class TokenRequestSender implements TokenRequestInterface {
         } catch(Exception e) {
             throw new TokenManagementException("El fichero de entrada no contiene los datos o el formato esperado.");
         }
-
 
 
         /**
