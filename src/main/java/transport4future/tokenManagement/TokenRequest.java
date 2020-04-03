@@ -5,9 +5,12 @@ import java.util.Date;
 public class TokenRequest {
 
     private String deviceName;
-    private Date requestDate;
+    private String typeOfDevice;
+    private String driverVersion;
+    private String supportEmail;
     private String serialNumber;
     private String macAddress;
+
 
     /**
      * Default constructor with params.
@@ -17,18 +20,20 @@ public class TokenRequest {
      * @param serialNumber Token SN.
      * @param macAddress Associated MAC address.
      */
-    public TokenRequest(String deviceName, Date creationDate,
-                        String serialNumber, String macAddress) {
+    public TokenRequest(String deviceName, String typeOfDevice, String driverVersion, String supportEmail, String serialNumber, String macAddress) {
         this.deviceName = deviceName;
-        this.requestDate = creationDate;
+        this.typeOfDevice = typeOfDevice;
+        this.driverVersion = driverVersion;
+        this.supportEmail = supportEmail;
         this.serialNumber = serialNumber;
         this.macAddress = macAddress;
     }
 
+
     @Override
     public String toString() {
         return "TokenRequest [\\n\\Device Name=" + this.deviceName
-                + ",\n\t\\Request Date=" + this.requestDate + ",\n\t\\Serial Number="
-                + this.serialNumber + ",\n\t\\MAC Address=" + this.macAddress + "\n]";
+                + ",\n\t\\Type of Device=" + this.typeOfDevice + ",\n\t\\Request Date=" + this.driverVersion + ",\n\t\\Support Email="
+                + this.supportEmail + ",\n\t\\Serial Number=" + this.serialNumber + ",\n\t\\MAC Address=" + this.macAddress + "\n]";
     }
 }
