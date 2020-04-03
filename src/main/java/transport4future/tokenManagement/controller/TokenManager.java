@@ -3,7 +3,7 @@ package transport4future.tokenManagement.controller;
 import transport4future.tokenManagement.exception.LMException;
 import transport4future.tokenManagement.model.Token;
 import transport4future.tokenManagement.service.Crypt;
-import transport4future.tokenManagement.service.TokenStorage;
+import transport4future.tokenManagement.service.TokenStorageInterface;
 import transport4future.tokenManagement.model.implementation.TokenManagerInterface;
 
 import java.time.LocalDateTime;
@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 //TODO: volver a reciuperarla
 public class TokenManager implements TokenManagerInterface {
     Crypt crypt = new Crypt();
-    TokenStorage tokenStorage = new TokenStorage();
+    TokenStorageInterface tokenStorage = new TokenStorageInterface();
     @Override
     public boolean VerifyToken(String token) throws LMException {
         /**
