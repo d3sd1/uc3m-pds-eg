@@ -57,7 +57,7 @@ public class TokenRequestSender implements TokenRequestInterface {
         try {
             ObjectMapper mapper = new ObjectMapper();
             tokenIssue = mapper.readValue(json, TokenIssue.class);
-        } catch(Exception e) {
+        } catch (Exception e) {
             throw new TokenManagementException("El fichero de entrada no contiene los datos o el formato esperado.");
         }
 
@@ -71,7 +71,7 @@ public class TokenRequestSender implements TokenRequestInterface {
             token.setHeader(new TokenHeader(TokenAlgorythm.HS256, TokenType.PDS));
             token.setPayload(new TokenPayload(tokenIssue));
             token.setSignature(TokenAlgorythm.HS256);
-        } catch(Exception e) {
+        } catch (Exception e) {
             throw new TokenManagementException("Se ha producido un error interno en la generación del token. ");
         }
 
@@ -80,7 +80,7 @@ public class TokenRequestSender implements TokenRequestInterface {
          */
         try {
             this.tokenStorage.add(token);
-        } catch(Exception e) {
+        } catch (Exception e) {
             throw new TokenManagementException("Se ha producido un error interno en el almacenamiento del token.");
         }
 
@@ -91,7 +91,7 @@ public class TokenRequestSender implements TokenRequestInterface {
         try {
             encodedToken = this.crypt.encode(token);
 
-        } catch(Exception e) {
+        } catch (Exception e) {
             throw new TokenManagementException("Se ha producido un error interno en la codificación del token.");
         }
         System.out.println(encodedToken);

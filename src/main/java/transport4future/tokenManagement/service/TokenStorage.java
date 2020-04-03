@@ -35,7 +35,7 @@ public class TokenStorage implements StorageInterface<Token> {
             if (!tokenGenerationStorage.contains(obj)) {
                 tokenGenerationStorage.add(obj);
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             throw new TokenStorageException("El token no se pudo almacenar.");
         }
     }
@@ -43,9 +43,9 @@ public class TokenStorage implements StorageInterface<Token> {
     @Override
     public boolean has(Token obj) {
         boolean exists = false;
-        for(Token token:tokenGenerationStorage) {
+        for (Token token : tokenGenerationStorage) {
             try {
-                if(this.crypt.encode(token).equals(this.crypt.encode(obj))) {
+                if (this.crypt.encode(token).equals(this.crypt.encode(obj))) {
                     exists = true;
                     break;
                 }

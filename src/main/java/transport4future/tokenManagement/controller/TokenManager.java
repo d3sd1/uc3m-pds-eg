@@ -42,14 +42,14 @@ public class TokenManager implements TokenManagerInterface {
         Token decodedToken;
         try {
             decodedToken = this.crypt.decode(token);
-        } catch(Exception e) {
+        } catch (Exception e) {
             throw new LMException("La cadena de caracteres de la entrada no se corresponde con un token que se pueda procesar.");
         }
 
         /**
          * Check token expiration
          */
-        if(decodedToken != null
+        if (decodedToken != null
                 && decodedToken.getPayload() != null
                 && decodedToken.getPayload().getExpirationDate() != null
                 && decodedToken.getPayload().getExpirationDate().isBefore(LocalDateTime.now())) {
@@ -59,7 +59,7 @@ public class TokenManager implements TokenManagerInterface {
         /**
          * Check token validity
          */
-        if(!this.tokenStorage.has(decodedToken)) {
+        if (!this.tokenStorage.has(decodedToken)) {
             throw new LMException("No se encuentra registrado el token para el cual se solicita verificación.");
         }
         System.out.println("Token válido.");

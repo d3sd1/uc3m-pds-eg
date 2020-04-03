@@ -26,5 +26,5 @@ public interface TokenRequestGeneratorInterface {
      * @return the string
      * @throws TokenManagementException the token management exception
      */
-    String TokenRequestGeneration (String inputFile) throws TokenManagementException;
+    String TokenRequestGeneration(String inputFile) throws TokenManagementException;
 }
