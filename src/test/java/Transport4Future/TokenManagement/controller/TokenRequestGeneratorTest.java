@@ -1,4 +1,4 @@
-package transport4future.tokenManagement;
+package transport4future.tokenManagement.controller;
 
 import org.junit.Assert;
 import org.junit.ComparisonFailure;
