@@ -5,11 +5,11 @@ import org.opentest4j.TestAbortedException;
 import transport4future.tokenManagement.exception.TokenManagementException;
 import transport4future.tokenManagement.controller.TokenRequest;
 import transport4future.tokenManagement.controller.TokenRequestGenerator;
-import transport4future.tokenManagement.utils.Constants;
+import transport4future.tokenManagement.utils.TestConstants;
 
 import java.io.File;
 
-class GenericInputFileTest {
+public class GenericInputFileTest {
     private TokenRequestGenerator tokenRequestGenerator;
     private TokenRequest tokenRequest;
     private final String fileNotFoundMessage = "No se encuentra el fichero con los datos de entrada.";
@@ -65,7 +65,7 @@ class GenericInputFileTest {
     @DisplayName("File exists (but generic content)")
     @Order(1)
     void inputFileExists() {
-        final String filePath = Constants.GENERIC_FILE_PATH;
+        final String filePath = TestConstants.GENERIC_FILE_PATH;
         final File file = new File(this.getClass().getResource(filePath).getFile());
         if (file.isFile()) {
             System.out.println(String.format("File absolute path: %s", file.getAbsolutePath()));
