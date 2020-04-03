@@ -1,13 +1,31 @@
 package transport4future.tokenManagement.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import transport4future.tokenManagement.model.storage.TokenAlgorythm;
 
+import java.io.IOException;
+import java.util.Base64;
 import java.util.Objects;
 
 public class Token {
+
+    @JsonProperty(required = true)
     private TokenHeader header;
+
+    @JsonProperty(required = true)
     private TokenPayload payload;
+
+    @JsonProperty(required = true)
     private TokenAlgorythm signature;
+
+    public Token() {
+    }
+
 
     public TokenHeader getHeader() {
         return header;
@@ -16,6 +34,7 @@ public class Token {
     public void setHeader(TokenHeader header) {
         this.header = header;
     }
+
 
     public TokenPayload getPayload() {
         return payload;
@@ -49,10 +68,12 @@ public class Token {
 
     @Override
     public String toString() {
-        return "Token{" +
-                "header=" + header +
-                ", payload=" + payload +
-                ", signature=" + signature +
-                '}';
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

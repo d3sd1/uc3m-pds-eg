@@ -46,7 +46,6 @@ public class TokenRequestGenerator implements TokenRequestGeneratorInterface {
             ObjectMapper mapper = new ObjectMapper();
             tokenRequest = mapper.readValue(json, TokenRequest.class);
         } catch (Exception e) {
-            e.printStackTrace();
             throw new TokenManagementException("El fichero de entrada no contiene los datos o el formato esperado.");
         }
 

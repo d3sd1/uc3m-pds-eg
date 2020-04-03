@@ -76,14 +76,14 @@ public class TokenRequestSender implements TokenRequestInterface {
         /**
          * Return base64urlencode encoded token.
          */
-        String encodedTokenIssue;
+        String encodedToken;
         try {
-            encodedTokenIssue = this.crypt.encode(tokenIssue.toString());
+            encodedToken = this.crypt.encode(token);
 
         } catch(Exception e) {
             throw new TokenManagementException("Se ha producido un error interno en la codificación del token.");
         }
-        System.out.println(encodedTokenIssue);
-        return encodedTokenIssue;
+        System.out.println(encodedToken);
+        return encodedToken;
     }
 }

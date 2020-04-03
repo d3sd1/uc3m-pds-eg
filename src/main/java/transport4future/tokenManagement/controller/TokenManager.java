@@ -8,7 +8,6 @@ import transport4future.tokenManagement.model.implementation.TokenManagerInterfa
 
 import java.time.LocalDateTime;
 
-//TODO: volver a reciuperarla
 public class TokenManager implements TokenManagerInterface {
     Crypt crypt = new Crypt();
     TokenStorage tokenStorage = new TokenStorage();
@@ -41,6 +40,7 @@ public class TokenManager implements TokenManagerInterface {
         if(!this.tokenStorage.has(decodedToken)) {
             throw new LMException("No se encuentra registrado el token para el cual se solicita verificación.");
         }
+        System.out.println("Token válido.");
         return true; // At this point it will be always true, either an exception would've been thrown already...
     }
 }

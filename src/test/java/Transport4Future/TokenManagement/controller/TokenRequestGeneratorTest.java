@@ -11,6 +11,7 @@ import transport4future.tokenManagement.controller.TokenRequestGenerator;
 import transport4future.tokenManagement.exception.TokenManagementException;
 import transport4future.tokenManagement.model.implementation.TokenRequestGeneratorInterface;
 import transport4future.tokenManagement.model.implementation.TokenRequestInterface;
+import transport4future.tokenManagement.utils.Constants;
 
 import java.io.File;
 
@@ -18,6 +19,7 @@ public class TokenRequestGeneratorTest {
     private TokenRequestGenerator tokenRequestGenerator;
 
     public TokenRequestGeneratorTest() {
+        Constants.HASH_PASSWORD = "1234";
         this.tokenRequestGenerator = new TokenRequestGenerator();
     }
 
@@ -94,7 +96,7 @@ public class TokenRequestGeneratorTest {
                     throw new TestAbortedException("MD5 Hash is not valid nor password is not 1234.");
                 }
             } catch (TokenManagementException e) {
-                e.printStackTrace();
+                throw new TestAbortedException("MD5 Hash is not valid nor password is not 1234.");
             }
         } else {
             throw new TestAbortedException(

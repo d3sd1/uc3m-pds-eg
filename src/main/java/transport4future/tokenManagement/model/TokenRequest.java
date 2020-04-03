@@ -2,6 +2,8 @@ package transport4future.tokenManagement.model;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import transport4future.tokenManagement.exception.InvalidTokenRequestException;
 
 import java.nio.charset.StandardCharsets;
@@ -144,13 +146,12 @@ public class TokenRequest {
 
     @Override
     public String toString() {
-        return "TokenRequest{" +
-                "deviceName='" + deviceName + '\'' +
-                ", typeOfDevice='" + typeOfDevice + '\'' +
-                ", driverVersion='" + driverVersion + '\'' +
-                ", supportEmail='" + supportEmail + '\'' +
-                ", serialNumber='" + serialNumber + '\'' +
-                ", macAddress='" + macAddress + '\'' +
-                '}';
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

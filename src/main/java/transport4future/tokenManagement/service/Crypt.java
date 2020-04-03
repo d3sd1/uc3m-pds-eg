@@ -1,7 +1,12 @@
 package transport4future.tokenManagement.service;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import transport4future.tokenManagement.exception.TokenEncodingException;
 import transport4future.tokenManagement.model.Token;
+import transport4future.tokenManagement.model.TokenIssue;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -10,10 +15,11 @@ import java.util.Arrays;
 import java.util.Base64;
 
 public class Crypt {
-    public String encode(String data) throws TokenEncodingException {
+    public String encode(Token token) throws TokenEncodingException {
         String encodedData;
         try {
-            encodedData = Base64.getUrlEncoder().encodeToString(data.getBytes());
+            ObjectMapper mapper = new ObjectMapper();
+            encodedData = Base64.getUrlEncoder().encodeToString(mapper.writeValueAsString(token).getBytes());
         } catch (Exception e) {
             throw new TokenEncodingException("No se ha podido codificar la información dada.");
         }
@@ -21,14 +27,14 @@ public class Crypt {
     }
 
     public Token decode(String encodedData) throws TokenEncodingException {
-        Token data = null;
+        Token token;
         try {
-            //TODO: new token from encoder
-            //data = Arrays.toString(Base64.getUrlDecoder().decode(encodedData.getBytes()));
+            ObjectMapper mapper = new ObjectMapper();
+            token = mapper.readValue(new String(Base64.getUrlDecoder().decode(encodedData)), Token.class);
         } catch (Exception e) {
             throw new TokenEncodingException("No se ha podido decodificar la información dada.");
         }
-        return data;
+        return token;
     }
 
 

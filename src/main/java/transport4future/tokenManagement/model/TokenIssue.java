@@ -3,9 +3,15 @@ package transport4future.tokenManagement.model;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import transport4future.tokenManagement.controller.TokenManager;
 import transport4future.tokenManagement.exception.InvalidTokenException;
 import transport4future.tokenManagement.exception.LMException;
+import transport4future.tokenManagement.utils.LocalDateDeserializer;
+import transport4future.tokenManagement.utils.LocalDateSerializer;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -23,10 +29,18 @@ public class TokenIssue {
 
     @JsonProperty(required = true)
     @JsonAlias({ "Request Date" })
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/mm/yyyy HH:MM:SS")
     private LocalDateTime requestDate;
 
     public TokenIssue() {
+    }
+
+    public TokenIssue(String tokenRequest, String notificationEmail, LocalDateTime requestDate) {
+        this.tokenRequest = tokenRequest;
+        this.notificationEmail = notificationEmail;
+        this.requestDate = requestDate;
     }
 
     public String getTokenRequest() {
@@ -63,17 +77,6 @@ public class TokenIssue {
         this.requestDate = requestDate;
     }
 
-    /**
-     * Used for JacksonMapping.
-     * @param requestDateStr
-     * @throws InvalidTokenException
-     */
-    public void setRequestDate(String requestDateStr) throws InvalidTokenException {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-        LocalDateTime requestDate = LocalDateTime.parse(requestDateStr, formatter);
-        this.setRequestDate(requestDate);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -91,10 +94,12 @@ public class TokenIssue {
 
     @Override
     public String toString() {
-        return "TokenIssue{" +
-                "tokenRequest='" + tokenRequest + '\'' +
-                ", notificationEmail='" + notificationEmail + '\'' +
-                ", requestDate=" + requestDate +
-                '}';
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

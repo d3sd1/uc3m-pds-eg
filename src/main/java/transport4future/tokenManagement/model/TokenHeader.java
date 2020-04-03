@@ -1,17 +1,27 @@
 package transport4future.tokenManagement.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import transport4future.tokenManagement.model.storage.TokenAlgorythm;
 import transport4future.tokenManagement.model.storage.TokenType;
 
 import java.util.Objects;
 
 public class TokenHeader {
+    @JsonProperty(required = true)
     private TokenAlgorythm alg;
+    @JsonProperty(required = true)
     private TokenType typ;
 
     public TokenHeader(TokenAlgorythm alg, TokenType typ) {
         this.alg = alg;
         this.typ = typ;
+    }
+
+    public TokenHeader() {
     }
 
     public TokenAlgorythm getAlg() {
@@ -46,9 +56,12 @@ public class TokenHeader {
 
     @Override
     public String toString() {
-        return "TokenHeader{" +
-                "alg=" + alg +
-                ", typ=" + typ +
-                '}';
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

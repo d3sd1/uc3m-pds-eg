@@ -17,6 +17,7 @@ import transport4future.tokenManagement.model.implementation.TokenRequestInterfa
 import transport4future.tokenManagement.model.storage.TokenAlgorythm;
 import transport4future.tokenManagement.model.storage.TokenType;
 import transport4future.tokenManagement.service.TokenStorage;
+import transport4future.tokenManagement.utils.Constants;
 
 import java.io.File;
 
@@ -25,6 +26,7 @@ public class TokenRequestSenderTest {
     private TokenRequestSender tokenRequestSender;
 
     public TokenRequestSenderTest() {
+        Constants.HASH_PASSWORD = "1234";
         this.tokenRequestSender = new TokenRequestSender();
     }
 
@@ -96,8 +98,9 @@ public class TokenRequestSenderTest {
         if (file.isFile()) {
             System.out.println(String.format("Test case file absolute path: %s", file.getAbsolutePath()));
             try {
+                Constants.HASH_PASSWORD = "1234";
                 String hash = this.tokenRequestSender.RequestToken(file.getAbsolutePath());
-                if (!hash.equals("VG9rZW5Jc3N1ZXt0b2tlblJlcXVlc3Q9JzhiZWUyOGRjMzk1M2M2NTcyOTdlNDg4Yjc3ZTRmZTlkJywgbm90aWZpY2F0aW9uRW1haWw9J3ZlZ2V0YUBwbGFuZXRhLm5hbWVrJywgcmVxdWVzdERhdGU9MTk5Ny0xMS0yMVQwNjo1MDoxMn0=")) {
+                if (!hash.equals("eyJoZWFkZXIiOnsiYWxnIjoiSFMyNTYiLCJ0eXAiOiJQRFMifSwicGF5bG9hZCI6eyJ0b2tlblJlcXVlc3QiOnsidG9rZW5SZXF1ZXN0IjoiOGJlZTI4ZGMzOTUzYzY1NzI5N2U0ODhiNzdlNGZlOWQiLCJub3RpZmljYXRpb25FbWFpbCI6InZlZ2V0YUBwbGFuZXRhLm5hbWVrIiwicmVxdWVzdERhdGUiOnsiaG91ciI6NiwibWludXRlIjo1MCwic2Vjb25kIjoxMiwieWVhciI6MTk5NywibW9udGgiOiJOT1ZFTUJFUiIsImRheU9mTW9udGgiOjIxLCJkYXlPZldlZWsiOiJGUklEQVkiLCJuYW5vIjowLCJtb250aFZhbHVlIjoxMSwiZGF5T2ZZZWFyIjozMjUsImNocm9ub2xvZ3kiOnsiaWQiOiJJU08iLCJjYWxlbmRhclR5cGUiOiJpc284NjAxIn19fSwiaXNzdWVkQXQiOnsiaG91ciI6NiwibWludXRlIjo1MCwic2Vjb25kIjoxMiwieWVhciI6MTk5NywibW9udGgiOiJOT1ZFTUJFUiIsImRheU9mTW9udGgiOjIxLCJkYXlPZldlZWsiOiJGUklEQVkiLCJuYW5vIjowLCJtb250aFZhbHVlIjoxMSwiZGF5T2ZZZWFyIjozMjUsImNocm9ub2xvZ3kiOnsiaWQiOiJJU08iLCJjYWxlbmRhclR5cGUiOiJpc284NjAxIn19LCJleHBpcmF0aW9uRGF0ZSI6bnVsbH0sInNpZ25hdHVyZSI6IkhTMjU2In0=")) {
                     throw new TestAbortedException("Custom encoding is not valid nor password is not 1234.");
                 }
             } catch (TokenManagementException e) {

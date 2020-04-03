@@ -1,17 +1,37 @@
 package transport4future.tokenManagement.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import transport4future.tokenManagement.utils.Constants;
+import transport4future.tokenManagement.utils.LocalDateDeserializer;
+import transport4future.tokenManagement.utils.LocalDateSerializer;
+
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAmount;
 import java.util.Objects;
 
 public class TokenPayload {
+    @JsonProperty(required = true)
     private TokenIssue tokenRequest;
+    @JsonProperty(required = true)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDateTime issuedAt;
+    @JsonProperty(required = true)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDateTime expirationDate;
 
     public TokenPayload(TokenIssue tokenRequest) {
         this.tokenRequest = tokenRequest;
         this.issuedAt = tokenRequest.getRequestDate();
+        this.expirationDate = tokenRequest.getRequestDate().plusDays(Constants.TOKEN_EXPIRATION_DAYS);
+    }
+
+    public TokenPayload() {
     }
 
     public TokenIssue getTokenRequest() {
@@ -55,10 +75,12 @@ public class TokenPayload {
 
     @Override
     public String toString() {
-        return "TokenPayload{" +
-                "tokenRequest='" + tokenRequest + '\'' +
-                ", issuedAt=" + issuedAt +
-                ", expirationDate=" + expirationDate +
-                '}';
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
