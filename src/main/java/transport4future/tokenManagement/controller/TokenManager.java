@@ -8,8 +8,17 @@ import transport4future.tokenManagement.model.implementation.TokenManagerInterfa
 
 import java.time.LocalDateTime;
 
+/**
+ * The type Token manager.
+ */
 public class TokenManager implements TokenManagerInterface {
+    /**
+     * The Crypt.
+     */
     Crypt crypt = new Crypt();
+    /**
+     * The Token storage.
+     */
     TokenStorage tokenStorage = new TokenStorage();
 
     @Override

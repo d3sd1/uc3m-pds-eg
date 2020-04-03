@@ -18,6 +18,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+/**
+ * The type Token issue.
+ */
 public class TokenIssue {
     @JsonProperty(required = true)
     @JsonAlias({ "Token Request" })
@@ -34,19 +37,41 @@ public class TokenIssue {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/mm/yyyy HH:MM:SS")
     private LocalDateTime requestDate;
 
+    /**
+     * Instantiates a new Token issue.
+     */
     public TokenIssue() {
     }
 
+    /**
+     * Instantiates a new Token issue.
+     *
+     * @param tokenRequest      the token request
+     * @param notificationEmail the notification email
+     * @param requestDate       the request date
+     */
     public TokenIssue(String tokenRequest, String notificationEmail, LocalDateTime requestDate) {
         this.tokenRequest = tokenRequest;
         this.notificationEmail = notificationEmail;
         this.requestDate = requestDate;
     }
 
+    /**
+     * Gets token request.
+     *
+     * @return the token request
+     */
     public String getTokenRequest() {
         return tokenRequest;
     }
 
+    /**
+     * Sets token request.
+     *
+     * @param tokenRequest the token request
+     * @throws InvalidTokenException the invalid token exception
+     * @throws LMException           the lm exception
+     */
     public void setTokenRequest(String tokenRequest) throws InvalidTokenException, LMException {
         // Sólo se permiten dos dígitos
         if(tokenRequest == null || tokenRequest.equals("")) {
@@ -55,10 +80,21 @@ public class TokenIssue {
         this.tokenRequest = tokenRequest;
     }
 
+    /**
+     * Gets notification email.
+     *
+     * @return the notification email
+     */
     public String getNotificationEmail() {
         return notificationEmail;
     }
 
+    /**
+     * Sets notification email.
+     *
+     * @param notificationEmail the notification email
+     * @throws InvalidTokenException the invalid token exception
+     */
     public void setNotificationEmail(String notificationEmail) throws InvalidTokenException {
         if(!Pattern.compile("(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])").matcher(notificationEmail).matches()) {
             throw new InvalidTokenException("El email de notificación del token no es válido.");
@@ -66,10 +102,21 @@ public class TokenIssue {
         this.notificationEmail = notificationEmail;
     }
 
+    /**
+     * Gets request date.
+     *
+     * @return the request date
+     */
     public LocalDateTime getRequestDate() {
         return requestDate;
     }
 
+    /**
+     * Sets request date.
+     *
+     * @param requestDate the request date
+     * @throws InvalidTokenException the invalid token exception
+     */
     public void setRequestDate(LocalDateTime requestDate) throws InvalidTokenException {
         if(requestDate == null) {
             throw new InvalidTokenException("La fecha de solicitud del token no es válida.");

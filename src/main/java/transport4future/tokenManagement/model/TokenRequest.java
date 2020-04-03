@@ -13,6 +13,9 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+/**
+ * The type Token request.
+ */
 //TODO: esto se ha jodido con el merge
 public class TokenRequest {
 
@@ -40,9 +43,22 @@ public class TokenRequest {
     @JsonAlias({ "MAC Address" })
     private String macAddress;
 
+    /**
+     * Instantiates a new Token request.
+     */
     public TokenRequest() {
     }
 
+    /**
+     * Instantiates a new Token request.
+     *
+     * @param deviceName    the device name
+     * @param typeOfDevice  the type of device
+     * @param driverVersion the driver version
+     * @param supportEmail  the support email
+     * @param serialNumber  the serial number
+     * @param macAddress    the mac address
+     */
     public TokenRequest(String deviceName,
                         String typeOfDevice,
                         String driverVersion,
@@ -57,10 +73,21 @@ public class TokenRequest {
         this.macAddress = macAddress;
     }
 
+    /**
+     * Gets device name.
+     *
+     * @return the device name
+     */
     public String getDeviceName() {
         return deviceName;
     }
 
+    /**
+     * Sets device name.
+     *
+     * @param deviceName the device name
+     * @throws InvalidTokenRequestException the invalid token request exception
+     */
     public void setDeviceName(String deviceName) throws InvalidTokenRequestException {
         if(!Pattern.compile("\\b[A-Za-z]{1,20}\\b").matcher(deviceName).matches()) {
             throw new InvalidTokenRequestException("El nombre del dispositivo no es válido para la solicitud de creación de token.");
@@ -68,10 +95,21 @@ public class TokenRequest {
         this.deviceName = deviceName;
     }
 
+    /**
+     * Gets type of device.
+     *
+     * @return the type of device
+     */
     public String getTypeOfDevice() {
         return typeOfDevice;
     }
 
+    /**
+     * Sets type of device.
+     *
+     * @param typeOfDevice the type of device
+     * @throws InvalidTokenRequestException the invalid token request exception
+     */
     public void setTypeOfDevice(String typeOfDevice) throws InvalidTokenRequestException {
         if(!typeOfDevice.equals("Sensor") && !typeOfDevice.equals("Actuator")) {
             throw new InvalidTokenRequestException("El tipo de dispositivo no es válido para la solicitud de creación de token.");
@@ -79,10 +117,21 @@ public class TokenRequest {
         this.typeOfDevice = typeOfDevice;
     }
 
+    /**
+     * Gets driver version.
+     *
+     * @return the driver version
+     */
     public String getDriverVersion() {
         return driverVersion;
     }
 
+    /**
+     * Sets driver version.
+     *
+     * @param driverVersion the driver version
+     * @throws InvalidTokenRequestException the invalid token request exception
+     */
     public void setDriverVersion(String driverVersion) throws InvalidTokenRequestException {
         if(!Pattern.compile("\\b^\\d+(\\.\\d{1,25})+$\\b").matcher(driverVersion).matches()) {
             throw new InvalidTokenRequestException("El driver del dispositivo no es válido para la solicitud de creación de token.");
@@ -90,10 +139,21 @@ public class TokenRequest {
         this.driverVersion = driverVersion;
     }
 
+    /**
+     * Gets support email.
+     *
+     * @return the support email
+     */
     public String getSupportEmail() {
         return supportEmail;
     }
 
+    /**
+     * Sets support email.
+     *
+     * @param supportEmail the support email
+     * @throws InvalidTokenRequestException the invalid token request exception
+     */
     public void setSupportEmail(String supportEmail) throws InvalidTokenRequestException {
         if(!Pattern.compile("(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])").matcher(supportEmail).matches()) {
             throw new InvalidTokenRequestException("El email de soporte no es válido para la solicitud de creación de petición del token.");
@@ -102,10 +162,21 @@ public class TokenRequest {
         this.supportEmail = supportEmail;
     }
 
+    /**
+     * Gets serial number.
+     *
+     * @return the serial number
+     */
     public String getSerialNumber() {
         return serialNumber;
     }
 
+    /**
+     * Sets serial number.
+     *
+     * @param serialNumber the serial number
+     * @throws InvalidTokenRequestException the invalid token request exception
+     */
     public void setSerialNumber(String serialNumber) throws InvalidTokenRequestException {
         if(!Pattern.compile("^[A-Za-z0-9\\-]+").matcher(serialNumber).matches()) {
             throw new InvalidTokenRequestException("El serial no es válido para la solicitud de creación de petición del token.");
@@ -113,10 +184,21 @@ public class TokenRequest {
         this.serialNumber = serialNumber;
     }
 
+    /**
+     * Gets mac address.
+     *
+     * @return the mac address
+     */
     public String getMacAddress() {
         return macAddress;
     }
 
+    /**
+     * Sets mac address.
+     *
+     * @param macAddress the mac address
+     * @throws InvalidTokenRequestException the invalid token request exception
+     */
     public void setMacAddress(String macAddress) throws InvalidTokenRequestException {
         if(!Pattern.compile("^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$").matcher(macAddress).matches()) {
             throw new InvalidTokenRequestException("La dirección MAC es válida para la solicitud de creación de petición del token.");

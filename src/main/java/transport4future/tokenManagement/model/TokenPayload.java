@@ -13,6 +13,9 @@ import java.time.LocalDateTime;
 import java.time.temporal.TemporalAmount;
 import java.util.Objects;
 
+/**
+ * The type Token payload.
+ */
 public class TokenPayload {
     @JsonProperty(required = true)
     private TokenIssue tokenRequest;
@@ -25,35 +28,73 @@ public class TokenPayload {
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDateTime expirationDate;
 
+    /**
+     * Instantiates a new Token payload.
+     *
+     * @param tokenRequest the token request
+     */
     public TokenPayload(TokenIssue tokenRequest) {
         this.tokenRequest = tokenRequest;
         this.issuedAt = tokenRequest.getRequestDate();
         this.expirationDate = tokenRequest.getRequestDate().plusDays(Constants.TOKEN_EXPIRATION_DAYS);
     }
 
+    /**
+     * Instantiates a new Token payload.
+     */
     public TokenPayload() {
     }
 
+    /**
+     * Gets token request.
+     *
+     * @return the token request
+     */
     public TokenIssue getTokenRequest() {
         return tokenRequest;
     }
 
+    /**
+     * Sets token request.
+     *
+     * @param tokenRequest the token request
+     */
     public void setTokenRequest(TokenIssue tokenRequest) {
         this.tokenRequest = tokenRequest;
     }
 
+    /**
+     * Gets issued at.
+     *
+     * @return the issued at
+     */
     public LocalDateTime getIssuedAt() {
         return issuedAt;
     }
 
+    /**
+     * Sets issued at.
+     *
+     * @param issuedAt the issued at
+     */
     public void setIssuedAt(LocalDateTime issuedAt) {
         this.issuedAt = issuedAt;
     }
 
+    /**
+     * Gets expiration date.
+     *
+     * @return the expiration date
+     */
     public LocalDateTime getExpirationDate() {
         return expirationDate;
     }
 
+    /**
+     * Sets expiration date.
+     *
+     * @param expirationDate the expiration date
+     */
     public void setExpirationDate(LocalDateTime expirationDate) {
         this.expirationDate = expirationDate;
     }

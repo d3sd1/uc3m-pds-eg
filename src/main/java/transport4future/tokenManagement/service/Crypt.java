@@ -14,7 +14,17 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Base64;
 
+/**
+ * The type Crypt.
+ */
 public class Crypt {
+    /**
+     * Encode string.
+     *
+     * @param token the token
+     * @return the string
+     * @throws TokenEncodingException the token encoding exception
+     */
     public String encode(Token token) throws TokenEncodingException {
         String encodedData;
         try {
@@ -26,6 +36,13 @@ public class Crypt {
         return encodedData;
     }
 
+    /**
+     * Decode token.
+     *
+     * @param encodedData the encoded data
+     * @return the token
+     * @throws TokenEncodingException the token encoding exception
+     */
     public Token decode(String encodedData) throws TokenEncodingException {
         Token token;
         try {
@@ -38,6 +55,14 @@ public class Crypt {
     }
 
 
+    /**
+     * Md 5 encoder string.
+     *
+     * @param message the message
+     * @return the string
+     * @throws NoSuchAlgorithmException     the no such algorithm exception
+     * @throws UnsupportedEncodingException the unsupported encoding exception
+     */
     public String md5Encoder(String message) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         String digest;
         MessageDigest md = MessageDigest.getInstance("MD5");

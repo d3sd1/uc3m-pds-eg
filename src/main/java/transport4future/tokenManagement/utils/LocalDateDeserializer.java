@@ -10,8 +10,14 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * The type Local date deserializer.
+ */
 public class LocalDateDeserializer extends StdDeserializer<LocalDateTime> {
 
+    /**
+     * Instantiates a new Local date deserializer.
+     */
     protected LocalDateDeserializer() {
         super(LocalDateTime.class);
     }

@@ -10,32 +10,64 @@ import transport4future.tokenManagement.model.storage.TokenType;
 
 import java.util.Objects;
 
+/**
+ * The type Token header.
+ */
 public class TokenHeader {
     @JsonProperty(required = true)
     private TokenAlgorythm alg;
     @JsonProperty(required = true)
     private TokenType typ;
 
+    /**
+     * Instantiates a new Token header.
+     *
+     * @param alg the alg
+     * @param typ the typ
+     */
     public TokenHeader(TokenAlgorythm alg, TokenType typ) {
         this.alg = alg;
         this.typ = typ;
     }
 
+    /**
+     * Instantiates a new Token header.
+     */
     public TokenHeader() {
     }
 
+    /**
+     * Gets alg.
+     *
+     * @return the alg
+     */
     public TokenAlgorythm getAlg() {
         return alg;
     }
 
+    /**
+     * Sets alg.
+     *
+     * @param alg the alg
+     */
     public void setAlg(TokenAlgorythm alg) {
         this.alg = alg;
     }
 
+    /**
+     * Gets typ.
+     *
+     * @return the typ
+     */
     public TokenType getTyp() {
         return typ;
     }
 
+    /**
+     * Sets typ.
+     *
+     * @param typ the typ
+     */
     public void setTyp(TokenType typ) {
         this.typ = typ;
     }

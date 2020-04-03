@@ -8,6 +8,9 @@ import transport4future.tokenManagement.model.implementation.StorageInterface;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Token storage.
+ */
 public class TokenStorage implements StorageInterface<Token> {
     private static List<Token> tokenGenerationStorage = new ArrayList<>();
     private Crypt crypt = new Crypt();

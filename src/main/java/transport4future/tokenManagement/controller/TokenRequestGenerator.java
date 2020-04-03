@@ -22,6 +22,9 @@ import java.util.Arrays;
 public class TokenRequestGenerator implements TokenRequestGeneratorInterface {
     private Crypt crypt;
 
+    /**
+     * Instantiates a new Token request generator.
+     */
     public TokenRequestGenerator() {
         this.crypt = new Crypt();
     }
