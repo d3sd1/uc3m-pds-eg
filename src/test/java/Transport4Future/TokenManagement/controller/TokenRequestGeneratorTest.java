@@ -9,6 +9,7 @@ import org.junit.jupiter.params.provider.CsvFileSource;
 import org.opentest4j.TestAbortedException;
 import transport4future.tokenManagement.controller.TokenRequestGenerator;
 import transport4future.tokenManagement.exception.TokenManagementException;
+import transport4future.tokenManagement.model.implementation.TokenRequestGeneratorInterface;
 import transport4future.tokenManagement.model.implementation.TokenRequestInterface;
 
 import java.io.File;
@@ -34,7 +35,7 @@ public class TokenRequestGeneratorTest {
     @Test
     @Order(1)
     public void inputFilePathNotExists() {
-        if (tokenRequestGenerator instanceof TokenRequestInterface) {
+        if (!(tokenRequestGenerator instanceof TokenRequestGeneratorInterface)) {
             throw new TestAbortedException("Class must implement interface.");
         }
     }
