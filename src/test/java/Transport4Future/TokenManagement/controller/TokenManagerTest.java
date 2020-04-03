@@ -25,18 +25,27 @@ import transport4future.tokenManagement.utils.Constants;
 import java.io.File;
 import java.time.LocalDateTime;
 
+/**
+ * Esta clase maneja todos los tests relativos a la clase TokenManager.
+ */
 public class TokenManagerTest {
 
     private TokenManager tokenManager;
     private Token token;
     private Crypt crypt;
 
+    /**
+     * Instantiates a new Token manager test.
+     */
     public TokenManagerTest() {
         this.tokenManager = new TokenManager();
         this.token = this.fillToken();
         this.crypt = new Crypt();
     }
 
+    /**
+     * Sets up.
+     */
     @BeforeEach
     void setUp() {
         this.tokenManager = new TokenManager();
@@ -44,11 +53,18 @@ public class TokenManagerTest {
         this.crypt = new Crypt();
     }
 
+    /**
+     * Tear down.
+     */
     @AfterEach
     void tearDown() {
         this.tokenManager = null;
     }
 
+    /**
+     * This method is developet to prevent redundancy. It fills and resets a token object with default token Issue.
+     * @return Token filled (never null).
+     */
     private Token fillToken() {
         Token token = new Token();
         token.setPayload(
@@ -65,15 +81,32 @@ public class TokenManagerTest {
         return token;
     }
 
+    /**
+     * Caso de Prueba: mustImplementInterface
+     * Clase de Equivalencia o Valor Límite Asociado: N/A
+     * Técnica de prueba: Clase de equivalencia
+     * Resultado Esperado:
+     * Positivo en caso de que implemente la interfaz requerida,
+     * en caso negativo el test será inválido.
+     */
     @DisplayName("Must implement interface")
     @Test
     @Order(1)
-    public void inputFilePathNotExists() {
+    public void mustImplementInterface() {
         if (!(this.tokenManager instanceof TokenManagerInterface)) {
             throw new TestAbortedException("Class must implement interface.");
         }
     }
 
+    /**
+     * Caso de Prueba: inputIsNull
+     * Clase de Equivalencia o Valor Límite Asociado: Check de nulos.
+     * Técnica de prueba: Clase de equivalencia
+     * Resultado Esperado:
+     * Excepción del tipo LMException con el siguiente mensaje
+     * "La cadena de caracteres de la entrada no se corresponde con un token que se pueda procesar.".
+     * Nótese que agrega hints a los fallos. Esto se ha hecho para facilitarnos la programación.
+     */
     @DisplayName("Check input is null")
     @Test
     @Order(2)
@@ -88,6 +121,16 @@ public class TokenManagerTest {
         }
     }
 
+    /**
+     * Caso de Prueba: inputIsNotValid
+     * Clase de Equivalencia o Valor Límite Asociado: El valor debe ser un token válido,
+     * así que insertamos un texto aleatorio.
+     * Técnica de prueba: Valor límite.
+     * Resultado Esperado:
+     * Excepción del tipo LMException con el siguiente mensaje
+     * "La cadena de caracteres de la entrada no se corresponde con un token que se pueda procesar.".
+     * Nótese que agrega hints a los fallos. Esto se ha hecho para facilitarnos la programación.
+     */
     @DisplayName("Check input is not valid")
     @Test
     @Order(3)
@@ -102,6 +145,16 @@ public class TokenManagerTest {
         }
     }
 
+    /**
+     * Caso de Prueba: checkValidInputNotStored
+     * Clase de Equivalencia o Valor Límite Asociado: El valor debe ser un token válido y estar almacenado.
+     * así que insertamos un token válido, pero que no está almacenado.
+     * Técnica de prueba: Valor límite.
+     * Resultado Esperado:
+     * Excepción del tipo LMException con el siguiente mensaje
+     * "No se encuentra registrado el token para el cual se solicita verificación.".
+     * Nótese que agrega hints a los fallos. Esto se ha hecho para facilitarnos la programación.
+     */
     @DisplayName("Check output is invalid when token not stored.")
     @Test
     @Order(4)
@@ -121,6 +174,15 @@ public class TokenManagerTest {
         }
     }
 
+
+    /**
+     * Caso de Prueba: checkValidInputStored
+     * Clase de Equivalencia o Valor Límite Asociado: El valor debe ser un token válido y estar almacenado.
+     * así que insertamos un token válido, pero que sí está almacenado.
+     * Técnica de prueba: Clase de equivalencia.
+     * Resultado Esperado:
+     * No se deben lanzar excepciones y debe pasar el test satisfactoriamente, devolviendo un true en VerifyToken.
+     */
     @DisplayName("Check output is valid when input is valid as well.")
     @Test
     @Order(4)
@@ -130,12 +192,26 @@ public class TokenManagerTest {
             this.token.getPayload().setExpirationDate(LocalDateTime.now().plusDays(500));
             TokenStorage tokenStorage = new TokenStorage();
             tokenStorage.add(this.token);
-            this.tokenManager.VerifyToken(this.crypt.encode(this.token));
+            boolean isValid = this.tokenManager.VerifyToken(this.crypt.encode(this.token));
+            if(!isValid) {
+                throw new TestAbortedException("Example token not valid. It may fall to bad code :).");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+
+    /**
+     * Caso de Prueba: checkValidInputStored
+     * Clase de Equivalencia o Valor Límite Asociado: El valor debe ser un token válido y estar almacenado,
+     * pero expirado. Así que insertamos un token válido, pero que sí está almacenado, y además expirado.
+     * Técnica de prueba: Clase de equivalencia.
+     * Resultado Esperado:
+     * Excepción del tipo LMException con el siguiente mensaje
+     * "Token expirado.".
+     * Nótese que agrega hints a los fallos. Esto se ha hecho para facilitarnos la programación.
+     */
     @DisplayName("Check output is valid when token is expired.")
     @Test
     @Order(5)
@@ -153,15 +229,5 @@ public class TokenManagerTest {
         } catch (ComparisonFailure e) {
             throw new ComparisonFailure(e.getMessage(), e.getExpected(), e.getActual());
         }
-    }
-
-    @DisplayName("Check random codification error")
-    @Test
-    @Order(6)
-    public void checkRandomCodificationError() {
-        // This case is not reproducible since:
-        // 1. If we put random chars, test 2/3 won't pass.
-        // 2. If we remove classes, it won't compile
-        // 3. If we force an error inside class, this could not be checked here.
     }
 }

@@ -15,33 +15,65 @@ import transport4future.tokenManagement.utils.Constants;
 
 import java.io.File;
 
+/**
+ * The type Token request generator test.
+ */
 public class TokenRequestGeneratorTest {
     private TokenRequestGenerator tokenRequestGenerator;
 
+    /**
+     * Instantiates a new Token request generator test.
+     */
     public TokenRequestGeneratorTest() {
         Constants.HASH_PASSWORD = "1234";
         this.tokenRequestGenerator = new TokenRequestGenerator();
     }
 
+    /**
+     * Sets up.
+     */
     @BeforeEach
     void setUp() {
         this.tokenRequestGenerator = new TokenRequestGenerator();
     }
 
+    /**
+     * Tear down.
+     */
     @AfterEach
     void tearDown() {
         this.tokenRequestGenerator = null;
     }
 
+    /**
+     * Caso de Prueba: mustImplementInterfaces
+     * Clase de Equivalencia o Valor Límite Asociado: N/A
+     * Técnica de prueba: Clase de equivalencia
+     * Resultado Esperado:
+     * Positivo en caso de que implemente la interfaz requerida,
+     * en caso negativo el test será inválido.
+     */
     @DisplayName("Must implement interface")
     @Test
     @Order(1)
-    public void inputFilePathNotExists() {
+    public void mustImplementInterface() {
         if (!(tokenRequestGenerator instanceof TokenRequestGeneratorInterface)) {
             throw new TestAbortedException("Class must implement interface.");
         }
     }
 
+    /**
+     * Caso de Prueba: constraints
+     * Clase de Equivalencia o Valor Límite Asociado: Ambas. Incluye clases de equivalencia y valores límite.
+     * Técnica de prueba: Clase de equivalencia y valor límite.
+     * Resultado Esperado:
+     * Dependiendo del caso, ya que es un test parametrizado. Cada caso contiene el archivo input, el resultado
+     * esperado y un hint, el cual se muestra abajo en caso de que falle.
+     *
+     * @param filePath                 the file path
+     * @param expectedExceptionMessage the expected exception message
+     * @param hint                     the hint
+     */
     @DisplayName("Check input constraints")
     @ParameterizedTest(name = "{index} - with input {0} expects value {1}")
     @CsvFileSource(resources = "/examples/token-request-generator/constraints.csv")
@@ -82,6 +114,13 @@ public class TokenRequestGeneratorTest {
         }
     }
 
+    /**
+     * Caso de Prueba: checkValidOutput
+     * Clase de Equivalencia o Valor Límite Asociado: Clase de equivalencia.
+     * Técnica de prueba: Clase de equivalencia.
+     * Resultado Esperado:
+     * Revisa que el programa sí funciona correctamente y devuelve el tokenRequestGeneration codigocado.
+     */
     @DisplayName("Check output is valid MD5 rand-password hashed string")
     @Test
     @Order(3)
@@ -104,15 +143,5 @@ public class TokenRequestGeneratorTest {
                             "Input case file does not exist (testing error): %s",
                             filePath));
         }
-    }
-
-    @DisplayName("Check random codification error")
-    @Test
-    @Order(4)
-    public void checkRandomCodificationError() {
-        // This case is not reproducible since:
-        // 1. If we put random chars, test 2/3 won't pass.
-        // 2. If we remove classes, it won't compile
-        // 3. If we force an error inside class, this could not be checked here.
     }
 }
