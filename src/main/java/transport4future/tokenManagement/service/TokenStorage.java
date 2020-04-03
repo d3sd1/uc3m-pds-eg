@@ -7,7 +7,7 @@ import transport4future.tokenManagement.model.implementation.StorageInterface;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TokenStorageInterface implements StorageInterface<Token> {
+public class TokenStorage implements StorageInterface<Token> {
     private static List<Token> tokenGenerationStorage = new ArrayList<>();
     @Override
     public void add(Token obj) throws TokenStorageException {

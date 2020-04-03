@@ -3,7 +3,7 @@ package transport4future.tokenManagement.generics;
 import org.junit.jupiter.api.*;
 import org.opentest4j.TestAbortedException;
 import transport4future.tokenManagement.exception.TokenManagementException;
-import transport4future.tokenManagement.controller.TokenRequest;
+import transport4future.tokenManagement.controller.TokenRequestSender;
 import transport4future.tokenManagement.controller.TokenRequestGenerator;
 import transport4future.tokenManagement.utils.TestConstants;
 
@@ -11,20 +11,20 @@ import java.io.File;
 
 public class GenericInputFileTest {
     private TokenRequestGenerator tokenRequestGenerator;
-    private TokenRequest tokenRequest;
+    private TokenRequestSender tokenRequestSender;
     private final String fileNotFoundMessage = "No se encuentra el fichero con los datos de entrada.";
     private final String inputFileNotValid = "El fichero de entrada no contiene los datos o el formato esperado.";
 
     @BeforeEach
     void setUp() {
         this.tokenRequestGenerator = new TokenRequestGenerator();
-        this.tokenRequest = new TokenRequest();
+        this.tokenRequestSender = new TokenRequestSender();
     }
 
     @AfterEach
     void tearDown() {
         this.tokenRequestGenerator = null;
-        this.tokenRequest = null;
+        this.tokenRequestSender = null;
     }
 
     /**
@@ -37,7 +37,7 @@ public class GenericInputFileTest {
     void inputFilePathNotExists() {
 
         final TokenManagementException e = Assertions.assertThrows(TokenManagementException.class, () -> {
-            this.tokenRequest.RequestToken("/dev/null/this-file-does-not-exists.json");
+            this.tokenRequestSender.RequestToken("/dev/null/this-file-does-not-exists.json");
             this.tokenRequestGenerator.TokenRequestGeneration("/dev/null/this-file-does-not-exists.json");
         });
         this.checkCorrectExceptionMessage(e, this.fileNotFoundMessage);
@@ -53,7 +53,7 @@ public class GenericInputFileTest {
         final TokenManagementException e = Assertions.assertThrows(
                 TokenManagementException.class, () -> {
                     this.tokenRequestGenerator.TokenRequestGeneration(null);
-                    this.tokenRequest.RequestToken(null);
+                    this.tokenRequestSender.RequestToken(null);
                 });
         this.checkCorrectExceptionMessage(e, this.fileNotFoundMessage);
     }
@@ -70,7 +70,7 @@ public class GenericInputFileTest {
         if (file.isFile()) {
             System.out.println(String.format("File absolute path: %s", file.getAbsolutePath()));
             Exception e = Assertions.assertThrows(TokenManagementException.class, () -> {
-                this.tokenRequest.RequestToken(file.getAbsolutePath());
+                this.tokenRequestSender.RequestToken(file.getAbsolutePath());
                 this.tokenRequestGenerator.TokenRequestGeneration(file.getAbsolutePath());
             });
 

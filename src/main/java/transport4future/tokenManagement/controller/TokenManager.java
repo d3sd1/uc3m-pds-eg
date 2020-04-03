@@ -3,7 +3,7 @@ package transport4future.tokenManagement.controller;
 import transport4future.tokenManagement.exception.LMException;
 import transport4future.tokenManagement.model.Token;
 import transport4future.tokenManagement.service.Crypt;
-import transport4future.tokenManagement.service.TokenStorageInterface;
+import transport4future.tokenManagement.service.TokenStorage;
 import transport4future.tokenManagement.model.implementation.TokenManagerInterface;
 
 import java.time.LocalDateTime;
@@ -11,7 +11,8 @@ import java.time.LocalDateTime;
 //TODO: volver a reciuperarla
 public class TokenManager implements TokenManagerInterface {
     Crypt crypt = new Crypt();
-    TokenStorageInterface tokenStorage = new TokenStorageInterface();
+    TokenStorage tokenStorage = new TokenStorage();
+
     @Override
     public boolean VerifyToken(String token) throws LMException {
         /**
@@ -27,7 +28,10 @@ public class TokenManager implements TokenManagerInterface {
         /**
          * Check token expiration
          */
-        if(decodedToken.getPayload().getExpirationDate().isBefore(LocalDateTime.now())) {
+        if(decodedToken != null
+                && decodedToken.getPayload() != null
+                && decodedToken.getPayload().getExpirationDate() != null
+                && decodedToken.getPayload().getExpirationDate().isBefore(LocalDateTime.now())) {
             throw new LMException("Token expirado.");
         }
 
