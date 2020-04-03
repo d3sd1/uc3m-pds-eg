@@ -34,7 +34,6 @@ public class TokenRequestSender implements TokenRequestInterface {
         try {
             json = new String(Files.readAllBytes(Paths.get(inputFile)));
         } catch (Exception e) {
-            e.printStackTrace();
             throw new TokenManagementException("No se encuentra el fichero con los datos de entrada.");
         }
         /**
