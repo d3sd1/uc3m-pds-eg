@@ -139,7 +139,7 @@ public class TokenRequestSenderTest {
             try {
                 Constants.HASH_PASSWORD = "1234";
                 String hash = this.tokenRequestSender.RequestToken(file.getAbsolutePath());
-                if (!hash.equals("eyJoZWFkZXIiOnsiYWxnIjoiSFMyNTYiLCJ0eXAiOiJQRFMifSwicGF5bG9hZCI6eyJ0b2tlblJlcXVlc3QiOnsidG9rZW5SZXF1ZXN0IjoiOGJlZTI4ZGMzOTUzYzY1NzI5N2U0ODhiNzdlNGZlOWQiLCJub3RpZmljYXRpb25FbWFpbCI6InZlZ2V0YUBwbGFuZXRhLm5hbWVrIiwicmVxdWVzdERhdGUiOnsiaG91ciI6NiwibWludXRlIjo1MCwic2Vjb25kIjoxMiwieWVhciI6MTk5NywibW9udGgiOiJOT1ZFTUJFUiIsImRheU9mTW9udGgiOjIxLCJkYXlPZldlZWsiOiJGUklEQVkiLCJuYW5vIjowLCJtb250aFZhbHVlIjoxMSwiZGF5T2ZZZWFyIjozMjUsImNocm9ub2xvZ3kiOnsiaWQiOiJJU08iLCJjYWxlbmRhclR5cGUiOiJpc284NjAxIn19fSwiaXNzdWVkQXQiOnsiaG91ciI6NiwibWludXRlIjo1MCwic2Vjb25kIjoxMiwieWVhciI6MTk5NywibW9udGgiOiJOT1ZFTUJFUiIsImRheU9mTW9udGgiOjIxLCJkYXlPZldlZWsiOiJGUklEQVkiLCJuYW5vIjowLCJtb250aFZhbHVlIjoxMSwiZGF5T2ZZZWFyIjozMjUsImNocm9ub2xvZ3kiOnsiaWQiOiJJU08iLCJjYWxlbmRhclR5cGUiOiJpc284NjAxIn19LCJleHBpcmF0aW9uRGF0ZSI6bnVsbH0sInNpZ25hdHVyZSI6IkhTMjU2In0=")) {
+                if (!hash.equals("eyJoZWFkZXIiOnsiYWxnIjoiSFMyNTYiLCJ0eXAiOiJQRFMifSwicGF5bG9hZCI6eyJ0b2tlblJlcXVlc3QiOnsidG9rZW5SZXF1ZXN0IjoiOGJlZTI4ZGMzOTUzYzY1NzI5N2U0ODhiNzdlNGZlOWQiLCJub3RpZmljYXRpb25FbWFpbCI6InZlZ2V0YUBwbGFuZXRhLm5hbWVrIiwicmVxdWVzdERhdGUiOiIyMS8xMS8xOTk3IDA2OjExOjEyIn0sImlzc3VlZEF0IjoiMjEvMTEvMTk5NyAwNjoxMToxMiIsImV4cGlyYXRpb25EYXRlIjoiMDEvMTIvMTk5NyAwNjoxMjoxMiJ9LCJzaWduYXR1cmUiOiJIUzI1NiJ9")) {
                     throw new TestAbortedException("Custom encoding is not valid nor password is not 1234.");
                 }
             } catch (TokenManagementException e) {

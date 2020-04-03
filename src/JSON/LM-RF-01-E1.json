@@ -1,9 +1,0 @@
-//Requisitos que debe cumplir
-{
-  "Device Name": "<Device Name (20)>",
-  "Type of Device": "<Sensor|Actuator>",
-  "Driver Version": "<digits sequence including '.' in between not larger than 25 items>",
-  "Support e-mail": "<Valid e-mail adress>",
-  "Serial Number": "<Combination of letters, numbers and bars without spaces>",
-  "MAC Address": "<Valid MAC Address>"
-}

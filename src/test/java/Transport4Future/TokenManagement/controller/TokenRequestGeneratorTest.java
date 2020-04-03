@@ -131,7 +131,8 @@ public class TokenRequestGeneratorTest {
             System.out.println(String.format("Test case file absolute path: %s", file.getAbsolutePath()));
             try {
                 String hash = this.tokenRequestGenerator.TokenRequestGeneration(file.getAbsolutePath());
-                if (!hash.equals("8bee28dc3953c657297e488b77e4fe9d")) {
+
+                if (!hash.equals("de236411f0c8654103fe9198b92c9632")) {
                     throw new TestAbortedException("MD5 Hash is not valid nor password is not 1234.");
                 }
             } catch (TokenManagementException e) {
