@@ -14,3 +14,8 @@
 "request-date_4","El fichero de entrada no contiene los datos o el formato esperado.",""
 "request-date_5","El fichero de entrada no contiene los datos o el formato esperado.",""
 "request-date_6","El fichero de entrada no contiene los datos o el formato esperado.",""
+"invalid-case_1","El fichero de entrada no contiene los datos o el formato esperado.","Por favor, comprueba el fichero JSON"
+"invalid-case_2","El fichero de entrada no contiene los datos o el formato esperado.","Por favor, comprueba el fichero JSON"
+"invalid-case_3","El fichero de entrada no contiene los datos o el formato esperado.","Por favor, comprueba el fichero JSON"
+"invalid-case_4","El fichero de entrada no contiene los datos o el formato esperado.","Por favor, comprueba el fichero JSON"
+"invalid-case_5","El fichero de entrada no contiene los datos o el formato esperado.","Por favor, comprueba el fichero JSON"

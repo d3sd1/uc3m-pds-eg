@@ -1,29 +1,37 @@
+/*
+ * Copyright (c) 2020.
+ * Content created by:
+ * - Andrei García Cuadra
+ * - Miguel Hernández Cassel
+ *
+ * For the module PDS, on university Carlos III de Madrid.
+ * Do not share, review nor edit any content without implicitly asking permission to it's owners, as you can contact by this email:
+ * andreigarciacuadra@gmail.com
+ *
+ * All rights reserved.
+ */
+
 package transport4future.tokenManagement.controller;
 
 import org.junit.Assert;
 import org.junit.ComparisonFailure;
 import org.junit.Test;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvFileSource;
 import org.opentest4j.TestAbortedException;
 import transport4future.tokenManagement.exception.LMException;
-import transport4future.tokenManagement.exception.TokenEncodingException;
-import transport4future.tokenManagement.exception.TokenManagementException;
 import transport4future.tokenManagement.model.Token;
 import transport4future.tokenManagement.model.TokenHeader;
 import transport4future.tokenManagement.model.TokenIssue;
 import transport4future.tokenManagement.model.TokenPayload;
 import transport4future.tokenManagement.model.implementation.TokenManagerInterface;
-import transport4future.tokenManagement.model.implementation.TokenRequestInterface;
 import transport4future.tokenManagement.model.storage.TokenAlgorythm;
 import transport4future.tokenManagement.model.storage.TokenType;
 import transport4future.tokenManagement.service.Crypt;
 import transport4future.tokenManagement.service.TokenStorage;
 import transport4future.tokenManagement.utils.Constants;
 
-import java.io.File;
 import java.time.LocalDateTime;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Esta clase maneja todos los tests relativos a la clase TokenManager.
@@ -174,7 +182,10 @@ public class TokenManagerTest {
         }
     }
 
-
+    /** Caso de Prueba: checkValidInputStored
+     * Técnica de prueba: Análisis Estructural - Caminos Básicos
+     * Resultado Esperado: Satisfactorio.
+     */
     /**
      * Caso de Prueba: checkValidInputStored
      * Clase de Equivalencia o Valor Límite Asociado: El valor debe ser un token válido y estar almacenado.
@@ -193,12 +204,49 @@ public class TokenManagerTest {
             TokenStorage tokenStorage = new TokenStorage();
             tokenStorage.add(this.token);
             boolean isValid = this.tokenManager.VerifyToken(this.crypt.encode(this.token));
-            if(!isValid) {
+            if (!isValid) {
                 throw new TestAbortedException("Example token not valid. It may fall to bad code :).");
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+    /** Caso de Prueba: checkValidInputStored
+     * Técnica de prueba: Análisis Estructural - Caminos Básicos
+     * Resultado Esperado: Satisfactorio.
+     */
+    /**
+     * Caso de Prueba: checkValidInputStored
+     * Clase de Equivalencia o Valor Límite Asociado: El valor debe ser un token válido y estar almacenado.
+     * así que insertamos un token válido, pero que sí está almacenado.
+     * Técnica de prueba: Clase de equivalencia.
+     * Resultado Esperado:
+     * No se deben lanzar excepciones y debe pasar el test satisfactoriamente, devolviendo un true en VerifyToken.
+     */
+    @DisplayName("Check output is valid when input is valid as well.")
+    @Test
+    @Order(5)
+    public void checkValidInputStoredLoop() {
+        for (int i = 0; i < 100; i++) {
+            try {
+                Constants.HASH_PASSWORD = "1234";
+                this.token.getPayload().setExpirationDate(LocalDateTime.now().plusDays(ThreadLocalRandom.current().nextInt(-100, 101)));
+                TokenStorage tokenStorage = new TokenStorage();
+                tokenStorage.add(this.token);
+                boolean isValid = this.tokenManager.VerifyToken(this.crypt.encode(this.token));
+                if (!isValid) {
+                    System.out.println("Token no válido, pero código correcto.");
+                }
+            } catch (LMException e) {
+                System.out.println("Token no válido, pero código correcto.");
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new TestAbortedException("Example token not valid. It may fall to bad code :).");
+            }
+        }
+
     }
 
 
@@ -214,7 +262,7 @@ public class TokenManagerTest {
      */
     @DisplayName("Check output is valid when token is expired.")
     @Test
-    @Order(5)
+    @Order(6)
     public void checkExpirationDate() {
         LMException lmException = Assertions.assertThrows(LMException.class, () -> {
             Constants.HASH_PASSWORD = "1234";

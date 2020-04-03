@@ -1,3 +1,16 @@
+/*
+ * Copyright (c) 2020.
+ * Content created by:
+ * - Andrei García Cuadra
+ * - Miguel Hernández Cassel
+ *
+ * For the module PDS, on university Carlos III de Madrid.
+ * Do not share, review nor edit any content without implicitly asking permission to it's owners, as you can contact by this email:
+ * andreigarciacuadra@gmail.com
+ *
+ * All rights reserved.
+ */
+
 package transport4future.tokenManagement.controller;
 
 import org.junit.Assert;
@@ -8,15 +21,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.opentest4j.TestAbortedException;
 import transport4future.tokenManagement.exception.TokenManagementException;
-import transport4future.tokenManagement.exception.TokenStorageException;
-import transport4future.tokenManagement.model.Token;
-import transport4future.tokenManagement.model.TokenHeader;
-import transport4future.tokenManagement.model.TokenPayload;
-import transport4future.tokenManagement.model.TokenRequest;
 import transport4future.tokenManagement.model.implementation.TokenRequestInterface;
-import transport4future.tokenManagement.model.storage.TokenAlgorythm;
-import transport4future.tokenManagement.model.storage.TokenType;
-import transport4future.tokenManagement.service.TokenStorage;
 import transport4future.tokenManagement.utils.Constants;
 
 import java.io.File;
@@ -52,6 +57,12 @@ public class TokenRequestSenderTest {
         this.tokenRequestSender = null;
     }
 
+    /** Caso de Prueba:
+     * Nodo/s del Árbol de Derivación: Espeificado en cada caso.
+     * Tipo de Prueba: Todas.
+     * Técnica de prueba: Análisis Sintáctico
+     * Resultado Esperado: Indicado en casa caso.
+     */
     /**
      * Caso de Prueba: mustImplementInterface
      * Clase de Equivalencia o Valor Límite Asociado: N/A
