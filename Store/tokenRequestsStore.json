@@ -1,11 +1,81 @@
 {
-  "57659bb0978d410b3b78a892c604ccb4": {
+  "7b8800069c2e379a65ca03a3b94c71bb": {
     "deviceName": "CAN BUS",
     "typeOfDevice": "Actuator",
     "driverVersion": "2020.03.01",
     "supportEMail": "autonomous@vehicle.com",
-    "serialNumber": "3423-432-423",
-    "macAddress": "3D:F2:C9:A6:B3:4F"
+    "serialNumber": "1",
+    "macAddress": "AB:00:CD:34:54"
+  },
+  "c4719117f88612e0834c6a079cb142b1": {
+    "deviceName": "CAN BUS",
+    "typeOfDevice": "1",
+    "driverVersion": "2020.03.01",
+    "supportEMail": "autonomous@vehicle.com",
+    "serialNumber": "3423432423",
+    "macAddress": "AB:00:CD:34:54"
+  },
+  "206fc70ca21e1567ec71e63eeafe0622": {
+    "deviceName": "CAN BUS",
+    "driverVersion": "2020.03.01",
+    "supportEMail": "autonomous@vehicle.com",
+    "serialNumber": "3423432423",
+    "macAddress": "AB:00:CD:34:54"
+  },
+  "4cf5b07b61912dce9c53c3d88b272c76": {
+    "deviceName": "CAN BUS",
+    "typeOfDevice": "Actuator",
+    "driverVersion": "2020.03.01",
+    "supportEMail": "autonomous@vehicle.com",
+    "serialNumber": "3423432423"
+  },
+  "9c9927e96cb09cd6b7907f8ec01085cd": {
+    "deviceName": "CAN BUS",
+    "typeOfDevice": "Actuator",
+    "driverVersion": "2020.03.01",
+    "supportEMail": "autonomous@vehicle.com",
+    "serialNumber": "3423432423",
+    "macAddress": "AB,00,CD,34,54"
+  },
+  "b609bbfdeeddf2f3537b2496a4088a0e": {
+    "deviceName": "",
+    "typeOfDevice": "Actuator",
+    "driverVersion": "2020.03.01",
+    "supportEMail": "autonomous@vehicle.com",
+    "serialNumber": "3423432423",
+    "macAddress": "AB:00:CD:34:54"
+  },
+  "56aab70c62dd9a5a6204bf346fc2e014": {
+    "deviceName": "En un lugar de la Mancha, de cuyo nombre no quiero acordarme, no ha mucho tiempo que vivía un hidalgo de los de lanza en astillero, adarga antigua, rocín flaco y galgo corredor",
+    "typeOfDevice": "Actuator",
+    "driverVersion": "2020.03.01",
+    "supportEMail": "autonomous@vehicle.com",
+    "serialNumber": "3423432423",
+    "macAddress": "AB:00:CD:34:54"
+  },
+  "782824a5d31260bf354ed347e97427a4": {
+    "deviceName": "CAN BUS",
+    "typeOfDevice": "Actuator",
+    "driverVersion": "2020$03$01",
+    "supportEMail": "autonomous@vehicle.com",
+    "serialNumber": "3423432423",
+    "macAddress": "AB:00:CD:34:54"
+  },
+  "dc9ff33e66a49bd195c7d03db3f27178": {
+    "deviceName": "CAN BUS",
+    "typeOfDevice": "Actuator",
+    "driverVersion": "2020.03.01",
+    "supportEMail": "1",
+    "serialNumber": "3423432423",
+    "macAddress": "AB:00:CD:34:54"
+  },
+  "eb5e2b3553cedc70a6e3eb33d273dbdf": {
+    "deviceName": "CAN BUS",
+    "typeOfDevice": "Actuator",
+    "driverVersion": "2020.03.01",
+    "supportEMail": "autonomous@vehicle.com",
+    "serialNumber": "3423432423",
+    "macAddress": ""
   },
   "63cfcfd7480a166a541aef60923b9659": {
     "deviceName": "LIDAR",
@@ -22,5 +92,121 @@
     "supportEMail": "autonomous@vehicle.com",
     "serialNumber": "342-343-2423",
     "macAddress": "AB:00:CD:34:54:AB"
+  },
+  "12435c389450d8b11c5c2e46da2ea943": {
+    "deviceName": "CAN BUS",
+    "typeOfDevice": "",
+    "driverVersion": "2020.03.01",
+    "supportEMail": "autonomous@vehicle.com",
+    "serialNumber": "3423432423",
+    "macAddress": "AB:00:CD:34:54"
+  },
+  "f4c3b0a8078400edac03194455028837": {
+    "deviceName": "CAN BUS",
+    "typeOfDevice": "Actuator",
+    "driverVersion": "En un lugar de la Mancha, de cuyo nombre no quiero acordarme, no ha mucho tiempo que vivía un hidalgo de los de lanza en astillero, adarga antigua, rocín flaco y galgo corredor",
+    "supportEMail": "autonomous@vehicle.com",
+    "serialNumber": "3423432423",
+    "macAddress": "AB:00:CD:34:54"
+  },
+  "835b834d8dcea1803b211c60adfddad3": {
+    "deviceName": "CAN BUS",
+    "typeOfDevice": "Actuator",
+    "driverVersion": "2020.03.01",
+    "supportEMail": "autonomous@vehicle.com",
+    "serialNumber": "",
+    "macAddress": "AB:00:CD:34:54"
+  },
+  "de76baee091204dd3bfa67cbfa175843": {
+    "deviceName": "CAN BUS",
+    "typeOfDevice": "Actuator",
+    "supportEMail": "autonomous@vehicle.com",
+    "serialNumber": "3423432423",
+    "macAddress": "AB:00:CD:34:54"
+  },
+  "615828fd380291cda3b29e2bf905c231": {
+    "deviceName": "CAN BUS",
+    "typeOfDevice": "Actuator",
+    "driverVersion": "1",
+    "supportEMail": "autonomous@vehicle.com",
+    "serialNumber": "3423432423",
+    "macAddress": "AB:00:CD:34:54"
+  },
+  "57659bb0978d410b3b78a892c604ccb4": {
+    "deviceName": "CAN BUS",
+    "typeOfDevice": "Actuator",
+    "driverVersion": "2020.03.01",
+    "supportEMail": "autonomous@vehicle.com",
+    "serialNumber": "3423-432-423",
+    "macAddress": "3D:F2:C9:A6:B3:4F"
+  },
+  "f17166a01716dc372e4ffd9e6f0c6cfe": {
+    "deviceName": "CAN BUS",
+    "typeOfDevice": "All",
+    "driverVersion": "2020.03.01",
+    "supportEMail": "autonomous@vehicle.com",
+    "serialNumber": "3423432423",
+    "macAddress": "AB:00:CD:34:54"
+  },
+  "8f36e9e8c100adc64df7a3dff6dde6ca": {
+    "deviceName": "CAN BUS",
+    "typeOfDevice": "Actuator",
+    "driverVersion": "2020.03.01",
+    "supportEMail": "autonomous.vehicle.com",
+    "serialNumber": "3423432423",
+    "macAddress": "AB:00:CD:34:54"
+  },
+  "69da0c8cb63959b5258ada206968bb77": {
+    "deviceName": "CAN BUS",
+    "typeOfDevice": "Actuator",
+    "driverVersion": "2020.03.01",
+    "serialNumber": "3423432423",
+    "macAddress": "AB:00:CD:34:54"
+  },
+  "d21650f670fc80afbfb0aa7b2bab197c": {
+    "deviceName": "1",
+    "typeOfDevice": "Actuator",
+    "driverVersion": "2020.03.01",
+    "supportEMail": "autonomous@vehicle.com",
+    "serialNumber": "3423432423",
+    "macAddress": "AB:00:CD:34:54"
+  },
+  "578deabd42fe16fcfaa95b7941d10432": {
+    "typeOfDevice": "Actuator",
+    "driverVersion": "2020.03.01",
+    "supportEMail": "autonomous@vehicle.com",
+    "serialNumber": "3423432423",
+    "macAddress": "AB:00:CD:34:54"
+  },
+  "e7488c2b077d02510d87631219a4b3bd": {
+    "deviceName": "CAN BUS",
+    "typeOfDevice": "Actuator",
+    "driverVersion": "2020.03.01",
+    "supportEMail": "autonomous@vehicle.com",
+    "serialNumber": "En un lugar de la Mancha, de cuyo nombre no quiero acordarme, no ha mucho tiempo que vivía un hidalgo de los de lanza en astillero, adarga antigua, rocín flaco y galgo corredor",
+    "macAddress": "AB:00:CD:34:54"
+  },
+  "489b339eb6af2ffa8e9f8baebb960351": {
+    "deviceName": "CAN BUS",
+    "typeOfDevice": "Actuator",
+    "driverVersion": "",
+    "supportEMail": "autonomous@vehicle.com",
+    "serialNumber": "3423432423",
+    "macAddress": "AB:00:CD:34:54"
+  },
+  "b899e045a739dd29a97acec626f29495": {
+    "deviceName": "CAN BUS",
+    "typeOfDevice": "Actuator",
+    "driverVersion": "2020.03.01",
+    "supportEMail": "autonomous@vehicle.com",
+    "macAddress": "AB:00:CD:34:54"
+  },
+  "4aa1c6f07726f9ebe786cd04bd8aa3e5": {
+    "deviceName": "CAN BUS",
+    "typeOfDevice": "Actuator",
+    "driverVersion": "2020.03.01",
+    "supportEMail": "",
+    "serialNumber": "3423432423",
+    "macAddress": "AB:00:CD:34:54"
   }
 }

@@ -55,7 +55,9 @@ public class TokenManager implements ITokenManagement {
             throw new TokenManagementException("Error: invalid input data in JSON structure.");
         } catch (FileNotFoundException e) {
             throw new TokenManagementException("Error: input file not found.");
-        } catch (JsonIncorrectRepresentationException | IOException e) {
+        } catch (JsonIncorrectRepresentationException e) {
+            throw new TokenManagementException("Error: invalid input data in JSON structure.");
+        } catch (IOException e) {
             throw new TokenManagementException("Error: JSON object cannot be created due to incorrect representation");
         } catch (JsonConstraintsException | NullPatternException e) {
             throw new TokenManagementException("Error: invalid input data in JSON structure.");
@@ -126,13 +128,46 @@ public class TokenManager implements ITokenManagement {
             token = fileManager.readJsonFileWithConstraints(inputFile, Token.class);
         } catch (FileNotFoundException e) {
             throw new TokenManagementException("Error: input file not found.");
+        } catch (UnrecognizedPropertyException e) {
+            e.printStackTrace();
+            throw new TokenManagementException("Error: invalid input data in JSON structure.");
         } catch (IOException e) {
-            throw new TokenManagementException("Error: input file could not be accessed.");
+            // CUANDO JsonMappingException debe mostrar mensajes especificos
+            System.out.println("CLASS " + e.getClass());
+            e.printStackTrace();
+            throw new TokenManagementException("Error: JSON object cannot be created due to incorrect representation");
         } catch (JsonConstraintsException pe) {
             throw new TokenManagementException("Error: invalid input data in JSON structure.");
         } catch (Exception e) {
-            throw new TokenManagementException("Error: JSON object cannot be created due to incorrect representation");
+            e.printStackTrace();
+            throw new TokenManagementException("???" + e.getClass());
         }
+
+        //TODO: esto para algo?
+        /*
+
+        //Generar un HashMap para guardar los objetos
+        Gson gson = new Gson();
+        String jsonString;
+        HashMap<String, TokenRequest> clonedMap = null;
+        String storePath = System.getProperty("user.dir") + "/Store/tokenRequestsStore.json";
+
+        //Cargar el almacen de tokens request en memoria y añadir el nuevo si no existe
+        try {
+            Object object = gson.fromJson(new FileReader(storePath), Object.class);
+            jsonString = gson.toJson(object);
+            Type type = new TypeToken<HashMap<String, TokenRequest>>() {
+            }.getType();
+            clonedMap = gson.fromJson(jsonString, type);
+        } catch (Exception e) {
+            throw new TokenManagementException("Error: unable to recover Token Requests Store.");
+        }
+        if (clonedMap == null) {
+            throw new TokenManagementException("Error: Token Request Not Previously Registered");
+        } else if (!clonedMap.containsKey(TokenToVerify.getDevice())) {
+            throw new TokenManagementException("Error: Token Request Not Previously Registered");
+        }
+         */
 
         try {
             byte[] sha256 = hashManager.sha256Encode(token.getHeader() + token.getPayload());

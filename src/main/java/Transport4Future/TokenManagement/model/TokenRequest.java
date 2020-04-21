@@ -19,32 +19,25 @@ import Transport4Future.TokenManagement.exception.NullPatternException;
 import Transport4Future.TokenManagement.exception.TokenManagementException;
 import Transport4Future.TokenManagement.model.skeleton.DeserializationConstraintChecker;
 import Transport4Future.TokenManagement.service.PatternChecker;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class TokenRequest implements DeserializationConstraintChecker {
+    private final String deviceName;
+    private final String typeOfDevice;
+    private final String driverVersion;
+    private final String supportEMail;
+    private final String serialNumber;
+    private final String macAddress;
 
-    @JsonProperty("Device Name")
-    private String deviceName;
-
-    @JsonProperty("Type of Device")
-    private String typeOfDevice;
-
-    @JsonProperty("Driver Version")
-    private String driverVersion;
-
-    @JsonProperty("Support e-mail")
-    private String supportEMail;
-
-    @JsonProperty("Serial Number")
-    private String serialNumber;
-
-    @JsonProperty("MAC Address")
-    private String macAddress;
-
-    public TokenRequest() {
-    }
-
-    public TokenRequest(String deviceName, String typeOfDevice, String driverVersion, String supportEMail, String serialNumber, String macAddress) {
+    @JsonCreator
+    public TokenRequest(
+            @JsonProperty(required = true, value = "Device Name") String deviceName,
+            @JsonProperty(required = true, value = "Type of Device") String typeOfDevice,
+            @JsonProperty(required = true, value = "Driver Version") String driverVersion,
+            @JsonProperty(required = true, value = "Support e-mail") String supportEMail,
+            @JsonProperty(required = true, value = "Serial Number") String serialNumber,
+            @JsonProperty(required = true, value = "MAC Address") String macAddress) {
         this.deviceName = deviceName;
         this.typeOfDevice = typeOfDevice;
         this.driverVersion = driverVersion;
@@ -89,6 +82,16 @@ public class TokenRequest implements DeserializationConstraintChecker {
 
     @Override
     public boolean areConstraintsPassed() throws TokenManagementException, JsonIncorrectRepresentationException, NullPatternException {
+
+        if (this.getDeviceName() == null
+                || this.getDriverVersion() == null
+                || this.getSerialNumber() == null
+                || this.getSupportEMail() == null
+                || this.getTypeOfDevice() == null
+                || this.getMacAddress() == null
+        ) {
+            throw new JsonIncorrectRepresentationException();
+        }
         PatternChecker patternChecker = new PatternChecker();
         if (!patternChecker.checkLengthBetween(this.getDeviceName(), 1, 20)) {
             throw new TokenManagementException("Error: invalid String length for device name.");
@@ -112,16 +115,8 @@ public class TokenRequest implements DeserializationConstraintChecker {
         }
 
         if (!patternChecker.checkRegex(this.getMacAddress(), RegexDatabase.MAC_ADDRESS)) {
+            System.out.println("AQUIII " + this);
             throw new TokenManagementException("Error: invalid MAC Address data in JSON structure.");
-        }
-        if (this.getDeviceName() == null
-                || this.getDriverVersion() == null
-                || this.getSerialNumber() == null
-                || this.getSupportEMail() == null
-                || this.getTypeOfDevice() == null
-                || this.getMacAddress() == null
-        ) {
-            throw new JsonIncorrectRepresentationException();
         }
 
         return true;

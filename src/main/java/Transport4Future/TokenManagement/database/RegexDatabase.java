@@ -14,6 +14,8 @@
 package Transport4Future.TokenManagement.database;
 
 public class RegexDatabase {
+    public static final String DEVICE = "([A-Fa-f0-9]{32})";
+    public static final String JSON_DATE_FORMAT = "(0[1-9]|[1-2][0-9]|3[0-1])-(0[1-9]|1[0-2])-[0-9]{4}\\s(2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]";
     public static final String SERIAL_NUMBER = "([A-Za-z0-9-]{1,})";
     public static final String DRIVER_VERSION = "([a-zA-Z0-9]{1}[A-Za-z0-9\\.]{0,24})";
     public static final String MAC_ADDRESS = "([a-fA-F0-9]{2}[:-]){5}[a-fA-F0-9]{2}$";
