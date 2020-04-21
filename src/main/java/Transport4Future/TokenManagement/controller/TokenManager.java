@@ -14,12 +14,12 @@
 package Transport4Future.TokenManagement.controller;
 
 import Transport4Future.TokenManagement.controller.skeleton.ITokenManagement;
-import Transport4Future.TokenManagement.database.RegexDatabase;
 import Transport4Future.TokenManagement.database.TokenDatabase;
+import Transport4Future.TokenManagement.exception.JsonConstraintsException;
 import Transport4Future.TokenManagement.exception.TokenManagementException;
 import Transport4Future.TokenManagement.model.Token;
 import Transport4Future.TokenManagement.model.TokenRequest;
-import Transport4Future.TokenManagement.service.PatternChecker;
+import Transport4Future.TokenManagement.service.FileManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -39,38 +39,9 @@ import java.util.regex.Pattern;
 
 public class TokenManager implements ITokenManagement {
 
-    private void checkInitialTokenInformationFormat(TokenRequest Request) throws TokenManagementException {
-        PatternChecker patternChecker = new PatternChecker();
-        if (!patternChecker.checkLengthBetween(Request.getDeviceName(), 1, 20)) {
-            throw new TokenManagementException("Error: invalid String length for device name.");
-        }
-
-        if (patternChecker.checkRegex(Request.getSerialNumber(), RegexDatabase.SERIAL_NUMBER)) {
-            throw new TokenManagementException("Error: invalid String length for serial number.");
-        }
-
-        if (!patternChecker.checkLengthBetween(Request.getDriverVersion(), 1, 25)
-                || !patternChecker.checkRegex(Request.getSerialNumber(), RegexDatabase.DRIVER_VERSION)) {
-            throw new TokenManagementException("Error: invalid String length for driver version.");
-        }
-
-        if (!patternChecker.checkRegex(Request.getSerialNumber(), RegexDatabase.EMAIL_RFC822)) {
-            throw new TokenManagementException("Error: invalid E-mail data in JSON structure.");
-        }
-
-        if (!patternChecker.checkValueInAccepted(Request.getTypeOfDevice(), RegexDatabase.VALID_TYPE_OF_DEVICE)) {
-            throw new TokenManagementException("Error: invalid type of sensor.");
-        }
-
-        if (!patternChecker.checkRegex(Request.getMacAddress(), RegexDatabase.MAC_ADDRESS)) {
-            throw new TokenManagementException("Error: invalid MAC Address data in JSON structure.");
-        }
-    }
-
-    public String TokenRequestGeneration(String InputFile) throws TokenManagementException {
+    public String TokenRequestGeneration(String inputFile) throws TokenManagementException {
         TokenRequest req = null;
 
-        String fileContents = "";
         String deviceName = "";
         String typeOfDevice = "";
         String driverVersion = "";
@@ -78,47 +49,20 @@ public class TokenManager implements ITokenManagement {
         String serialNumber = "";
         String macAddress = "";
 
-        BufferedReader reader;
+        FileManager fileManager = new FileManager();
+        Token token;
         try {
-            reader = new BufferedReader(new FileReader(InputFile));
+            token = fileManager.readJsonFileWithConstraints(inputFile, Token.class);
         } catch (FileNotFoundException e) {
             throw new TokenManagementException("Error: input file not found.");
-        }
-        String line;
-        try {
-            while ((line = reader.readLine()) != null) {
-                fileContents += line;
-            }
         } catch (IOException e) {
             throw new TokenManagementException("Error: input file could not be accessed.");
-        }
-        try {
-            reader.close();
-        } catch (IOException e) {
-            throw new TokenManagementException("Error: input file could not be closed.");
-        }
-
-        JsonObject jsonLicense = null;
-        try (StringReader sr = new StringReader(fileContents)) {
-            jsonLicense = Json.createReader(sr).readObject();
+        } catch (JsonConstraintsException pe) {
+            throw new TokenManagementException("Error: invalid input data in JSON structure.");
         } catch (Exception e) {
             throw new TokenManagementException("Error: JSON object cannot be created due to incorrect representation");
         }
 
-        try {
-            deviceName = jsonLicense.getString("Device Name");
-            typeOfDevice = jsonLicense.getString("Type of Device");
-            driverVersion = jsonLicense.getString("Driver Version");
-            supportEMail = jsonLicense.getString("Support e-mail");
-            serialNumber = jsonLicense.getString("Serial Number");
-            macAddress = jsonLicense.getString("MAC Address");
-        } catch (Exception pe) {
-            throw new TokenManagementException("Error: invalid input data in JSON structure.");
-        }
-
-        req = new TokenRequest(deviceName, typeOfDevice, driverVersion, supportEMail, serialNumber, macAddress);
-
-        checkInitialTokenInformationFormat(req);
 
         MessageDigest md;
         try {

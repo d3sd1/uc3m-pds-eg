@@ -13,11 +13,13 @@
 
 package Transport4Future.TokenManagement.model;
 
+import Transport4Future.TokenManagement.model.skeleton.DeserializationConstraintChecker;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Token {
+public class Token implements DeserializationConstraintChecker {
     private final String alg;
     private final String typ;
     private final String device;
@@ -95,5 +97,39 @@ public class Token {
 
     public void setTokenValue(String value) {
         this.tokenValue = value;
+    }
+
+    @Override
+    public boolean areConstraintsPassed() {
+        //TODO: debe revisar que no tiene campos nulos
+        //+ esto
+        /*
+        PatternChecker patternChecker = new PatternChecker();
+        if (!patternChecker.checkLengthBetween(Request.getDeviceName(), 1, 20)) {
+            throw new TokenManagementException("Error: invalid String length for device name.");
+        }
+
+        if (patternChecker.checkRegex(Request.getSerialNumber(), RegexDatabase.SERIAL_NUMBER)) {
+            throw new TokenManagementException("Error: invalid String length for serial number.");
+        }
+
+        if (!patternChecker.checkLengthBetween(Request.getDriverVersion(), 1, 25)
+                || !patternChecker.checkRegex(Request.getSerialNumber(), RegexDatabase.DRIVER_VERSION)) {
+            throw new TokenManagementException("Error: invalid String length for driver version.");
+        }
+
+        if (!patternChecker.checkRegex(Request.getSerialNumber(), RegexDatabase.EMAIL_RFC822)) {
+            throw new TokenManagementException("Error: invalid E-mail data in JSON structure.");
+        }
+
+        if (!patternChecker.checkValueInAccepted(Request.getTypeOfDevice(), RegexDatabase.VALID_TYPE_OF_DEVICE)) {
+            throw new TokenManagementException("Error: invalid type of sensor.");
+        }
+
+        if (!patternChecker.checkRegex(Request.getMacAddress(), RegexDatabase.MAC_ADDRESS)) {
+            throw new TokenManagementException("Error: invalid MAC Address data in JSON structure.");
+        }
+         */
+        return false;
     }
 }
