@@ -14,6 +14,9 @@
 package Transport4Future.TokenManagement.service;
 
 import Transport4Future.TokenManagement.exception.JsonConstraintsException;
+import Transport4Future.TokenManagement.exception.JsonIncorrectRepresentationException;
+import Transport4Future.TokenManagement.exception.NullPatternException;
+import Transport4Future.TokenManagement.exception.TokenManagementException;
 import Transport4Future.TokenManagement.model.skeleton.DeserializationConstraintChecker;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -42,11 +45,11 @@ public class FileManager {
         return objectMapper.readValue(this.readFile(filePath), deserializeClass);
     }
 
-    public <T extends DeserializationConstraintChecker> T readJsonFileWithConstraints(String filePath, Class<T> deserializeClass) throws IOException, JsonConstraintsException {
+    public <T extends DeserializationConstraintChecker> T readJsonFileWithConstraints(String filePath, Class<T> deserializeClass) throws IOException, JsonConstraintsException, TokenManagementException, JsonIncorrectRepresentationException, NullPatternException {
         T obj = this.readJsonFile(filePath, deserializeClass);
-        if (!obj.areConstraintsPassed()) {
-            throw new JsonConstraintsException();
-        }
+        obj.areConstraintsPassed();
+
+
         return obj;
     }
 }

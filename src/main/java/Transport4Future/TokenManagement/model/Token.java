@@ -20,15 +20,18 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Token implements DeserializationConstraintChecker {
-    private final String alg;
-    private final String typ;
-    private final String device;
-    private final String requestDate;
-    private final String notificationEmail;
-    private final long iat;
-    private final long exp;
+    private String alg;
+    private String typ;
+    private String device;
+    private String requestDate;
+    private String notificationEmail;
+    private long iat;
+    private long exp;
     private String signature;
     private String tokenValue;
+
+    public Token() {
+    }
 
     public Token(String Device, String RequestDate, String NotificationEmail) {
         this.alg = "HS256";
@@ -105,10 +108,8 @@ public class Token implements DeserializationConstraintChecker {
 
     @Override
     public boolean areConstraintsPassed() {
-        //TODO
-        //TODO: los campos no pueden ser nulos
+        //TODO: check nulls
 /*
-
         // Length check for device
         Pattern devicePattern = Pattern.compile("([A-Fa-f0-9]{32})");
         if (!devicePattern.matcher(TokenToVerify.getDevice()).matches()) {
@@ -146,8 +147,8 @@ public class Token implements DeserializationConstraintChecker {
             throw new TokenManagementException("Error: Token Request Not Previously Registered");
         } else if (!clonedMap.containsKey(TokenToVerify.getDevice())) {
             throw new TokenManagementException("Error: Token Request Not Previously Registered");
-        }
- */
+        }*/
+
         return false;
     }
 }

@@ -17,16 +17,25 @@ import Transport4Future.TokenManagement.controller.skeleton.ITokenManagement;
 import Transport4Future.TokenManagement.database.TokenDatabase;
 import Transport4Future.TokenManagement.database.TokenRequestDatabase;
 import Transport4Future.TokenManagement.exception.JsonConstraintsException;
+import Transport4Future.TokenManagement.exception.JsonIncorrectRepresentationException;
+import Transport4Future.TokenManagement.exception.NullPatternException;
 import Transport4Future.TokenManagement.exception.TokenManagementException;
 import Transport4Future.TokenManagement.model.Token;
 import Transport4Future.TokenManagement.model.TokenRequest;
 import Transport4Future.TokenManagement.service.FileManager;
 import Transport4Future.TokenManagement.service.HashManager;
+import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
+import java.util.HashMap;
 
 
 public class TokenManager implements ITokenManagement {
@@ -42,15 +51,16 @@ public class TokenManager implements ITokenManagement {
 
         try {
             tokenRequest = fileManager.readJsonFileWithConstraints(inputFile, TokenRequest.class);
+        } catch (UnrecognizedPropertyException e) {
+            throw new TokenManagementException("Error: invalid input data in JSON structure.");
         } catch (FileNotFoundException e) {
             throw new TokenManagementException("Error: input file not found.");
-        } catch (IOException e) {
-            throw new TokenManagementException("Error: input file could not be accessed.");
-        } catch (JsonConstraintsException pe) {
-            throw new TokenManagementException("Error: invalid input data in JSON structure.");
-        } catch (Exception e) {
+        } catch (JsonIncorrectRepresentationException | IOException e) {
             throw new TokenManagementException("Error: JSON object cannot be created due to incorrect representation");
+        } catch (JsonConstraintsException | NullPatternException e) {
+            throw new TokenManagementException("Error: invalid input data in JSON structure.");
         }
+
         try {
             encodedTokenRequest = hashManager.md5Encode(tokenRequest.toString());
             hex = hashManager.getShaMd5Hex(encodedTokenRequest);
@@ -60,11 +70,46 @@ public class TokenManager implements ITokenManagement {
             throw new TokenManagementException("Error: could not encode token request.");
         }
 
+
+//TODO: estoo hace algo fijo.
+        //Generar un HashMap para guardar los objetos
+        Gson gson = new Gson();
+        String jsonString;
+        HashMap<String, TokenRequest> clonedMap;
+        String storePath = System.getProperty("user.dir") + "/Store/tokenRequestsStore.json";
+        //Tengo que cargar el almacen de tokens request en memoria y añadir el nuevo si no existe
+        try {
+            Object object = gson.fromJson(new FileReader(storePath), Object.class);
+            jsonString = gson.toJson(object);
+            Type type = new TypeToken<HashMap<String, TokenRequest>>() {
+            }.getType();
+            clonedMap = gson.fromJson(jsonString, type);
+        } catch (Exception e) {
+            clonedMap = null;
+        }
+        if (clonedMap == null) {
+            clonedMap = new HashMap();
+            clonedMap.put(hex, tokenRequest);
+        } else if (!clonedMap.containsKey(hex)) {
+            clonedMap.put(hex, tokenRequest);
+        }
+
+
+        // Guardar el Tokens Requests Store actualizado
+        jsonString = gson.toJson(clonedMap);
+        FileWriter fileWriter;
+        try {
+            fileWriter = new FileWriter(storePath);
+            fileWriter.write(jsonString);
+            fileWriter.close();
+        } catch (IOException e) {
+            throw new TokenManagementException("Error: Unable to save a new token in the internal licenses store");
+        }/*
         try {
             tokenRequestDatabase.saveTokenRequest(tokenRequest, hex);
         } catch (Exception e) {
             throw new TokenManagementException("Error: could not store tokenRequest on database.");
-        }
+        }*/
 
         return hex;
     }

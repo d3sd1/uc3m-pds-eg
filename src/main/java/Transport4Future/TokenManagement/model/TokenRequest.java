@@ -13,16 +13,36 @@
 
 package Transport4Future.TokenManagement.model;
 
+import Transport4Future.TokenManagement.database.RegexDatabase;
+import Transport4Future.TokenManagement.exception.JsonIncorrectRepresentationException;
+import Transport4Future.TokenManagement.exception.NullPatternException;
+import Transport4Future.TokenManagement.exception.TokenManagementException;
 import Transport4Future.TokenManagement.model.skeleton.DeserializationConstraintChecker;
+import Transport4Future.TokenManagement.service.PatternChecker;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class TokenRequest implements DeserializationConstraintChecker {
 
-    private final String deviceName;
-    private final String typeOfDevice;
-    private final String driverVersion;
-    private final String supportEMail;
-    private final String serialNumber;
-    private final String macAddress;
+    @JsonProperty("Device Name")
+    private String deviceName;
+
+    @JsonProperty("Type of Device")
+    private String typeOfDevice;
+
+    @JsonProperty("Driver Version")
+    private String driverVersion;
+
+    @JsonProperty("Support e-mail")
+    private String supportEMail;
+
+    @JsonProperty("Serial Number")
+    private String serialNumber;
+
+    @JsonProperty("MAC Address")
+    private String macAddress;
+
+    public TokenRequest() {
+    }
 
     public TokenRequest(String deviceName, String typeOfDevice, String driverVersion, String supportEMail, String serialNumber, String macAddress) {
         this.deviceName = deviceName;
@@ -68,36 +88,42 @@ public class TokenRequest implements DeserializationConstraintChecker {
     }
 
     @Override
-    public boolean areConstraintsPassed() {
-        //TODO: debe revisar que no tiene campos nulos y lo de abajo
-        //+ esto
-        /*
+    public boolean areConstraintsPassed() throws TokenManagementException, JsonIncorrectRepresentationException, NullPatternException {
         PatternChecker patternChecker = new PatternChecker();
-        if (!patternChecker.checkLengthBetween(Request.getDeviceName(), 1, 20)) {
+        if (!patternChecker.checkLengthBetween(this.getDeviceName(), 1, 20)) {
             throw new TokenManagementException("Error: invalid String length for device name.");
         }
 
-        if (patternChecker.checkRegex(Request.getSerialNumber(), RegexDatabase.SERIAL_NUMBER)) {
+        if (!patternChecker.checkRegex(this.getSerialNumber(), RegexDatabase.SERIAL_NUMBER)) {
             throw new TokenManagementException("Error: invalid String length for serial number.");
         }
 
-        if (!patternChecker.checkLengthBetween(Request.getDriverVersion(), 1, 25)
-                || !patternChecker.checkRegex(Request.getSerialNumber(), RegexDatabase.DRIVER_VERSION)) {
+        if (!patternChecker.checkLengthBetween(this.getDriverVersion(), 1, 25)
+                || !patternChecker.checkRegex(this.getDriverVersion(), RegexDatabase.DRIVER_VERSION)) {
             throw new TokenManagementException("Error: invalid String length for driver version.");
         }
 
-        if (!patternChecker.checkRegex(Request.getSerialNumber(), RegexDatabase.EMAIL_RFC822)) {
+        if (!patternChecker.checkRegex(this.getSupportEMail(), RegexDatabase.EMAIL_RFC822)) {
             throw new TokenManagementException("Error: invalid E-mail data in JSON structure.");
         }
 
-        if (!patternChecker.checkValueInAccepted(Request.getTypeOfDevice(), RegexDatabase.VALID_TYPE_OF_DEVICE)) {
+        if (!patternChecker.checkValueInAccepted(this.getTypeOfDevice(), RegexDatabase.VALID_TYPE_OF_DEVICE)) {
             throw new TokenManagementException("Error: invalid type of sensor.");
         }
 
-        if (!patternChecker.checkRegex(Request.getMacAddress(), RegexDatabase.MAC_ADDRESS)) {
+        if (!patternChecker.checkRegex(this.getMacAddress(), RegexDatabase.MAC_ADDRESS)) {
             throw new TokenManagementException("Error: invalid MAC Address data in JSON structure.");
         }
-         */
-        return false;
+        if (this.getDeviceName() == null
+                || this.getDriverVersion() == null
+                || this.getSerialNumber() == null
+                || this.getSupportEMail() == null
+                || this.getTypeOfDevice() == null
+                || this.getMacAddress() == null
+        ) {
+            throw new JsonIncorrectRepresentationException();
+        }
+
+        return true;
     }
 }
