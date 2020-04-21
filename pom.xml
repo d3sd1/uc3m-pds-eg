@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2020.
+  ~ Content created by:
+  ~ - Andrei García Cuadra
+  ~ - Miguel Hernández Cassel
+  ~
+  ~ For the module PDS, on university Carlos III de Madrid.
+  ~ Do not share, review nor edit any content without implicitly asking permission to it's owners, as you can contact by this email:
+  ~ andreigarciacuadra@gmail.com
+  ~
+  ~ All rights reserved.
+  -->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -10,7 +23,7 @@
     <packaging>jar</packaging>
 
     <properties>
-        <java.version>8</java.version>
+        <!--<java.version>8</java.version>-->
     </properties>
 
     <build>
