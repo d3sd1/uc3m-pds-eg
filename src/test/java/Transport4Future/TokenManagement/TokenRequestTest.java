@@ -37,7 +37,7 @@ class TokenRequestTest {
         String InputFilePath = "./TestData/TokenRequestTest/WithoutInitialBrace.json";
         String expectedMessage = "Error: JSON object cannot be created due to incorrect representation";
         TokenManagementException ex = Assertions.assertThrows(TokenManagementException.class, () -> {
-            myManager.RequestToken(InputFilePath);
+            myManager.request(InputFilePath);
         });
         assertEquals(expectedMessage, ex.getMessage());
 
@@ -48,7 +48,7 @@ class TokenRequestTest {
     @CsvFileSource(resources = "/invalidTestCasesRequestTokenTestReduced.csv")
     void InvalidTestCases(String InputFilePath, String expectedMessage) {
         TokenManagementException ex = Assertions.assertThrows(TokenManagementException.class, () -> {
-            myManager.RequestToken(InputFilePath);
+            myManager.request(InputFilePath);
         });
         assertEquals(expectedMessage, ex.getMessage());
     }
@@ -57,7 +57,7 @@ class TokenRequestTest {
     @ParameterizedTest(name = "{index} -with the input ''{0}'' output expected is ''{1}''")
     @CsvFileSource(resources = "/validTestCasesRequestTokenTest.csv")
     void ValidTestCases(String InputFilePath, String Result) throws TokenManagementException {
-        String myResult = myManager.RequestToken(InputFilePath);
+        String myResult = myManager.request(InputFilePath);
         assertEquals(Result, myResult);
     }
 }

@@ -17,11 +17,11 @@ import Transport4Future.TokenManagement.exception.TokenManagementException;
 
 public interface ITokenManagement {
 
-	String TokenRequestGeneration(String InputFile) throws TokenManagementException;
+	String generate(String InputFile) throws TokenManagementException;
 
-	String RequestToken(String InputFile) throws TokenManagementException;
+	String request(String InputFile) throws TokenManagementException;
 
-	boolean VerifyToken(String Token) throws TokenManagementException;
+	boolean verify(String Token) throws TokenManagementException;
 
 
 }

@@ -13,7 +13,9 @@
 
 package Transport4Future.TokenManagement.model;
 
-public class TokenRequest {
+import Transport4Future.TokenManagement.model.skeleton.DeserializationConstraintChecker;
+
+public class TokenRequest implements DeserializationConstraintChecker {
 
     private final String deviceName;
     private final String typeOfDevice;
@@ -63,5 +65,39 @@ public class TokenRequest {
                 ",\n\t\\Support e-Mail=" + this.supportEMail +
                 ",\n\t\\Serial Number=" + this.serialNumber +
                 ",\n\t\\MAC Address=" + this.macAddress + "\n]";
+    }
+
+    @Override
+    public boolean areConstraintsPassed() {
+        //TODO: debe revisar que no tiene campos nulos y lo de abajo
+        //+ esto
+        /*
+        PatternChecker patternChecker = new PatternChecker();
+        if (!patternChecker.checkLengthBetween(Request.getDeviceName(), 1, 20)) {
+            throw new TokenManagementException("Error: invalid String length for device name.");
+        }
+
+        if (patternChecker.checkRegex(Request.getSerialNumber(), RegexDatabase.SERIAL_NUMBER)) {
+            throw new TokenManagementException("Error: invalid String length for serial number.");
+        }
+
+        if (!patternChecker.checkLengthBetween(Request.getDriverVersion(), 1, 25)
+                || !patternChecker.checkRegex(Request.getSerialNumber(), RegexDatabase.DRIVER_VERSION)) {
+            throw new TokenManagementException("Error: invalid String length for driver version.");
+        }
+
+        if (!patternChecker.checkRegex(Request.getSerialNumber(), RegexDatabase.EMAIL_RFC822)) {
+            throw new TokenManagementException("Error: invalid E-mail data in JSON structure.");
+        }
+
+        if (!patternChecker.checkValueInAccepted(Request.getTypeOfDevice(), RegexDatabase.VALID_TYPE_OF_DEVICE)) {
+            throw new TokenManagementException("Error: invalid type of sensor.");
+        }
+
+        if (!patternChecker.checkRegex(Request.getMacAddress(), RegexDatabase.MAC_ADDRESS)) {
+            throw new TokenManagementException("Error: invalid MAC Address data in JSON structure.");
+        }
+         */
+        return false;
     }
 }

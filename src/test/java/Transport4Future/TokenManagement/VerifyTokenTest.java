@@ -45,12 +45,12 @@ class VerifyTokenTest {
     private void insertFirstToken() throws TokenManagementException {
         this.resetTokenStore();
         String InputFile = System.getProperty("user.dir") + "/TestData/TokenRequestTest/CorrectTokenRequest.json";
-        myManager.RequestToken(InputFile);
+        myManager.request(InputFile);
     }
 
     private void insertSecondToken() throws TokenManagementException {
         String InputFile = System.getProperty("user.dir") + "/TestData/TokenRequestTest/SecondCorrectTokenRequest.json";
-        myManager.RequestToken(InputFile);
+        myManager.request(InputFile);
     }
 
     @Test
@@ -58,7 +58,7 @@ class VerifyTokenTest {
     void VerifyTokenEmptyTokenStore() throws TokenManagementException {
         this.resetTokenStore();
         String tokenToVerify = "ABxnPUhTMjU2XG4gVHlwPVBEU1xuRGV2PTI3OGU3ZTI3NzMyYzRlNTM5NDZjZjIwMDU4YWQ4MTM4XG4gaWF0PTE4LTAzLTIwMjAgMTA6MjI6MjBcbiBleHA9MjUtMDMtMjAyMCAxMDoyMjoyMGIzYWMwYjRkNjQyOTE1OGRhMTI4NzYxZTk4Y2U4MzE3ZmE5MjhkNDJjNzEwYTlkMDZmNjRjOTY2N2JkZDM3MWM=\"";
-        boolean result = myManager.VerifyToken(tokenToVerify);
+        boolean result = myManager.verify(tokenToVerify);
         assertEquals(false, result);
     }
 
@@ -67,7 +67,7 @@ class VerifyTokenTest {
     void VerifyTokenNonExistingToken() throws TokenManagementException {
         this.insertFirstToken();
         String tokenToVerify = "ABxnPUhTMjU2XG4gVHlwPVBEU1xuRGV2PTI3OGU3ZTI3NzMyYzRlNTM5NDZjZjIwMDU4YWQ4MTM4XG4gaWF0PTE4LTAzLTIwMjAgMTA6MjI6MjBcbiBleHA9MjUtMDMtMjAyMCAxMDoyMjoyMGIzYWMwYjRkNjQyOTE1OGRhMTI4NzYxZTk4Y2U4MzE3ZmE5MjhkNDJjNzEwYTlkMDZmNjRjOTY2N2JkZDM3MWM=\"";
-        boolean result = myManager.VerifyToken(tokenToVerify);
+        boolean result = myManager.verify(tokenToVerify);
         assertEquals(false, result);
     }
 
@@ -76,7 +76,7 @@ class VerifyTokenTest {
     void VerifyTokenCorrectTest() throws TokenManagementException {
         this.insertFirstToken();
         String tokenToVerify = "QWxnPUhTMjU2XG4gVHlwPVBEU1xuRGV2PTI3OGU3ZTI3NzMyYzRlNTM5NDZjZjIwMDU4YWQ4MTM4XG4gaWF0PTE4LTAzLTIwMjAgMTA6MjI6MjBcbiBleHA9MjUtMDMtMjAyMCAxMDoyMjoyMGIzYWMwYjRkNjQyOTE1OGRhMTI4NzYxZTk4Y2U4MzE3ZmE5MjhkNDJjNzEwYTlkMDZmNjRjOTY2N2JkZDM3MWM=\"";
-        boolean result = myManager.VerifyToken(tokenToVerify);
+        boolean result = myManager.verify(tokenToVerify);
         assertEquals(false, result);
     }
 
@@ -87,7 +87,7 @@ class VerifyTokenTest {
         File file = new File(storePath);
         file.delete();
         String tokenToVerify = "ABxnPUhTMjU2XG4gVHlwPVBEU1xuRGV2PTI3OGU3ZTI3NzMyYzRlNTM5NDZjZjIwMDU4YWQ4MTM4XG4gaWF0PTE4LTAzLTIwMjAgMTA6MjI6MjBcbiBleHA9MjUtMDMtMjAyMCAxMDoyMjoyMGIzYWMwYjRkNjQyOTE1OGRhMTI4NzYxZTk4Y2U4MzE3ZmE5MjhkNDJjNzEwYTlkMDZmNjRjOTY2N2JkZDM3MWM=";
-        boolean result = myManager.VerifyToken(tokenToVerify);
+        boolean result = myManager.verify(tokenToVerify);
         assertEquals(false, result);
     }
 
@@ -97,7 +97,7 @@ class VerifyTokenTest {
         this.insertFirstToken();
         this.insertSecondToken();
         String tokenToVerify = "QWxnPUhTMjU2XG4gVHlwPVBEU1xuRGV2PTYzY2ZjZmQ3NDgwYTE2NmE1NDFhZWY2MDkyM2I5NjU5XG4gaWF0PTE4LTAzLTIwMjAgMTA6MjI6MjBcbiBleHA9MTYtMDQtMjAyMiAxODo1NTo0MDA2ODI4YTI2NzhlZjYzNjc3OWJiMzVmZWFiZjI2Njg1OGU4NWFlYThjYjQ2YWQ1NDMyYWIwMTQzOTFmYjc0MTg=";
-        boolean result = myManager.VerifyToken(tokenToVerify);
+        boolean result = myManager.verify(tokenToVerify);
         assertEquals(true, result);
     }
 }

@@ -34,7 +34,7 @@ public class TokenRequestGenerationTest {
     @CsvFileSource(resources = "/invalidTestCasesRequestGenerationTest.csv")
     void InvalidTestCases(String InputFilePath, String expectedMessage) {
         TokenManagementException ex = Assertions.assertThrows(TokenManagementException.class, () -> {
-            myManager.TokenRequestGeneration(InputFilePath);
+            myManager.generate(InputFilePath);
         });
         assertEquals(expectedMessage, ex.getMessage());
     }
@@ -43,7 +43,7 @@ public class TokenRequestGenerationTest {
     @ParameterizedTest(name = "{index} -with the input ''{0}'' output expected is ''{1}''")
     @CsvFileSource(resources = "/validTestCasesRequestGenerationTest.csv")
     void ValidTestCases(String InputFilePath, String Result) throws TokenManagementException {
-        String myResult = myManager.TokenRequestGeneration(InputFilePath);
+        String myResult = myManager.generate(InputFilePath);
         assertEquals(Result, myResult);
     }
 }
