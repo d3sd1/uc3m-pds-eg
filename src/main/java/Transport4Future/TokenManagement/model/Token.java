@@ -14,11 +14,12 @@
 package Transport4Future.TokenManagement.model;
 
 import Transport4Future.TokenManagement.database.RegexDatabase;
+import Transport4Future.TokenManagement.exception.JsonIncorrectRepresentationException;
 import Transport4Future.TokenManagement.exception.NullPatternException;
 import Transport4Future.TokenManagement.exception.TokenManagementException;
 import Transport4Future.TokenManagement.model.skeleton.DeserializationConstraintChecker;
 import Transport4Future.TokenManagement.service.PatternChecker;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.text.DateFormat;
@@ -26,41 +27,21 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Token implements DeserializationConstraintChecker {
-    @JsonIgnore
     private final String alg;
-    @JsonIgnore
     private final String typ;
-    @JsonIgnore
     private final long iat;
-    @JsonIgnore
     private final long exp;
-    @JsonProperty("Token Request")
-    private String device;
-    @JsonProperty("Request Date")
-    private String requestDate;
-    @JsonProperty("Notification e-mail")
-    private String notificationEmail;
-    @JsonIgnore
+    private final String device;
+    private final String requestDate;
+    private final String notificationEmail;
     private String signature;
-    @JsonIgnore
     private String tokenValue;
 
-    public Token() {
-        this.alg = "HS256";
-        this.typ = "PDS";
-//		this.iat = System.currentTimeMillis();
-        // SOLO PARA PRUEBAS
-        this.iat = 1584523340892l;
-        if ((this.device.startsWith("5"))) {
-            this.exp = this.iat + 604800000l;
-        } else {
-            this.exp = this.iat + 65604800000l;
-        }
-        this.signature = null;
-        this.tokenValue = null;
-    }
-
-    public Token(String Device, String RequestDate, String NotificationEmail) {
+    @JsonCreator
+    public Token(
+            @JsonProperty(required = true, value = "Token Request") String Device,
+            @JsonProperty(required = true, value = "Request Date") String RequestDate,
+            @JsonProperty(required = true, value = "Notification e-mail") String NotificationEmail) {
         this.alg = "HS256";
         this.typ = "PDS";
         this.device = Device;
@@ -134,7 +115,29 @@ public class Token implements DeserializationConstraintChecker {
     }
 
     @Override
-    public boolean areConstraintsPassed() throws TokenManagementException, NullPatternException {
+    public String toString() {
+        return "Token{" +
+                "alg='" + alg + '\'' +
+                ", typ='" + typ + '\'' +
+                ", iat=" + iat +
+                ", exp=" + exp +
+                ", device='" + device + '\'' +
+                ", requestDate='" + requestDate + '\'' +
+                ", notificationEmail='" + notificationEmail + '\'' +
+                ", signature='" + signature + '\'' +
+                ", tokenValue='" + tokenValue + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean areConstraintsPassed() throws TokenManagementException, NullPatternException, JsonIncorrectRepresentationException {
+
+        if (this.getDevice() == null
+                || this.getNotificationEmail() == null
+                || this.getRequestDate() == null) {
+            throw new JsonIncorrectRepresentationException();
+        }
+
         PatternChecker patternChecker = new PatternChecker();
         if (!patternChecker.checkRegex(this.getDevice(), RegexDatabase.DEVICE)) {
             throw new TokenManagementException("Error: invalid Device in token request.");

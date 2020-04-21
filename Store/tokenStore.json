@@ -1,0 +1,13 @@
+[
+  {
+    "alg": "HS256",
+    "typ": "PDS",
+    "iat": 1584523340892,
+    "exp": 1585128140892,
+    "device": "57659bb0978d410b3b78a892c604ccb4",
+    "requestDate": "29-02-2020 00:00:00",
+    "notificationEmail": "autonomous@vehicle.com",
+    "signature": "6525126341c3bd973bdbfbd53536511d452981d3abb6e065f19cf3be3cbcd713",
+    "tokenValue": "QWxnPUhTMjU2XG4gVHlwPVBEU1xuRGV2PTU3NjU5YmIwOTc4ZDQxMGIzYjc4YTg5MmM2MDRjY2I0XG4gaWF0PTE4LTAzLTIwMjAgMTA6MjI6MjBcbiBleHA9MjUtMDMtMjAyMCAxMDoyMjoyMDY1MjUxMjYzNDFjM2JkOTczYmRiZmJkNTM1MzY1MTFkNDUyOTgxZDNhYmI2ZTA2NWYxOWNmM2JlM2NiY2Q3MTM="
+  }
+]

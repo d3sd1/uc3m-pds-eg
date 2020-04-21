@@ -12,7 +12,7 @@
 "./TestData/TokenRequestTest/WithWrongFinalLabelComillas.json", "Error: JSON object cannot be created due to incorrect representation", "File With Wrong Final Label Quotation Marks"
 "./TestData/TokenRequestTest/WithoutLabel.json", "Error: JSON object cannot be created due to incorrect representation", "File Without Label in a Pair"
 "./TestData/TokenRequestTest/WithTwoLabels.json", "Error: JSON object cannot be created due to incorrect representation", "File With Two Labels in a Pair"
-"./TestData/TokenRequestTest/WithWrongTokenRequestLabel.json", "Error: invalid input data in JSON structure.", "File With Wrong Token Request Label"
+"./TestData/TokenRequestTest/WithWrongTokenRequestLabel.json", "Error: JSON object cannot be created due to incorrect representation", "File With Wrong Token Request Label"
 "./TestData/TokenRequestTest/WithWrongNotificationMailLabel.json", "Error: invalid input data in JSON structure.", "File With Wrong Notification Mail Label"
 "./TestData/TokenRequestTest/WithWrongRequestDateLabel.json", "Error: invalid input data in JSON structure.", "File With Wrong Request Date Label"
 "./TestData/TokenRequestTest/WithoutEqualSymbol.json", "Error: JSON object cannot be created due to incorrect representation", "File Without Equal Symbol"

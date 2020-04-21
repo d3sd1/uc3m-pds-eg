@@ -24,6 +24,7 @@ import Transport4Future.TokenManagement.model.Token;
 import Transport4Future.TokenManagement.model.TokenRequest;
 import Transport4Future.TokenManagement.service.FileManager;
 import Transport4Future.TokenManagement.service.HashManager;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -117,7 +118,7 @@ public class TokenManager implements ITokenManagement {
     }
 
     public String request(String inputFile) throws TokenManagementException {
-        Token token;
+        Token token = null;
         String encodedTokenRequest = "";
 
         FileManager fileManager = new FileManager();
@@ -129,22 +130,19 @@ public class TokenManager implements ITokenManagement {
         } catch (FileNotFoundException e) {
             throw new TokenManagementException("Error: input file not found.");
         } catch (UnrecognizedPropertyException e) {
-            e.printStackTrace();
             throw new TokenManagementException("Error: invalid input data in JSON structure.");
+        } catch (JsonMappingException e) {
+            throw new TokenManagementException("Error: JSON object cannot be created due to incorrect representation");
         } catch (IOException e) {
-            // CUANDO JsonMappingException debe mostrar mensajes especificos
-            System.out.println("CLASS " + e.getClass());
-            e.printStackTrace();
             throw new TokenManagementException("Error: JSON object cannot be created due to incorrect representation");
         } catch (JsonConstraintsException pe) {
             throw new TokenManagementException("Error: invalid input data in JSON structure.");
-        } catch (Exception e) {
+        } catch (JsonIncorrectRepresentationException e) {
             e.printStackTrace();
-            throw new TokenManagementException("???" + e.getClass());
+        } catch (NullPatternException e) {
+            e.printStackTrace();
         }
 
-        //TODO: esto para algo?
-        /*
 
         //Generar un HashMap para guardar los objetos
         Gson gson = new Gson();
@@ -164,10 +162,10 @@ public class TokenManager implements ITokenManagement {
         }
         if (clonedMap == null) {
             throw new TokenManagementException("Error: Token Request Not Previously Registered");
-        } else if (!clonedMap.containsKey(TokenToVerify.getDevice())) {
+        } else if (!clonedMap.containsKey(token.getDevice())) {
             throw new TokenManagementException("Error: Token Request Not Previously Registered");
         }
-         */
+
 
         try {
             byte[] sha256 = hashManager.sha256Encode(token.getHeader() + token.getPayload());

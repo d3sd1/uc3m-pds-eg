@@ -115,7 +115,6 @@ public class TokenRequest implements DeserializationConstraintChecker {
         }
 
         if (!patternChecker.checkRegex(this.getMacAddress(), RegexDatabase.MAC_ADDRESS)) {
-            System.out.println("AQUIII " + this);
             throw new TokenManagementException("Error: invalid MAC Address data in JSON structure.");
         }
 
