@@ -11,7 +11,7 @@
  * All rights reserved.
  */
 
-package Transport4Future.TokenManagement;
+package Transport4Future.TokenManagement.exception;
 
 public class TokenManagementException extends Exception {
     private static final long serialVersionUID = 1L;

@@ -11,7 +11,7 @@
  * All rights reserved.
  */
 
-package Transport4Future.TokenManagement;
+package Transport4Future.TokenManagement.model;
 
 public class TokenRequest {
 

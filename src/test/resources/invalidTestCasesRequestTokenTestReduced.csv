@@ -65,5 +65,5 @@
 "./TestData/TokenRequestTest/WrongRequestDateInvalidSecond.json", "Error: invalid date data in JSON structure.", "File Including a Request Date with an Invalid Second"
 "./TestData/TokenRequestTest/WithoutSeparatorSymbol.json", "Error: JSON object cannot be created due to incorrect representation", "File Without Separator Symbol"
 "./TestData/TokenRequestTest/WithTwoSeparatorSymbol.json", "Error: JSON object cannot be created due to incorrect representation", "File With Two Separator Symbol"
-"./TestData/TokenRequestTest/WithSeparatorAtTheEnd.json", "Error: JSON object cannot be created due to incorrect representation", "File With Separator After Request Date"
+"./TestData/TokenRequestTest/WithSeparatorAtTheEnd.json", "Error: invalid date data in JSON structure.", "File With Separator After Request Date"
 "./TestData/TokenRequestTest/WithSeparatorSymbol.json", "Error: JSON object cannot be created due to incorrect representation", "File With Wrong Separator Symbol"

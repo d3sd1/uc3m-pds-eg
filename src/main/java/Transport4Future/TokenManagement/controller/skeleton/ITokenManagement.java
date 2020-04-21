@@ -11,7 +11,9 @@
  * All rights reserved.
  */
 
-package Transport4Future.TokenManagement;
+package Transport4Future.TokenManagement.controller.skeleton;
+
+import Transport4Future.TokenManagement.exception.TokenManagementException;
 
 public interface ITokenManagement {
 
