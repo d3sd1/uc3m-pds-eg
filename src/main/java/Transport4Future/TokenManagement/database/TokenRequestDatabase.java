@@ -13,23 +13,18 @@
 
 package Transport4Future.TokenManagement.database;
 
+import Transport4Future.TokenManagement.config.Constants;
 import Transport4Future.TokenManagement.database.skeleton.Database;
 import Transport4Future.TokenManagement.exception.TokenManagementException;
 import Transport4Future.TokenManagement.model.Token;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.stream.JsonReader;
+import Transport4Future.TokenManagement.model.TokenRequest;
+import Transport4Future.TokenManagement.service.FileManager;
 
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 public class TokenRequestDatabase implements Database {
 
     private static TokenRequestDatabase tokenDatabase;
-    private List<Token> tokensList;
 
     private TokenRequestDatabase() {
 
@@ -42,49 +37,36 @@ public class TokenRequestDatabase implements Database {
         return tokenDatabase;
     }
 
-    private void load() {
-        try {
-            JsonReader reader = new JsonReader(new FileReader(System.getProperty("user.dir") + "/Store/tokenStore.json"));
-            Gson gson = new Gson();
-            Token[] myArray = gson.fromJson(reader, Token[].class);
-            this.tokensList = new ArrayList<Token>();
-            for (Token token : myArray) {
-                this.tokensList.add(token);
-            }
-        } catch (Exception ex) {
-            this.tokensList = new ArrayList<Token>();
+    public void add(TokenRequest tokenRequest, String hex) throws TokenManagementException {
+        FileManager fileManager = new FileManager();
+        HashMap<String, TokenRequest> clonedMap = this.getStore();
+        if (!clonedMap.containsKey(hex)) {
+            clonedMap.put(hex, tokenRequest);
         }
-    }
 
-    public void add(Token newToken) throws TokenManagementException {
-        this.load();
-        if (find(newToken.getTokenValue()) == null) {
-            tokensList.add(newToken);
-            this.save();
-        }
-    }
-
-    private void save() throws TokenManagementException {
-        Gson gson = new GsonBuilder().disableHtmlEscaping().create();
-        String jsonString = gson.toJson(this.tokensList);
-        FileWriter fileWriter;
         try {
-            fileWriter = new FileWriter(System.getProperty("user.dir") + "/Store/tokenStore.json");
-            fileWriter.write(jsonString);
-            fileWriter.close();
-        } catch (IOException e) {
+            fileManager.writeObjectToJsonFile(Constants.TOKEN_REQUEST_STORAGE_PATH, clonedMap);
+        } catch (Exception e) {
             throw new TokenManagementException("Error: Unable to save a new token in the internal licenses store");
         }
     }
 
-    public Token find(String tokenToFind) {
-        Token result = null;
-        this.load();
-        for (Token token : this.tokensList) {
-            if (token.getTokenValue().equals(tokenToFind)) {
-                result = token;
-            }
+    public void has(Token token) throws TokenManagementException {
+        HashMap<String, TokenRequest> clonedMap = this.getStore();
+        if (clonedMap == null || !clonedMap.containsKey(token.getDevice())) {
+            throw new TokenManagementException("Error: Token Request Not Previously Registered");
         }
-        return result;
+    }
+
+    private HashMap<String, TokenRequest> getStore() throws TokenManagementException {
+        FileManager fileManager = new FileManager();
+        HashMap<String, TokenRequest> clonedMap = new HashMap<>();
+        try {
+            fileManager.createPathRecursive(Constants.STORAGE_PATH);
+            clonedMap = fileManager.readJsonFile(Constants.TOKEN_REQUEST_STORAGE_PATH, HashMap.class);
+        } catch (Exception e) {
+            throw new TokenManagementException("Error: unable to recover Token Requests Store.");
+        }
+        return clonedMap;
     }
 }

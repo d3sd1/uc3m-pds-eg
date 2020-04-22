@@ -14,13 +14,12 @@
 package Transport4Future.TokenManagement.model;
 
 import Transport4Future.TokenManagement.database.RegexDatabase;
-import Transport4Future.TokenManagement.exception.JsonIncorrectRepresentationException;
-import Transport4Future.TokenManagement.exception.NullPatternException;
 import Transport4Future.TokenManagement.exception.TokenManagementException;
 import Transport4Future.TokenManagement.model.skeleton.DeserializationConstraintChecker;
 import Transport4Future.TokenManagement.service.PatternChecker;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.JsonMappingException;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -130,12 +129,12 @@ public class Token implements DeserializationConstraintChecker {
     }
 
     @Override
-    public boolean areConstraintsPassed() throws TokenManagementException, NullPatternException, JsonIncorrectRepresentationException {
+    public boolean areConstraintsPassed() throws TokenManagementException, JsonMappingException {
 
         if (this.getDevice() == null
                 || this.getNotificationEmail() == null
                 || this.getRequestDate() == null) {
-            throw new JsonIncorrectRepresentationException();
+            throw new JsonMappingException("Values can't be null on Token.");
         }
 
         PatternChecker patternChecker = new PatternChecker();

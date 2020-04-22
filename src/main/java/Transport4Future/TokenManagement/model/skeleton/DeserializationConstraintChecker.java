@@ -13,10 +13,9 @@
 
 package Transport4Future.TokenManagement.model.skeleton;
 
-import Transport4Future.TokenManagement.exception.JsonIncorrectRepresentationException;
-import Transport4Future.TokenManagement.exception.NullPatternException;
 import Transport4Future.TokenManagement.exception.TokenManagementException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 
 public interface DeserializationConstraintChecker {
-    boolean areConstraintsPassed() throws TokenManagementException, JsonIncorrectRepresentationException, NullPatternException;
+    boolean areConstraintsPassed() throws TokenManagementException, JsonMappingException;
 }

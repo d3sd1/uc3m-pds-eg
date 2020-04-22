@@ -24,5 +24,5 @@
 "./TestData/TokenRequestGenerationTest/FilelargeSerialNumber.json", "Error: invalid String length for serial number.", "File with empty Serial Number"
 "./TestData/TokenRequestGenerationTest/FileInvalidMACAddress.json", "Error: invalid MAC Address data in JSON structure.", "File with empty MAC Address"
 "./TestData/TokenRequestGenerationTest/NonExistingFile.json", "Error: input file not found.", "Non existing file"
-"./TestData/TokenRequestGenerationTest/EmptyFile.json", "Error: JSON object cannot be created due to incorrect representation", "Empty File"
+"./TestData/TokenRequestGenerationTest/EmptyFile.json", "Error: invalid input data in JSON structure.", "Empty File"
 "./TestData/TokenRequestGenerationTest/NonJSONFile.json", "Error: JSON object cannot be created due to incorrect representation", "File without JSON Format"

@@ -29,25 +29,25 @@ public class PatternChecker {
         return this.checkLengthBetween(toCheck, 0, maxLength);
     }
 
-    public boolean checkLengthBetween(String toCheck, int minLength, int maxLength) throws NullPatternException {
+    public boolean checkLengthBetween(String toCheck, int minLength, int maxLength) {
         if (toCheck == null) {
-            throw new NullPatternException();
+            return false;
         }
         final int length = toCheck.length();
         return length >= minLength && length <= maxLength;
     }
 
-    public boolean checkRegex(String toCheck, String regex) throws PatternSyntaxException, NullPatternException {
+    public boolean checkRegex(String toCheck, String regex) throws PatternSyntaxException {
         if (toCheck == null || regex == null) {
-            throw new NullPatternException();
+            return false;
         }
         Pattern serialNumberPattern = Pattern.compile(regex);
         return serialNumberPattern.matcher(toCheck).matches();
     }
 
-    public boolean checkValueInAccepted(String value, String... accepted) throws NullPatternException {
+    public boolean checkValueInAccepted(String value, String... accepted) {
         if (value == null || accepted == null) {
-            throw new NullPatternException();
+            return false;
         }
         Optional<String> optional = Arrays.stream(accepted)
                 .filter(x -> x.equalsIgnoreCase(value))

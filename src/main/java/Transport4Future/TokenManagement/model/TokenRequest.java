@@ -14,13 +14,12 @@
 package Transport4Future.TokenManagement.model;
 
 import Transport4Future.TokenManagement.database.RegexDatabase;
-import Transport4Future.TokenManagement.exception.JsonIncorrectRepresentationException;
-import Transport4Future.TokenManagement.exception.NullPatternException;
 import Transport4Future.TokenManagement.exception.TokenManagementException;
 import Transport4Future.TokenManagement.model.skeleton.DeserializationConstraintChecker;
 import Transport4Future.TokenManagement.service.PatternChecker;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.JsonMappingException;
 
 public class TokenRequest implements DeserializationConstraintChecker {
     private final String deviceName;
@@ -81,7 +80,7 @@ public class TokenRequest implements DeserializationConstraintChecker {
     }
 
     @Override
-    public boolean areConstraintsPassed() throws TokenManagementException, JsonIncorrectRepresentationException, NullPatternException {
+    public boolean areConstraintsPassed() throws TokenManagementException, JsonMappingException {
 
         if (this.getDeviceName() == null
                 || this.getDriverVersion() == null
@@ -90,7 +89,7 @@ public class TokenRequest implements DeserializationConstraintChecker {
                 || this.getTypeOfDevice() == null
                 || this.getMacAddress() == null
         ) {
-            throw new JsonIncorrectRepresentationException();
+            throw new JsonMappingException("Values can't be null on TokenRequest.");
         }
         PatternChecker patternChecker = new PatternChecker();
         if (!patternChecker.checkLengthBetween(this.getDeviceName(), 1, 20)) {
