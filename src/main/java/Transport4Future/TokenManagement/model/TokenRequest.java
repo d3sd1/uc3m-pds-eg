@@ -13,7 +13,7 @@
 
 package Transport4Future.TokenManagement.model;
 
-import Transport4Future.TokenManagement.database.RegexDatabase;
+import Transport4Future.TokenManagement.config.RegexConstants;
 import Transport4Future.TokenManagement.exception.TokenManagementException;
 import Transport4Future.TokenManagement.model.skeleton.DeserializationConstraintChecker;
 import Transport4Future.TokenManagement.service.PatternChecker;
@@ -96,24 +96,24 @@ public class TokenRequest implements DeserializationConstraintChecker {
             throw new TokenManagementException("Error: invalid String length for device name.");
         }
 
-        if (!patternChecker.checkRegex(this.getSerialNumber(), RegexDatabase.SERIAL_NUMBER)) {
+        if (!patternChecker.checkRegex(this.getSerialNumber(), RegexConstants.SERIAL_NUMBER)) {
             throw new TokenManagementException("Error: invalid String length for serial number.");
         }
 
         if (!patternChecker.checkLengthBetween(this.getDriverVersion(), 1, 25)
-                || !patternChecker.checkRegex(this.getDriverVersion(), RegexDatabase.DRIVER_VERSION)) {
+                || !patternChecker.checkRegex(this.getDriverVersion(), RegexConstants.DRIVER_VERSION)) {
             throw new TokenManagementException("Error: invalid String length for driver version.");
         }
 
-        if (!patternChecker.checkRegex(this.getSupportEMail(), RegexDatabase.EMAIL_RFC822)) {
+        if (!patternChecker.checkRegex(this.getSupportEMail(), RegexConstants.EMAIL_RFC822)) {
             throw new TokenManagementException("Error: invalid E-mail data in JSON structure.");
         }
 
-        if (!patternChecker.checkValueInAccepted(this.getTypeOfDevice(), RegexDatabase.VALID_TYPE_OF_DEVICE)) {
+        if (!patternChecker.checkValueInAccepted(this.getTypeOfDevice(), RegexConstants.VALID_TYPE_OF_DEVICE)) {
             throw new TokenManagementException("Error: invalid type of sensor.");
         }
 
-        if (!patternChecker.checkRegex(this.getMacAddress(), RegexDatabase.MAC_ADDRESS)) {
+        if (!patternChecker.checkRegex(this.getMacAddress(), RegexConstants.MAC_ADDRESS)) {
             throw new TokenManagementException("Error: invalid MAC Address data in JSON structure.");
         }
 

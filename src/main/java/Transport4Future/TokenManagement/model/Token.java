@@ -13,7 +13,7 @@
 
 package Transport4Future.TokenManagement.model;
 
-import Transport4Future.TokenManagement.database.RegexDatabase;
+import Transport4Future.TokenManagement.config.RegexConstants;
 import Transport4Future.TokenManagement.exception.TokenManagementException;
 import Transport4Future.TokenManagement.model.skeleton.DeserializationConstraintChecker;
 import Transport4Future.TokenManagement.service.HashManager;
@@ -148,15 +148,15 @@ public class Token implements DeserializationConstraintChecker {
         }
 
         PatternChecker patternChecker = new PatternChecker();
-        if (!patternChecker.checkRegex(this.getDevice(), RegexDatabase.DEVICE)) {
+        if (!patternChecker.checkRegex(this.getDevice(), RegexConstants.DEVICE)) {
             throw new TokenManagementException("Error: invalid Device in token request.");
         }
 
-        if (!patternChecker.checkRegex(this.getNotificationEmail(), RegexDatabase.EMAIL_RFC822)) {
+        if (!patternChecker.checkRegex(this.getNotificationEmail(), RegexConstants.EMAIL_RFC822)) {
             throw new TokenManagementException("Error: invalid E-mail data in JSON structure.");
         }
 
-        if (!patternChecker.checkRegex(this.getRequestDate(), RegexDatabase.JSON_DATE_FORMAT)) {
+        if (!patternChecker.checkRegex(this.getRequestDate(), RegexConstants.JSON_DATE_FORMAT)) {
             throw new TokenManagementException("Error: invalid date data in JSON structure.");
         }
 
