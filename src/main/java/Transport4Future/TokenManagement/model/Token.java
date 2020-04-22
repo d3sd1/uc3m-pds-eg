@@ -16,13 +16,16 @@ package Transport4Future.TokenManagement.model;
 import Transport4Future.TokenManagement.database.RegexDatabase;
 import Transport4Future.TokenManagement.exception.TokenManagementException;
 import Transport4Future.TokenManagement.model.skeleton.DeserializationConstraintChecker;
+import Transport4Future.TokenManagement.service.HashManager;
 import Transport4Future.TokenManagement.service.PatternChecker;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
+import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.Date;
 
 public class Token implements DeserializationConstraintChecker {
@@ -105,8 +108,15 @@ public class Token implements DeserializationConstraintChecker {
         return this.tokenValue;
     }
 
-    public void setTokenValue(String value) {
-        this.tokenValue = value;
+
+    public void encodeValue() throws NoSuchAlgorithmException {
+        HashManager hashManager = new HashManager();
+        byte[] sha256 = hashManager.sha256Encode(this.getHeader() + this.getPayload());
+        String hex = hashManager.getSha256Hex(sha256);
+        this.setSignature(hex);
+        String stringToEncode = this.getHeader() + this.getPayload() + this.getSignature();
+        String encodedString = Base64.getUrlEncoder().encodeToString(stringToEncode.getBytes());
+        this.tokenValue = encodedString;
     }
 
     public boolean isValid() {

@@ -44,3 +44,4 @@
 - Se ha adaptado para permitir el uso con Java 8 o superior.
 - Se han usado operadores diamond/lambda.
 - Se han usado argumentos de tamaño variable.
+- Refactorizados y agregados toString, Hashing, etc a todos los objetos modelo.

@@ -27,7 +27,6 @@ import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
 
 
 /**
@@ -69,20 +68,23 @@ public class TokenController implements TokenManager {
         } catch (Exception e) {
             throw new TokenManagementException("Error: could not encode token request.");
         }
+
         tokenRequestDatabase.add(tokenRequest, hex);
 
         return hex;
     }
 
     /**
-     * @param inputFile
-     * @return
-     * @throws TokenManagementException
+     * This method requests a token to access api after getting the tokenRequest.
+     *
+     * @param inputFile File path to retrieve a valid Token file. If not valid, see @throws.
+     * @return Encoded token value.
+     * @throws TokenManagementException with specific message based on cases.
+     * @throws TokenManagementException nested, from other project sides instead catching 'em.
      */
     public String request(String inputFile) throws TokenManagementException {
         Token token;
         FileManager fileManager = new FileManager();
-        HashManager hashManager = new HashManager();
         TokenRequestDatabase tokenRequestDatabase = TokenRequestDatabase.getInstance();
 
         try {
@@ -95,16 +97,10 @@ public class TokenController implements TokenManager {
             throw new TokenManagementException("Error: JSON object cannot be created due to incorrect representation");
         }
 
-
         tokenRequestDatabase.has(token);
 
         try {
-            byte[] sha256 = hashManager.sha256Encode(token.getHeader() + token.getPayload());
-            String hex = hashManager.getSha256Hex(sha256);
-            token.setSignature(hex);
-            String stringToEncode = token.getHeader() + token.getPayload() + token.getSignature();
-            String encodedString = Base64.getUrlEncoder().encodeToString(stringToEncode.getBytes());
-            token.setTokenValue(encodedString);
+            token.encodeValue();
             TokenDatabase myStore = TokenDatabase.getInstance();
             myStore.add(token);
         } catch (NoSuchAlgorithmException e) {
@@ -118,9 +114,10 @@ public class TokenController implements TokenManager {
 
 
     /**
+     * This method verifies that a token is valid, not expired and stored in database.
      * @param encodedToken
-     * @return
-     * @throws TokenManagementException
+     * @return Wetter is valid or not.
+     * @throws TokenManagementException If there is a crash during the verification.
      */
     public boolean verify(String encodedToken) throws TokenManagementException {
         Token tokenFound = TokenDatabase.getInstance().find(encodedToken);
