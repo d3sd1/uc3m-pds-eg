@@ -1,9 +1,8 @@
 Transport4Future
 Transport4Future.TokenManagement
+Transport4Future.TokenManagement.config
 Transport4Future.TokenManagement.controller
-Transport4Future.TokenManagement.controller.skeleton
 Transport4Future.TokenManagement.database
-Transport4Future.TokenManagement.database.skeleton
 Transport4Future.TokenManagement.exception
 Transport4Future.TokenManagement.model
 Transport4Future.TokenManagement.model.skeleton
