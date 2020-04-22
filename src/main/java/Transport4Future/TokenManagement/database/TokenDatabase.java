@@ -13,15 +13,13 @@
 
 package Transport4Future.TokenManagement.database;
 
-import Transport4Future.TokenManagement.database.skeleton.Database;
+import Transport4Future.TokenManagement.config.Constants;
 import Transport4Future.TokenManagement.exception.TokenManagementException;
 import Transport4Future.TokenManagement.model.Token;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.stream.JsonReader;
+import Transport4Future.TokenManagement.model.skeleton.Database;
+import Transport4Future.TokenManagement.service.FileManager;
+import com.fasterxml.jackson.core.type.TypeReference;
 
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,19 +36,23 @@ public class TokenDatabase implements Database {
     public static TokenDatabase getInstance() {
         if (tokenDatabase == null) {
             tokenDatabase = new TokenDatabase();
+            FileManager fileManager = new FileManager();
+            try {
+                fileManager.createPathRecursive(Constants.STORAGE_PATH);
+                fileManager.createJsonFileIfNotExists(Constants.TOKEN_STORAGE_FILE, new TypeReference<List<Token>>() {
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return tokenDatabase;
     }
 
     private void load() {
         try {
-            JsonReader reader = new JsonReader(new FileReader(System.getProperty("user.dir") + "/Store/tokenStore.json"));
-            Gson gson = new Gson();
-            Token[] myArray = gson.fromJson(reader, Token[].class);
-            this.tokensList = new ArrayList<Token>();
-            for (Token token : myArray) {
-                this.tokensList.add(token);
-            }
+            FileManager fileManager = new FileManager();
+            this.tokensList = fileManager.readJsonFile(Constants.TOKEN_STORAGE_FILE, new TypeReference<List<Token>>() {
+            });
         } catch (Exception ex) {
             this.tokensList = new ArrayList<Token>();
         }
@@ -65,14 +67,11 @@ public class TokenDatabase implements Database {
     }
 
     private void save() throws TokenManagementException {
-        Gson gson = new GsonBuilder().disableHtmlEscaping().create();
-        String jsonString = gson.toJson(this.tokensList);
-        FileWriter fileWriter;
         try {
-            fileWriter = new FileWriter(System.getProperty("user.dir") + "/Store/tokenStore.json");
-            fileWriter.write(jsonString);
-            fileWriter.close();
+            FileManager fileManager = new FileManager();
+            fileManager.writeObjectToJsonFile(Constants.TOKEN_STORAGE_FILE, this.tokensList);
         } catch (IOException e) {
+            e.printStackTrace();
             throw new TokenManagementException("Error: Unable to save a new token in the internal licenses store");
         }
     }
@@ -80,6 +79,8 @@ public class TokenDatabase implements Database {
     public Token find(String tokenToFind) {
         Token result = null;
         this.load();
+        System.out.println("TO FIND: " + tokenToFind);
+        System.out.println("TOKENS " + this.tokensList);
         for (Token token : this.tokensList) {
             if (token.getTokenValue().equals(tokenToFind)) {
                 result = token;

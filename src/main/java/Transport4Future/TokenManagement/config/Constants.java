@@ -15,5 +15,6 @@ package Transport4Future.TokenManagement.config;
 
 public class Constants {
     public static final String STORAGE_PATH = System.getProperty("user.dir") + "/Store";
-    public static final String TOKEN_REQUEST_STORAGE_PATH = STORAGE_PATH + "/tokenRequestsStore.json";
+    public static final String TOKEN_REQUEST_STORAGE_FILE = STORAGE_PATH + "/tokenRequestsStore.json";
+    public static final String TOKEN_STORAGE_FILE = STORAGE_PATH + "/tokenStore.json";
 }

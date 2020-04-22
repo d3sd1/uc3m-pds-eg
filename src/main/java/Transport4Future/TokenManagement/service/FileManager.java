@@ -15,7 +15,10 @@ package Transport4Future.TokenManagement.service;
 
 import Transport4Future.TokenManagement.exception.TokenManagementException;
 import Transport4Future.TokenManagement.model.skeleton.DeserializationConstraintChecker;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -38,6 +41,14 @@ public class FileManager {
         return fileContents.toString();
     }
 
+    public <T> T readJsonFile(String filePath, TypeReference<?> typeReference) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.readValue(
+                this.readFile(filePath),
+                typeReference
+        );
+    }
+
     public <T> T readJsonFile(String filePath, Class<T> deserializeClass) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(this.readFile(filePath), deserializeClass);
@@ -45,18 +56,21 @@ public class FileManager {
 
     public <T> void writeObjectToJsonFile(String filePath, T content) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.writeValue(new File(filePath), content);
+        ObjectWriter writer = objectMapper.writer(new DefaultPrettyPrinter());
+        writer.writeValue(new File(filePath), content);
     }
 
     public <T extends DeserializationConstraintChecker> T readJsonFileWithConstraints(String filePath, Class<T> deserializeClass) throws IOException, TokenManagementException {
         T obj = this.readJsonFile(filePath, deserializeClass);
         obj.areConstraintsPassed();
-
-
         return obj;
     }
 
-    public boolean createPathRecursive(String filePath) {
-        return new File(filePath).mkdirs();
+    public boolean createPathRecursive(String path) {
+        return new File(path).mkdirs();
+    }
+
+    public <T> void createJsonFileIfNotExists(String filePath, T content) throws IOException {
+        this.writeObjectToJsonFile(filePath, content);
     }
 }

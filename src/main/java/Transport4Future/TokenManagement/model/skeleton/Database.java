@@ -11,7 +11,7 @@
  * All rights reserved.
  */
 
-package Transport4Future.TokenManagement.database.skeleton;
+package Transport4Future.TokenManagement.model.skeleton;
 
 public interface Database {
     //TODO

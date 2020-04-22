@@ -11,14 +11,12 @@
  * All rights reserved.
  */
 
-package Transport4Future.TokenManagement.controller.skeleton;
+package Transport4Future.TokenManagement.model.skeleton;
 
 import Transport4Future.TokenManagement.exception.TokenManagementException;
 
 public interface ITokenManagement {
     String generate(String InputFile) throws TokenManagementException;
-
     String request(String InputFile) throws TokenManagementException;
-
     boolean verify(String Token) throws TokenManagementException;
 }

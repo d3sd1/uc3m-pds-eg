@@ -13,12 +13,12 @@
 
 package Transport4Future.TokenManagement.controller;
 
-import Transport4Future.TokenManagement.controller.skeleton.ITokenManagement;
 import Transport4Future.TokenManagement.database.TokenDatabase;
 import Transport4Future.TokenManagement.database.TokenRequestDatabase;
 import Transport4Future.TokenManagement.exception.TokenManagementException;
 import Transport4Future.TokenManagement.model.Token;
 import Transport4Future.TokenManagement.model.TokenRequest;
+import Transport4Future.TokenManagement.model.skeleton.ITokenManagement;
 import Transport4Future.TokenManagement.service.FileManager;
 import Transport4Future.TokenManagement.service.HashManager;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -58,7 +58,6 @@ public class TokenManager implements ITokenManagement {
         } catch (Exception e) {
             throw new TokenManagementException("Error: could not encode token request.");
         }
-
         tokenRequestDatabase.add(tokenRequest, hex);
 
         return hex;
@@ -95,6 +94,7 @@ public class TokenManager implements ITokenManagement {
         } catch (NoSuchAlgorithmException e) {
             throw new TokenManagementException("Error: no such hashing algorithm.");
         } catch (Exception e) {
+            e.printStackTrace();
             throw new TokenManagementException("Error: could not encode token request.");
         }
 

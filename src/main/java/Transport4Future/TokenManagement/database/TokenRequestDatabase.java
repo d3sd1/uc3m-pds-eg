@@ -14,12 +14,14 @@
 package Transport4Future.TokenManagement.database;
 
 import Transport4Future.TokenManagement.config.Constants;
-import Transport4Future.TokenManagement.database.skeleton.Database;
 import Transport4Future.TokenManagement.exception.TokenManagementException;
 import Transport4Future.TokenManagement.model.Token;
 import Transport4Future.TokenManagement.model.TokenRequest;
+import Transport4Future.TokenManagement.model.skeleton.Database;
 import Transport4Future.TokenManagement.service.FileManager;
+import com.fasterxml.jackson.core.type.TypeReference;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 public class TokenRequestDatabase implements Database {
@@ -33,6 +35,13 @@ public class TokenRequestDatabase implements Database {
     public static TokenRequestDatabase getInstance() {
         if (tokenDatabase == null) {
             tokenDatabase = new TokenRequestDatabase();
+            FileManager fileManager = new FileManager();
+            try {
+                fileManager.createPathRecursive(Constants.STORAGE_PATH);
+                fileManager.createJsonFileIfNotExists(Constants.TOKEN_REQUEST_STORAGE_FILE, new HashMap<>());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return tokenDatabase;
     }
@@ -45,8 +54,9 @@ public class TokenRequestDatabase implements Database {
         }
 
         try {
-            fileManager.writeObjectToJsonFile(Constants.TOKEN_REQUEST_STORAGE_PATH, clonedMap);
+            fileManager.writeObjectToJsonFile(Constants.TOKEN_REQUEST_STORAGE_FILE, clonedMap);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new TokenManagementException("Error: Unable to save a new token in the internal licenses store");
         }
     }
@@ -60,11 +70,12 @@ public class TokenRequestDatabase implements Database {
 
     private HashMap<String, TokenRequest> getStore() throws TokenManagementException {
         FileManager fileManager = new FileManager();
-        HashMap<String, TokenRequest> clonedMap = new HashMap<>();
+        HashMap<String, TokenRequest> clonedMap;
         try {
-            fileManager.createPathRecursive(Constants.STORAGE_PATH);
-            clonedMap = fileManager.readJsonFile(Constants.TOKEN_REQUEST_STORAGE_PATH, HashMap.class);
+            clonedMap = fileManager.readJsonFile(Constants.TOKEN_REQUEST_STORAGE_FILE, new TypeReference<HashMap<String, TokenRequest>>() {
+            });
         } catch (Exception e) {
+            e.printStackTrace();
             throw new TokenManagementException("Error: unable to recover Token Requests Store.");
         }
         return clonedMap;
