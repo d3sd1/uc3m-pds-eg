@@ -13,6 +13,10 @@
 
 package Transport4Future;
 
+/**
+ * This class would have the entrypoint for our app.
+ * We just let it here to promote scalability, so in case it's needed on the future,
+ * classpath and all packages would be auto configured and scalable.
+ */
 public class App {
-    // Dummy class that simulates app EntryPoint.
 }
