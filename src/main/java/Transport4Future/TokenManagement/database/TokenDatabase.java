@@ -14,6 +14,7 @@
 package Transport4Future.TokenManagement.database;
 
 import Transport4Future.TokenManagement.config.Constants;
+import Transport4Future.TokenManagement.controller.TokenController;
 import Transport4Future.TokenManagement.exception.TokenManagementException;
 import Transport4Future.TokenManagement.model.Token;
 import Transport4Future.TokenManagement.model.skeleton.Database;
@@ -89,5 +90,10 @@ public class TokenDatabase extends Database<List<Token>, Token> {
         } catch (Exception ex) {
             this.inMemoryDb = new ArrayList<Token>();
         }
+    }
+
+    @Override
+    public TokenController clone() throws CloneNotSupportedException {
+        throw new CloneNotSupportedException();
     }
 }

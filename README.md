@@ -30,7 +30,10 @@
 - Se han abstraido los métodos para que cumplan una función definida y no redundante.
 - Se ha reducido el tamaño de los métodos.
 - Nomenclatura y naming de clases/métodos ajustado.
-
+- Se ha seguido la normativa de código.
+- Subidos XML de ejecución del código de tests satisfactorios.
+- Usado patrón Singleton en TokenManager (-> Renamed to TokenController), TokenRequestsStore (renamed to TokenRequestDatabase) y TokensStore (renamed to TokenDatabase)
+                            
 **Trabajos EXTRA (Práctica 4)**:
 - Se ha refactorizado usando tipos genéricos.
 - Se ha agregado la herramienta de checking SonarCloud mediante integración continua.
@@ -46,5 +49,6 @@
 - Se han usado argumentos de tamaño variable.
 - Refactorizados y agregados toString, Hashing, etc a todos los objetos modelo.
 - Código redundante en tiempo real con el siguiente repositorio: https://github.com/d3sd1/uc3m-pds-eg
-- La calidad de código basada en SonarCloud puede verse mediante el siguiente enlace:  
+- La calidad de código basada en SonarCloud puede verse mediante una exposición, que podemos tener durante cualquier meeting.
 - Revisados errores de seguridad del proyecto.
+- Se ha utilizado Jackson ya que Gson no ofrecía todas las posibilidades requeridas para nuestra casuística, pero se intentó implementar con ello.

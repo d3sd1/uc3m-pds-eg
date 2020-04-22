@@ -28,7 +28,7 @@ class VerifyTokenTest {
     private final TokenController myManager;
 
     public VerifyTokenTest() {
-        myManager = new TokenController();
+        myManager = TokenController.getInstance();
     }
 
     private void resetTokenStore() throws TokenManagementException {

@@ -32,6 +32,18 @@ import java.security.NoSuchAlgorithmException;
  * This class manages tokens, so it's purely a controller that handles actions on Tokens.
  */
 public class TokenController implements TokenManager {
+    private static TokenController instance;
+
+    private TokenController() {
+        super();
+    }
+
+    public static TokenController getInstance() {
+        if (instance == null) {
+            instance = new TokenController();
+        }
+        return instance;
+    }
 
     /**
      * This class generates a TokenRequest, that will be use to
@@ -112,6 +124,7 @@ public class TokenController implements TokenManager {
 
     /**
      * This method verifies that a token is valid, not expired and stored in database.
+     *
      * @param encodedToken
      * @return Wetter is valid or not.
      * @throws TokenManagementException If there is a crash during the verification.
@@ -122,5 +135,10 @@ public class TokenController implements TokenManager {
             return tokenFound.isValid();
         }
         return false;
+    }
+
+    @Override
+    public TokenController clone() throws CloneNotSupportedException {
+        throw new CloneNotSupportedException();
     }
 }

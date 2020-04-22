@@ -28,7 +28,7 @@ class TokenRequestTest {
     private final TokenController myManager;
 
     public TokenRequestTest() {
-        myManager = new TokenController();
+        myManager = TokenController.getInstance();
     }
 
     @DisplayName("Caso de prueba - Eliminación de Llave Inicial")

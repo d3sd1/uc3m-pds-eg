@@ -14,6 +14,7 @@
 package Transport4Future.TokenManagement.database;
 
 import Transport4Future.TokenManagement.config.Constants;
+import Transport4Future.TokenManagement.controller.TokenController;
 import Transport4Future.TokenManagement.exception.TokenManagementException;
 import Transport4Future.TokenManagement.model.Token;
 import Transport4Future.TokenManagement.model.TokenRequest;
@@ -93,6 +94,11 @@ public class TokenRequestDatabase extends Database<HashMap<String, TokenRequest>
         if (this.inMemoryDb == null || !this.inMemoryDb.containsKey(token.getDevice())) {
             throw new TokenManagementException("Error: Token Request Not Previously Registered");
         }
+    }
+
+    @Override
+    public TokenController clone() throws CloneNotSupportedException {
+        throw new CloneNotSupportedException();
     }
 
 }

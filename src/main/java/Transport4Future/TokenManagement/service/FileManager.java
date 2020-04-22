@@ -62,7 +62,7 @@ public class FileManager {
      */
     public <T> T readJsonFile(String filePath, TypeReference<?> typeReference) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.readValue(
+        return (T) objectMapper.readValue(
                 this.readFile(filePath),
                 typeReference
         );
