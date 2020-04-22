@@ -24,67 +24,59 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TokenDatabase implements Database {
-
-    private static TokenDatabase tokenDatabase;
-    private List<Token> tokensList;
+public class TokenDatabase extends Database<List<Token>, Token> {
+    protected static TokenDatabase database;
 
     private TokenDatabase() {
-
+        super();
     }
 
     public static TokenDatabase getInstance() {
-        if (tokenDatabase == null) {
-            tokenDatabase = new TokenDatabase();
-            FileManager fileManager = new FileManager();
-            try {
-                fileManager.createPathRecursive(Constants.STORAGE_PATH);
-                fileManager.createJsonFileIfNotExists(Constants.TOKEN_STORAGE_FILE, new TypeReference<List<Token>>() {
-                });
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        if (database == null) {
+            database = new TokenDatabase();
         }
-        return tokenDatabase;
+        return database;
     }
 
-    private void load() {
-        try {
-            FileManager fileManager = new FileManager();
-            this.tokensList = fileManager.readJsonFile(Constants.TOKEN_STORAGE_FILE, new TypeReference<List<Token>>() {
-            });
-        } catch (Exception ex) {
-            this.tokensList = new ArrayList<Token>();
-        }
-    }
-
+    @Override
     public void add(Token newToken) throws TokenManagementException {
-        this.load();
+        this.reload();
         if (find(newToken.getTokenValue()) == null) {
-            tokensList.add(newToken);
+            this.inMemoryDb.add(newToken);
             this.save();
         }
     }
 
-    private void save() throws TokenManagementException {
+    @Override
+    protected void save() throws TokenManagementException {
         try {
             FileManager fileManager = new FileManager();
-            fileManager.writeObjectToJsonFile(Constants.TOKEN_STORAGE_FILE, this.tokensList);
+            fileManager.writeObjectToJsonFile(Constants.TOKEN_STORAGE_FILE, this.inMemoryDb);
         } catch (IOException e) {
             throw new TokenManagementException("Error: Unable to save a new token in the internal licenses store");
         }
     }
 
+    @Override
     public Token find(String tokenToFind) {
         Token result = null;
-        this.load();
-        System.out.println("TO FIND: " + tokenToFind);
-        System.out.println("TOKENS " + this.tokensList);
-        for (Token token : this.tokensList) {
+        this.reload();
+        for (Token token : this.inMemoryDb) {
             if (token.getTokenValue().equals(tokenToFind)) {
                 result = token;
             }
         }
         return result;
+    }
+
+    @Override
+    protected void reload() {
+        FileManager fileManager = new FileManager();
+        try {
+            this.inMemoryDb = fileManager.readJsonFile(Constants.TOKEN_STORAGE_FILE, new TypeReference<List<Token>>() {
+            });
+        } catch (Exception ex) {
+            this.inMemoryDb = new ArrayList<Token>();
+        }
     }
 }

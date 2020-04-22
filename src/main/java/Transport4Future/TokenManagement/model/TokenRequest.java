@@ -16,10 +16,13 @@ package Transport4Future.TokenManagement.model;
 import Transport4Future.TokenManagement.config.RegexConstants;
 import Transport4Future.TokenManagement.exception.TokenManagementException;
 import Transport4Future.TokenManagement.model.skeleton.DeserializationConstraintChecker;
+import Transport4Future.TokenManagement.service.HashManager;
 import Transport4Future.TokenManagement.service.PatternChecker;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonMappingException;
+
+import java.security.NoSuchAlgorithmException;
 
 public class TokenRequest implements DeserializationConstraintChecker {
     private final String deviceName;
@@ -28,6 +31,7 @@ public class TokenRequest implements DeserializationConstraintChecker {
     private final String supportEMail;
     private final String serialNumber;
     private final String macAddress;
+    private String hex;
 
     @JsonCreator
     public TokenRequest(
@@ -67,6 +71,16 @@ public class TokenRequest implements DeserializationConstraintChecker {
 
     public String getMacAddress() {
         return macAddress;
+    }
+
+    public String updateHex() throws NoSuchAlgorithmException {
+        HashManager hashManager = new HashManager();
+        this.hex = hashManager.getShaMd5Hex(hashManager.md5Encode(this.toString()));
+        return this.hex;
+    }
+
+    public String getHex() {
+        return hex;
     }
 
     @Override

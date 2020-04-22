@@ -20,7 +20,6 @@ import Transport4Future.TokenManagement.model.Token;
 import Transport4Future.TokenManagement.model.TokenRequest;
 import Transport4Future.TokenManagement.model.skeleton.TokenManager;
 import Transport4Future.TokenManagement.service.FileManager;
-import Transport4Future.TokenManagement.service.HashManager;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 
@@ -47,7 +46,6 @@ public class TokenController implements TokenManager {
         byte[] encodedTokenRequest;
         String hex;
         FileManager fileManager = new FileManager();
-        HashManager hashManager = new HashManager();
         TokenRequestDatabase tokenRequestDatabase = TokenRequestDatabase.getInstance();
 
         try {
@@ -61,15 +59,14 @@ public class TokenController implements TokenManager {
         }
 
         try {
-            encodedTokenRequest = hashManager.md5Encode(tokenRequest.toString());
-            hex = hashManager.getShaMd5Hex(encodedTokenRequest);
+            hex = tokenRequest.updateHex();
         } catch (NoSuchAlgorithmException e) {
             throw new TokenManagementException("Error: no such hashing algorithm.");
         } catch (Exception e) {
             throw new TokenManagementException("Error: could not encode token request.");
         }
 
-        tokenRequestDatabase.add(tokenRequest, hex);
+        tokenRequestDatabase.add(tokenRequest);
 
         return hex;
     }
@@ -86,6 +83,7 @@ public class TokenController implements TokenManager {
         Token token;
         FileManager fileManager = new FileManager();
         TokenRequestDatabase tokenRequestDatabase = TokenRequestDatabase.getInstance();
+        TokenDatabase myStore = TokenDatabase.getInstance();
 
         try {
             token = fileManager.readJsonFileWithConstraints(inputFile, Token.class);
@@ -97,11 +95,10 @@ public class TokenController implements TokenManager {
             throw new TokenManagementException("Error: JSON object cannot be created due to incorrect representation");
         }
 
-        tokenRequestDatabase.has(token);
+        tokenRequestDatabase.isRequestRegistered(token);
 
         try {
             token.encodeValue();
-            TokenDatabase myStore = TokenDatabase.getInstance();
             myStore.add(token);
         } catch (NoSuchAlgorithmException e) {
             throw new TokenManagementException("Error: no such hashing algorithm.");

@@ -21,61 +21,61 @@ import Transport4Future.TokenManagement.model.skeleton.Database;
 import Transport4Future.TokenManagement.service.FileManager;
 import com.fasterxml.jackson.core.type.TypeReference;
 
-import java.io.IOException;
 import java.util.HashMap;
 
-public class TokenRequestDatabase implements Database {
-
-    private static TokenRequestDatabase tokenDatabase;
+public class TokenRequestDatabase extends Database<HashMap<String, TokenRequest>, TokenRequest> {
+    protected static TokenRequestDatabase database;
 
     private TokenRequestDatabase() {
-
+        super();
     }
 
     public static TokenRequestDatabase getInstance() {
-        if (tokenDatabase == null) {
-            tokenDatabase = new TokenRequestDatabase();
-            FileManager fileManager = new FileManager();
-            try {
-                fileManager.createPathRecursive(Constants.STORAGE_PATH);
-                fileManager.createJsonFileIfNotExists(Constants.TOKEN_REQUEST_STORAGE_FILE, new HashMap<>());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        if (database == null) {
+            database = new TokenRequestDatabase();
         }
-        return tokenDatabase;
+        return database;
     }
 
-    public void add(TokenRequest tokenRequest, String hex) throws TokenManagementException {
-        FileManager fileManager = new FileManager();
-        HashMap<String, TokenRequest> clonedMap = this.getStore();
-        if (!clonedMap.containsKey(hex)) {
-            clonedMap.put(hex, tokenRequest);
+    @Override
+    public void add(TokenRequest tokenRequest) throws TokenManagementException {
+        this.reload();
+        if (!this.inMemoryDb.containsKey(tokenRequest.getHex())) {
+            this.inMemoryDb.put(tokenRequest.getHex(), tokenRequest);
         }
+    }
 
+    @Override
+    protected void save() throws TokenManagementException {
+        FileManager fileManager = new FileManager();
         try {
-            fileManager.writeObjectToJsonFile(Constants.TOKEN_REQUEST_STORAGE_FILE, clonedMap);
+            fileManager.writeObjectToJsonFile(Constants.TOKEN_REQUEST_STORAGE_FILE, this.inMemoryDb);
         } catch (Exception e) {
             throw new TokenManagementException("Error: Unable to save a new token in the internal licenses store");
         }
     }
 
-    public void has(Token token) throws TokenManagementException {
-        HashMap<String, TokenRequest> clonedMap = this.getStore();
-        if (clonedMap == null || !clonedMap.containsKey(token.getDevice())) {
-            throw new TokenManagementException("Error: Token Request Not Previously Registered");
-        }
+    @Override
+    public TokenRequest find(String tokenRequestToFind) throws TokenManagementException {
+        return this.inMemoryDb.get(tokenRequestToFind);
     }
 
-    private HashMap<String, TokenRequest> getStore() throws TokenManagementException {
+    @Override
+    protected void reload() throws TokenManagementException {
         FileManager fileManager = new FileManager();
-        HashMap<String, TokenRequest> clonedMap;
         try {
-            clonedMap = fileManager.readJsonFile(Constants.TOKEN_REQUEST_STORAGE_FILE, new TypeReference<HashMap<String, TokenRequest>>() {
+            this.inMemoryDb = fileManager.readJsonFile(Constants.TOKEN_REQUEST_STORAGE_FILE, new TypeReference<HashMap<String, TokenRequest>>() {
             });
         } catch (Exception e) {
             throw new TokenManagementException("Error: unable to recover Token Requests Store.");
         }
-        return clonedMap;
     }
+
+    public void isRequestRegistered(Token token) throws TokenManagementException {
+        this.reload();
+        if (this.inMemoryDb == null || !this.inMemoryDb.containsKey(token.getDevice())) {
+            throw new TokenManagementException("Error: Token Request Not Previously Registered");
+        }
+    }
+
 }
