@@ -13,7 +13,7 @@
 
 package Transport4Future.TokenManagement;
 
-import Transport4Future.TokenManagement.controller.TokenManager;
+import Transport4Future.TokenManagement.controller.TokenController;
 import Transport4Future.TokenManagement.exception.TokenManagementException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -23,10 +23,10 @@ import org.junit.jupiter.params.provider.CsvFileSource;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TokenRequestGenerationTest {
-    private final TokenManager myManager;
+    private final TokenController myManager;
 
     public TokenRequestGenerationTest() {
-        myManager = new TokenManager();
+        myManager = new TokenController();
     }
 
     @DisplayName("Invalid Test Cases")

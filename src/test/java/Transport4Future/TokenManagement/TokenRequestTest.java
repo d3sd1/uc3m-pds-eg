@@ -13,7 +13,7 @@
 
 package Transport4Future.TokenManagement;
 
-import Transport4Future.TokenManagement.controller.TokenManager;
+import Transport4Future.TokenManagement.controller.TokenController;
 import Transport4Future.TokenManagement.exception.TokenManagementException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -25,10 +25,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TokenRequestTest {
 
-    private final TokenManager myManager;
+    private final TokenController myManager;
 
     public TokenRequestTest() {
-        myManager = new TokenManager();
+        myManager = new TokenController();
     }
 
     @DisplayName("Caso de prueba - Eliminación de Llave Inicial")

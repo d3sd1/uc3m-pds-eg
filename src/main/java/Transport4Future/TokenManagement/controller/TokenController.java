@@ -18,7 +18,7 @@ import Transport4Future.TokenManagement.database.TokenRequestDatabase;
 import Transport4Future.TokenManagement.exception.TokenManagementException;
 import Transport4Future.TokenManagement.model.Token;
 import Transport4Future.TokenManagement.model.TokenRequest;
-import Transport4Future.TokenManagement.model.skeleton.TokenManagement;
+import Transport4Future.TokenManagement.model.skeleton.TokenManager;
 import Transport4Future.TokenManagement.service.FileManager;
 import Transport4Future.TokenManagement.service.HashManager;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -30,8 +30,19 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
 
-public class TokenManager implements TokenManagement {
+/**
+ * This class manages tokens, so it's purely a controller that handles actions on Tokens.
+ */
+public class TokenController implements TokenManager {
 
+    /**
+     * This class generates a TokenRequest, that will be use to
+     *
+     * @param inputFile File path to retrieve a valid RequestToken file. If not valid, see @throws.
+     * @return tokenRequest HEX code, if request went success.
+     * @throws TokenManagementException with specific message based on cases.
+     * @throws TokenManagementException nested, from other project sides instead catching 'em.
+     */
     public String generate(String inputFile) throws TokenManagementException {
         TokenRequest tokenRequest;
         byte[] encodedTokenRequest;
@@ -63,6 +74,11 @@ public class TokenManager implements TokenManagement {
         return hex;
     }
 
+    /**
+     * @param inputFile
+     * @return
+     * @throws TokenManagementException
+     */
     public String request(String inputFile) throws TokenManagementException {
         Token token;
         FileManager fileManager = new FileManager();
@@ -101,6 +117,11 @@ public class TokenManager implements TokenManagement {
     }
 
 
+    /**
+     * @param encodedToken
+     * @return
+     * @throws TokenManagementException
+     */
     public boolean verify(String encodedToken) throws TokenManagementException {
         Token tokenFound = TokenDatabase.getInstance().find(encodedToken);
         if (tokenFound != null) {

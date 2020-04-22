@@ -13,7 +13,7 @@
 
 package Transport4Future.TokenManagement;
 
-import Transport4Future.TokenManagement.controller.TokenManager;
+import Transport4Future.TokenManagement.controller.TokenController;
 import Transport4Future.TokenManagement.exception.TokenManagementException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,10 +25,10 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class VerifyTokenTest {
-    private final TokenManager myManager;
+    private final TokenController myManager;
 
     public VerifyTokenTest() {
-        myManager = new TokenManager();
+        myManager = new TokenController();
     }
 
     private void resetTokenStore() throws TokenManagementException {

@@ -14,7 +14,7 @@
 package Transport4Future.TokenManagement.model.skeleton;
 import Transport4Future.TokenManagement.exception.TokenManagementException;
 
-public interface TokenManagement {
+public interface TokenManager {
     String generate(String inputFile) throws TokenManagementException;
 
     String request(String inputFile) throws TokenManagementException;
