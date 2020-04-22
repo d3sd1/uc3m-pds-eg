@@ -71,7 +71,6 @@ public class TokenDatabase implements Database {
             FileManager fileManager = new FileManager();
             fileManager.writeObjectToJsonFile(Constants.TOKEN_STORAGE_FILE, this.tokensList);
         } catch (IOException e) {
-            e.printStackTrace();
             throw new TokenManagementException("Error: Unable to save a new token in the internal licenses store");
         }
     }

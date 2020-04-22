@@ -13,8 +13,21 @@
 
 package Transport4Future.TokenManagement.config;
 
+/**
+ * Constants that replace environment files, which are currently not supported on P4.
+ * This constants prevents ghosting and promote clear code and reusability.
+ */
 public class Constants {
-    public static final String STORAGE_PATH = System.getProperty("user.dir") + "/Store";
-    public static final String TOKEN_REQUEST_STORAGE_FILE = STORAGE_PATH + "/tokenRequestsStore.json";
-    public static final String TOKEN_STORAGE_FILE = STORAGE_PATH + "/tokenStore.json";
+    /**
+     * The path to store all the .json files related to databases.
+     */
+    public static final String STORAGE_PATH = System.getProperty("user.dir") + "/database";
+    /**
+     * The absolute path to TokenRequest database.
+     */
+    public static final String TOKEN_REQUEST_STORAGE_FILE = STORAGE_PATH + "/tokenRequest.json";
+    /**
+     * The absolute path to Token database.
+     */
+    public static final String TOKEN_STORAGE_FILE = STORAGE_PATH + "/token.json";
 }

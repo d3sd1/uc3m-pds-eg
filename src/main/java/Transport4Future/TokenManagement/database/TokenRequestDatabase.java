@@ -56,7 +56,6 @@ public class TokenRequestDatabase implements Database {
         try {
             fileManager.writeObjectToJsonFile(Constants.TOKEN_REQUEST_STORAGE_FILE, clonedMap);
         } catch (Exception e) {
-            e.printStackTrace();
             throw new TokenManagementException("Error: Unable to save a new token in the internal licenses store");
         }
     }
@@ -75,7 +74,6 @@ public class TokenRequestDatabase implements Database {
             clonedMap = fileManager.readJsonFile(Constants.TOKEN_REQUEST_STORAGE_FILE, new TypeReference<HashMap<String, TokenRequest>>() {
             });
         } catch (Exception e) {
-            e.printStackTrace();
             throw new TokenManagementException("Error: unable to recover Token Requests Store.");
         }
         return clonedMap;

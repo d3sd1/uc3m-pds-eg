@@ -94,7 +94,6 @@ public class TokenManager implements TokenManagement {
         } catch (NoSuchAlgorithmException e) {
             throw new TokenManagementException("Error: no such hashing algorithm.");
         } catch (Exception e) {
-            e.printStackTrace();
             throw new TokenManagementException("Error: could not encode token request.");
         }
 
