@@ -23,13 +23,24 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.util.HashMap;
 
+/**
+ * The type Token request database.
+ */
 public class TokenRequestDatabase extends Database<HashMap<String, TokenRequest>, TokenRequest> {
+    /**
+     * The constant database.
+     */
     protected static TokenRequestDatabase database;
 
     private TokenRequestDatabase() {
         super();
     }
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static TokenRequestDatabase getInstance() {
         if (database == null) {
             database = new TokenRequestDatabase();
@@ -71,6 +82,12 @@ public class TokenRequestDatabase extends Database<HashMap<String, TokenRequest>
         }
     }
 
+    /**
+     * Is request registered.
+     *
+     * @param token the token
+     * @throws TokenManagementException the token management exception
+     */
     public void isRequestRegistered(Token token) throws TokenManagementException {
         this.reload();
         if (this.inMemoryDb == null || !this.inMemoryDb.containsKey(token.getDevice())) {

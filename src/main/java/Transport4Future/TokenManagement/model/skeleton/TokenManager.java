@@ -14,10 +14,34 @@
 package Transport4Future.TokenManagement.model.skeleton;
 import Transport4Future.TokenManagement.exception.TokenManagementException;
 
+/**
+ * The interface Token manager.
+ */
 public interface TokenManager {
+    /**
+     * Generate string.
+     *
+     * @param inputFile the input file
+     * @return the string
+     * @throws TokenManagementException the token management exception
+     */
     String generate(String inputFile) throws TokenManagementException;
 
+    /**
+     * Request string.
+     *
+     * @param inputFile the input file
+     * @return the string
+     * @throws TokenManagementException the token management exception
+     */
     String request(String inputFile) throws TokenManagementException;
 
+    /**
+     * Verify boolean.
+     *
+     * @param encodedToken the encoded token
+     * @return the boolean
+     * @throws TokenManagementException the token management exception
+     */
     boolean verify(String encodedToken) throws TokenManagementException;
 }

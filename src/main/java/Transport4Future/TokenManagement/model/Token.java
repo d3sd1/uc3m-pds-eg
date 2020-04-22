@@ -28,6 +28,9 @@ import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
 
+/**
+ * The type Token.
+ */
 public class Token implements DeserializationConstraintChecker {
     private final String alg;
     private final String typ;
@@ -39,6 +42,13 @@ public class Token implements DeserializationConstraintChecker {
     private String signature;
     private String tokenValue;
 
+    /**
+     * Instantiates a new Token.
+     *
+     * @param Device            the device
+     * @param RequestDate       the request date
+     * @param NotificationEmail the notification email
+     */
     @JsonCreator
     public Token(
             @JsonProperty(required = true, value = "Token Request") String Device,
@@ -61,30 +71,65 @@ public class Token implements DeserializationConstraintChecker {
         this.tokenValue = null;
     }
 
+    /**
+     * Gets device.
+     *
+     * @return the device
+     */
     public String getDevice() {
         return device;
     }
 
+    /**
+     * Gets request date.
+     *
+     * @return the request date
+     */
     public String getRequestDate() {
         return requestDate;
     }
 
+    /**
+     * Gets notification email.
+     *
+     * @return the notification email
+     */
     public String getNotificationEmail() {
         return notificationEmail;
     }
 
+    /**
+     * Is granted boolean.
+     *
+     * @return the boolean
+     */
     public boolean isGranted() {
         return this.iat < System.currentTimeMillis();
     }
 
+    /**
+     * Is expired boolean.
+     *
+     * @return the boolean
+     */
     public boolean isExpired() {
         return this.exp <= System.currentTimeMillis();
     }
 
+    /**
+     * Gets header.
+     *
+     * @return the header
+     */
     public String getHeader() {
         return "Alg=" + this.alg + "\\n Typ=" + this.typ + "\\n";
     }
 
+    /**
+     * Gets payload.
+     *
+     * @return the payload
+     */
     public String getPayload() {
         Date iatDate = new Date(this.iat);
         Date expDate = new Date(this.exp);
@@ -96,19 +141,39 @@ public class Token implements DeserializationConstraintChecker {
                 + "\\n exp=" + df.format(expDate);
     }
 
+    /**
+     * Gets signature.
+     *
+     * @return the signature
+     */
     public String getSignature() {
         return this.signature;
     }
 
+    /**
+     * Sets signature.
+     *
+     * @param value the value
+     */
     public void setSignature(String value) {
         this.signature = value;
     }
 
+    /**
+     * Gets token value.
+     *
+     * @return the token value
+     */
     public String getTokenValue() {
         return this.tokenValue;
     }
 
 
+    /**
+     * Encode value.
+     *
+     * @throws NoSuchAlgorithmException the no such algorithm exception
+     */
     public void encodeValue() throws NoSuchAlgorithmException {
         HashManager hashManager = new HashManager();
         byte[] sha256 = hashManager.sha256Encode(this.getHeader() + this.getPayload());
@@ -119,6 +184,11 @@ public class Token implements DeserializationConstraintChecker {
         this.tokenValue = encodedString;
     }
 
+    /**
+     * Is valid boolean.
+     *
+     * @return the boolean
+     */
     public boolean isValid() {
         return (!this.isExpired()) && (this.isGranted());
     }

@@ -24,13 +24,24 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Token database.
+ */
 public class TokenDatabase extends Database<List<Token>, Token> {
+    /**
+     * The constant database.
+     */
     protected static TokenDatabase database;
 
     private TokenDatabase() {
         super();
     }
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static TokenDatabase getInstance() {
         if (database == null) {
             database = new TokenDatabase();

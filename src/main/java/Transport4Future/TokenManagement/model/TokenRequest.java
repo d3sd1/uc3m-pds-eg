@@ -24,6 +24,9 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * The type Token request.
+ */
 public class TokenRequest implements DeserializationConstraintChecker {
     private final String deviceName;
     private final String typeOfDevice;
@@ -33,6 +36,16 @@ public class TokenRequest implements DeserializationConstraintChecker {
     private final String macAddress;
     private String hex;
 
+    /**
+     * Instantiates a new Token request.
+     *
+     * @param deviceName    the device name
+     * @param typeOfDevice  the type of device
+     * @param driverVersion the driver version
+     * @param supportEMail  the support e mail
+     * @param serialNumber  the serial number
+     * @param macAddress    the mac address
+     */
     @JsonCreator
     public TokenRequest(
             @JsonProperty(required = true, value = "Device Name") String deviceName,
@@ -49,36 +62,77 @@ public class TokenRequest implements DeserializationConstraintChecker {
         this.macAddress = macAddress;
     }
 
+    /**
+     * Gets device name.
+     *
+     * @return the device name
+     */
     public String getDeviceName() {
         return deviceName;
     }
 
+    /**
+     * Gets type of device.
+     *
+     * @return the type of device
+     */
     public String getTypeOfDevice() {
         return typeOfDevice;
     }
 
+    /**
+     * Gets driver version.
+     *
+     * @return the driver version
+     */
     public String getDriverVersion() {
         return driverVersion;
     }
 
+    /**
+     * Gets support e mail.
+     *
+     * @return the support e mail
+     */
     public String getSupportEMail() {
         return supportEMail;
     }
 
+    /**
+     * Gets serial number.
+     *
+     * @return the serial number
+     */
     public String getSerialNumber() {
         return serialNumber;
     }
 
+    /**
+     * Gets mac address.
+     *
+     * @return the mac address
+     */
     public String getMacAddress() {
         return macAddress;
     }
 
+    /**
+     * Update hex string.
+     *
+     * @return the string
+     * @throws NoSuchAlgorithmException the no such algorithm exception
+     */
     public String updateHex() throws NoSuchAlgorithmException {
         HashManager hashManager = new HashManager();
         this.hex = hashManager.getShaMd5Hex(hashManager.md5Encode(this.toString()));
         return this.hex;
     }
 
+    /**
+     * Gets hex.
+     *
+     * @return the hex
+     */
     public String getHex() {
         return hex;
     }

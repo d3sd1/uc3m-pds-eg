@@ -25,7 +25,17 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+/**
+ * The type File manager.
+ */
 public class FileManager {
+    /**
+     * Read file string.
+     *
+     * @param filePath the file path
+     * @return the string
+     * @throws IOException the io exception
+     */
     public String readFile(String filePath) throws IOException {
         StringBuilder fileContents = new StringBuilder();
         BufferedReader reader;
@@ -41,6 +51,15 @@ public class FileManager {
         return fileContents.toString();
     }
 
+    /**
+     * Read json file t.
+     *
+     * @param <T>           the type parameter
+     * @param filePath      the file path
+     * @param typeReference the type reference
+     * @return the t
+     * @throws IOException the io exception
+     */
     public <T> T readJsonFile(String filePath, TypeReference<?> typeReference) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(
@@ -49,27 +68,68 @@ public class FileManager {
         );
     }
 
+    /**
+     * Read json file t.
+     *
+     * @param <T>              the type parameter
+     * @param filePath         the file path
+     * @param deserializeClass the deserialize class
+     * @return the t
+     * @throws IOException the io exception
+     */
     public <T> T readJsonFile(String filePath, Class<T> deserializeClass) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(this.readFile(filePath), deserializeClass);
     }
 
+    /**
+     * Write object to json file.
+     *
+     * @param <T>      the type parameter
+     * @param filePath the file path
+     * @param content  the content
+     * @throws IOException the io exception
+     */
     public <T> void writeObjectToJsonFile(String filePath, T content) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         ObjectWriter writer = objectMapper.writer(new DefaultPrettyPrinter());
         writer.writeValue(new File(filePath), content);
     }
 
+    /**
+     * Read json file with constraints t.
+     *
+     * @param <T>              the type parameter
+     * @param filePath         the file path
+     * @param deserializeClass the deserialize class
+     * @return the t
+     * @throws IOException              the io exception
+     * @throws TokenManagementException the token management exception
+     */
     public <T extends DeserializationConstraintChecker> T readJsonFileWithConstraints(String filePath, Class<T> deserializeClass) throws IOException, TokenManagementException {
         T obj = this.readJsonFile(filePath, deserializeClass);
         obj.areConstraintsPassed();
         return obj;
     }
 
+    /**
+     * Create path recursive boolean.
+     *
+     * @param path the path
+     * @return the boolean
+     */
     public boolean createPathRecursive(String path) {
         return new File(path).mkdirs();
     }
 
+    /**
+     * Create json file if not exists.
+     *
+     * @param <T>      the type parameter
+     * @param filePath the file path
+     * @param content  the content
+     * @throws IOException the io exception
+     */
     public <T> void createJsonFileIfNotExists(String filePath, T content) throws IOException {
         this.writeObjectToJsonFile(filePath, content);
     }
