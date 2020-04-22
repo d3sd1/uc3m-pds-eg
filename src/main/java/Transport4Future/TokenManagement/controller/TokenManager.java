@@ -18,7 +18,7 @@ import Transport4Future.TokenManagement.database.TokenRequestDatabase;
 import Transport4Future.TokenManagement.exception.TokenManagementException;
 import Transport4Future.TokenManagement.model.Token;
 import Transport4Future.TokenManagement.model.TokenRequest;
-import Transport4Future.TokenManagement.model.skeleton.ITokenManagement;
+import Transport4Future.TokenManagement.model.skeleton.TokenManagement;
 import Transport4Future.TokenManagement.service.FileManager;
 import Transport4Future.TokenManagement.service.HashManager;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -30,7 +30,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
 
-public class TokenManager implements ITokenManagement {
+public class TokenManager implements TokenManagement {
 
     public String generate(String inputFile) throws TokenManagementException {
         TokenRequest tokenRequest;
