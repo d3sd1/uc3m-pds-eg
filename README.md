@@ -47,3 +47,4 @@
 - Refactorizados y agregados toString, Hashing, etc a todos los objetos modelo.
 - Código redundante en tiempo real con el siguiente repositorio: https://github.com/d3sd1/uc3m-pds-eg
 - La calidad de código basada en SonarCloud puede verse mediante el siguiente enlace:  
+- Revisados errores de seguridad del proyecto.
