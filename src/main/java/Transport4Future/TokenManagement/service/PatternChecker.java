@@ -13,19 +13,17 @@
 
 package Transport4Future.TokenManagement.service;
 
-import Transport4Future.TokenManagement.exception.NullPatternException;
-
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 public class PatternChecker {
-    public boolean checkLengthMin(String toCheck, int minLength) throws NullPatternException {
+    public boolean checkLengthMin(String toCheck, int minLength) {
         return this.checkLengthBetween(toCheck, minLength, Integer.MAX_VALUE);
     }
 
-    public boolean checkLengthMax(String toCheck, int maxLength) throws NullPatternException {
+    public boolean checkLengthMax(String toCheck, int maxLength) {
         return this.checkLengthBetween(toCheck, 0, maxLength);
     }
 
