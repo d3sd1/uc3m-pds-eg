@@ -20,8 +20,7 @@ import Transport4Future.TokenManagement.model.Token;
 import Transport4Future.TokenManagement.model.TokenRequest;
 import Transport4Future.TokenManagement.model.skeleton.TokenManager;
 import Transport4Future.TokenManagement.service.FileManager;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
+import com.google.gson.JsonSyntaxException;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -62,7 +61,7 @@ public class TokenController implements TokenManager {
 
         try {
             tokenRequest = fileManager.readJsonFileWithConstraints(inputFile, TokenRequest.class);
-        } catch (JsonMappingException e) {
+        } catch (JsonSyntaxException e) {
             throw new TokenManagementException("Error: invalid input data in JSON structure.");
         } catch (FileNotFoundException e) {
             throw new TokenManagementException("Error: input file not found.");
@@ -92,7 +91,7 @@ public class TokenController implements TokenManager {
      * @throws TokenManagementException nested, from other project sides instead catching 'em.
      */
     public String request(String inputFile) throws TokenManagementException {
-        Token token;
+        Token token = null;
         FileManager fileManager = new FileManager();
         TokenRequestDatabase tokenRequestDatabase = TokenRequestDatabase.getInstance();
         TokenDatabase myStore = TokenDatabase.getInstance();
@@ -101,8 +100,8 @@ public class TokenController implements TokenManager {
             token = fileManager.readJsonFileWithConstraints(inputFile, Token.class);
         } catch (FileNotFoundException e) {
             throw new TokenManagementException("Error: input file not found.");
-        } catch (UnrecognizedPropertyException e) {
-            throw new TokenManagementException("Error: invalid input data in JSON structure.");
+        } catch (JsonSyntaxException e) {
+            throw new TokenManagementException("Error: JSON object cannot be created due to incorrect representation");
         } catch (IOException e) {
             throw new TokenManagementException("Error: JSON object cannot be created due to incorrect representation");
         }
@@ -126,6 +125,7 @@ public class TokenController implements TokenManager {
      * This method verifies that a token is valid, not expired and stored in database.
      *
      * @param encodedToken
+     * @return Wetter is valid or not.
      * @return Wetter is valid or not.
      * @throws TokenManagementException If there is a crash during the verification.
      */

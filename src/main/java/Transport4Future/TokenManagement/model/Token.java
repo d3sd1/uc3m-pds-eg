@@ -18,9 +18,8 @@ import Transport4Future.TokenManagement.exception.TokenManagementException;
 import Transport4Future.TokenManagement.model.skeleton.DeserializationConstraintChecker;
 import Transport4Future.TokenManagement.service.HashManager;
 import Transport4Future.TokenManagement.service.PatternChecker;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonMappingException;
+import com.google.gson.JsonParseException;
+import com.google.gson.annotations.SerializedName;
 
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
@@ -36,8 +35,11 @@ public class Token implements DeserializationConstraintChecker {
     private final String typ;
     private final long iat;
     private final long exp;
+    @SerializedName("Token Request")
     private final String device;
+    @SerializedName("Request Date")
     private final String requestDate;
+    @SerializedName("Notification e-mail")
     private final String notificationEmail;
     private String signature;
     private String tokenValue;
@@ -49,11 +51,10 @@ public class Token implements DeserializationConstraintChecker {
      * @param RequestDate       the request date
      * @param NotificationEmail the notification email
      */
-    @JsonCreator
     public Token(
-            @JsonProperty(required = true, value = "Token Request") String Device,
-            @JsonProperty(required = true, value = "Request Date") String RequestDate,
-            @JsonProperty(required = true, value = "Notification e-mail") String NotificationEmail) {
+            String Device,
+            String RequestDate,
+            String NotificationEmail) {
         this.alg = "HS256";
         this.typ = "PDS";
         this.device = Device;
@@ -209,12 +210,12 @@ public class Token implements DeserializationConstraintChecker {
     }
 
     @Override
-    public boolean areConstraintsPassed() throws TokenManagementException, JsonMappingException {
+    public boolean areConstraintsPassed() throws TokenManagementException, JsonParseException {
 
         if (this.getDevice() == null
                 || this.getNotificationEmail() == null
                 || this.getRequestDate() == null) {
-            throw new JsonMappingException("Values can't be null on Token.");
+            throw new TokenManagementException("Error: invalid input data in JSON structure.");
         }
 
         PatternChecker patternChecker = new PatternChecker();

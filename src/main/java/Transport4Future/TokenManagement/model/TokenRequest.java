@@ -18,9 +18,8 @@ import Transport4Future.TokenManagement.exception.TokenManagementException;
 import Transport4Future.TokenManagement.model.skeleton.DeserializationConstraintChecker;
 import Transport4Future.TokenManagement.service.HashManager;
 import Transport4Future.TokenManagement.service.PatternChecker;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonMappingException;
+import com.google.gson.JsonParseException;
+import com.google.gson.annotations.SerializedName;
 
 import java.security.NoSuchAlgorithmException;
 
@@ -28,11 +27,17 @@ import java.security.NoSuchAlgorithmException;
  * The type Token request.
  */
 public class TokenRequest implements DeserializationConstraintChecker {
+    @SerializedName("Device Name")
     private final String deviceName;
+    @SerializedName("Type of Device")
     private final String typeOfDevice;
+    @SerializedName("Driver Version")
     private final String driverVersion;
+    @SerializedName("Support e-mail")
     private final String supportEMail;
+    @SerializedName("Serial Number")
     private final String serialNumber;
+    @SerializedName("MAC Address")
     private final String macAddress;
     private String hex;
 
@@ -46,14 +51,13 @@ public class TokenRequest implements DeserializationConstraintChecker {
      * @param serialNumber  the serial number
      * @param macAddress    the mac address
      */
-    @JsonCreator
     public TokenRequest(
-            @JsonProperty(required = true, value = "Device Name") String deviceName,
-            @JsonProperty(required = true, value = "Type of Device") String typeOfDevice,
-            @JsonProperty(required = true, value = "Driver Version") String driverVersion,
-            @JsonProperty(required = true, value = "Support e-mail") String supportEMail,
-            @JsonProperty(required = true, value = "Serial Number") String serialNumber,
-            @JsonProperty(required = true, value = "MAC Address") String macAddress) {
+            String deviceName,
+            String typeOfDevice,
+            String driverVersion,
+            String supportEMail,
+            String serialNumber,
+            String macAddress) {
         this.deviceName = deviceName;
         this.typeOfDevice = typeOfDevice;
         this.driverVersion = driverVersion;
@@ -148,7 +152,7 @@ public class TokenRequest implements DeserializationConstraintChecker {
     }
 
     @Override
-    public boolean areConstraintsPassed() throws TokenManagementException, JsonMappingException {
+    public boolean areConstraintsPassed() throws TokenManagementException, JsonParseException {
 
         if (this.getDeviceName() == null
                 || this.getDriverVersion() == null
@@ -157,7 +161,7 @@ public class TokenRequest implements DeserializationConstraintChecker {
                 || this.getTypeOfDevice() == null
                 || this.getMacAddress() == null
         ) {
-            throw new JsonMappingException("Values can't be null on TokenRequest.");
+            throw new TokenManagementException("Error: invalid input data in JSON structure.");
         }
         PatternChecker patternChecker = new PatternChecker();
         if (!patternChecker.checkLengthBetween(this.getDeviceName(), 1, 20)) {

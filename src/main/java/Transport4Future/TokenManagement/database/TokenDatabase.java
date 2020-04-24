@@ -19,7 +19,7 @@ import Transport4Future.TokenManagement.exception.TokenManagementException;
 import Transport4Future.TokenManagement.model.Token;
 import Transport4Future.TokenManagement.model.skeleton.Database;
 import Transport4Future.TokenManagement.service.FileManager;
-import com.fasterxml.jackson.core.type.TypeReference;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -85,8 +85,7 @@ public class TokenDatabase extends Database<List<Token>, Token> {
     protected void reload() {
         FileManager fileManager = new FileManager();
         try {
-            this.inMemoryDb = fileManager.readJsonFile(Constants.TOKEN_STORAGE_FILE, new TypeReference<List<Token>>() {
-            });
+            this.inMemoryDb = fileManager.readJsonFile(Constants.TOKEN_STORAGE_FILE, new TypeToken<List<Token>>(){}.getType());
         } catch (Exception ex) {
             this.inMemoryDb = new ArrayList<Token>();
         }

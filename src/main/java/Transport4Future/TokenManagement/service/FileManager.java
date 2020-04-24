@@ -15,15 +15,10 @@ package Transport4Future.TokenManagement.service;
 
 import Transport4Future.TokenManagement.exception.TokenManagementException;
 import Transport4Future.TokenManagement.model.skeleton.DeserializationConstraintChecker;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
+import com.google.gson.Gson;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.lang.reflect.Type;
 
 /**
  * The type File manager.
@@ -60,9 +55,9 @@ public class FileManager {
      * @return the t
      * @throws IOException the io exception
      */
-    public <T> T readJsonFile(String filePath, TypeReference<?> typeReference) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        return (T) objectMapper.readValue(
+    public <T> T readJsonFile(String filePath, Type typeReference) throws IOException {
+        Gson gson = new Gson();
+        return gson.fromJson(
                 this.readFile(filePath),
                 typeReference
         );
@@ -78,8 +73,8 @@ public class FileManager {
      * @throws IOException the io exception
      */
     public <T> T readJsonFile(String filePath, Class<T> deserializeClass) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.readValue(this.readFile(filePath), deserializeClass);
+        Gson gson = new Gson();
+        return gson.fromJson(this.readFile(filePath), deserializeClass);
     }
 
     /**
@@ -91,9 +86,8 @@ public class FileManager {
      * @throws IOException the io exception
      */
     public <T> void writeObjectToJsonFile(String filePath, T content) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        ObjectWriter writer = objectMapper.writer(new DefaultPrettyPrinter());
-        writer.writeValue(new File(filePath), content);
+        Gson gson = new Gson();
+        gson.toJson(content, new FileWriter(filePath));
     }
 
     /**
