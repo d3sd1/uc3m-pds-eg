@@ -62,11 +62,13 @@ public class TokenController implements TokenManager {
         try {
             tokenRequest = fileManager.readJsonFileWithConstraints(inputFile, TokenRequest.class);
         } catch (JsonSyntaxException e) {
-            throw new TokenManagementException("Error: invalid input data in JSON structure.");
+            throw new TokenManagementException("Error: JSON object cannot be created due to incorrect representation");
         } catch (FileNotFoundException e) {
             throw new TokenManagementException("Error: input file not found.");
         } catch (IOException e) {
             throw new TokenManagementException("Error: JSON object cannot be created due to incorrect representation");
+        } catch (NullPointerException e) {
+            throw new TokenManagementException("Error: invalid input data in JSON structure.");
         }
 
         try {
@@ -104,6 +106,8 @@ public class TokenController implements TokenManager {
             throw new TokenManagementException("Error: JSON object cannot be created due to incorrect representation");
         } catch (IOException e) {
             throw new TokenManagementException("Error: JSON object cannot be created due to incorrect representation");
+        } catch(NullPointerException e) {
+            throw new TokenManagementException("");
         }
 
         tokenRequestDatabase.isRequestRegistered(token);

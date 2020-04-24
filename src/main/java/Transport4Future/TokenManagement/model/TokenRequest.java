@@ -164,6 +164,7 @@ public class TokenRequest implements DeserializationConstraintChecker {
         ) {
             throw new TokenManagementException("Error: invalid input data in JSON structure.");
         }
+        System.out.println(this);
         PatternChecker patternChecker = new PatternChecker();
         if (!patternChecker.checkLengthBetween(this.getDeviceName(), 1, 20)) {
             throw new TokenManagementException("Error: invalid String length for device name.");

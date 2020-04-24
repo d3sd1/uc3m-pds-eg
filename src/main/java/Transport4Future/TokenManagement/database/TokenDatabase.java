@@ -94,7 +94,10 @@ public class TokenDatabase extends Database<List<Token>, Token> {
         try {
             this.inMemoryDb = fileManager.readJsonFile(Constants.TOKEN_STORAGE_FILE, new TypeToken<List<Token>>(){}.getType());
         } catch (Exception ex) {
-            this.inMemoryDb = new ArrayList<Token>();
+        } finally {
+            if(this.inMemoryDb == null) {
+                this.inMemoryDb = new ArrayList<Token>();
+            }
         }
     }
 

@@ -215,7 +215,7 @@ public class Token implements DeserializationConstraintChecker {
         if (this.getDevice() == null
                 || this.getNotificationEmail() == null
                 || this.getRequestDate() == null) {
-            throw new TokenManagementException("Error: invalid input data in JSON structure.");
+            throw new TokenManagementException("Error: JSON object cannot be created due to incorrect representation");
         }
 
         PatternChecker patternChecker = new PatternChecker();

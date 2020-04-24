@@ -13,6 +13,7 @@
 
 package Transport4Future.TokenManagement;
 
+import Transport4Future.TokenManagement.config.Constants;
 import Transport4Future.TokenManagement.controller.TokenController;
 import Transport4Future.TokenManagement.exception.TokenManagementException;
 import org.junit.jupiter.api.DisplayName;
@@ -32,12 +33,13 @@ class VerifyTokenTest {
     }
 
     private void resetTokenStore() throws TokenManagementException {
-        String storePath = System.getProperty("user.dir") + "/Store/tokenStore.json";
+        String storePath = Constants.TOKEN_STORAGE_FILE;
         FileWriter fileWriter;
         try {
             fileWriter = new FileWriter(storePath);
             fileWriter.close();
         } catch (IOException e) {
+            e.printStackTrace();
             throw new TokenManagementException("Error: Unable to save a new token in the internal licenses store");
         }
     }
@@ -83,7 +85,7 @@ class VerifyTokenTest {
     @Test
     @DisplayName("RF03 - TC04 - Buscar un token cuando el almacén no existe")
     void VerifyTokenNonExitingTokenStore() throws TokenManagementException {
-        String storePath = System.getProperty("user.dir") + "/Store/tokenStore.json";
+        String storePath = Constants.TOKEN_STORAGE_FILE;
         File file = new File(storePath);
         file.delete();
         String tokenToVerify = "ABxnPUhTMjU2XG4gVHlwPVBEU1xuRGV2PTI3OGU3ZTI3NzMyYzRlNTM5NDZjZjIwMDU4YWQ4MTM4XG4gaWF0PTE4LTAzLTIwMjAgMTA6MjI6MjBcbiBleHA9MjUtMDMtMjAyMCAxMDoyMjoyMGIzYWMwYjRkNjQyOTE1OGRhMTI4NzYxZTk4Y2U4MzE3ZmE5MjhkNDJjNzEwYTlkMDZmNjRjOTY2N2JkZDM3MWM=";
