@@ -19,6 +19,8 @@ import com.google.gson.Gson;
 
 import java.io.*;
 import java.lang.reflect.Type;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
  * The type File manager.
@@ -87,7 +89,9 @@ public class FileManager {
      */
     public <T> void writeObjectToJsonFile(String filePath, T content) throws IOException {
         Gson gson = new Gson();
-        gson.toJson(content, new FileWriter(filePath));
+        Writer writer = Files.newBufferedWriter(Paths.get(filePath));
+        gson.toJson(content, writer);
+        writer.close();
     }
 
     /**

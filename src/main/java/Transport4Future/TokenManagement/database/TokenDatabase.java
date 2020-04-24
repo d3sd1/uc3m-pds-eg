@@ -23,6 +23,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -36,6 +37,12 @@ public class TokenDatabase extends Database<List<Token>, Token> {
 
     private TokenDatabase() {
         super();
+        try {
+            FileManager fileManager = new FileManager();
+            fileManager.createJsonFileIfNotExists(Constants.TOKEN_STORAGE_FILE, new ArrayList<>());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

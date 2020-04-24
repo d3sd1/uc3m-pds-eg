@@ -18,6 +18,7 @@ import Transport4Future.TokenManagement.exception.TokenManagementException;
 import Transport4Future.TokenManagement.model.skeleton.DeserializationConstraintChecker;
 import Transport4Future.TokenManagement.service.HashManager;
 import Transport4Future.TokenManagement.service.PatternChecker;
+import Transport4Future.TokenManagement.service.TypeChecker;
 import com.google.gson.JsonParseException;
 import com.google.gson.annotations.SerializedName;
 
@@ -153,7 +154,7 @@ public class TokenRequest implements DeserializationConstraintChecker {
 
     @Override
     public boolean areConstraintsPassed() throws TokenManagementException, JsonParseException {
-
+        TypeChecker typeChecker = new TypeChecker();
         if (this.getDeviceName() == null
                 || this.getDriverVersion() == null
                 || this.getSerialNumber() == null
@@ -168,12 +169,13 @@ public class TokenRequest implements DeserializationConstraintChecker {
             throw new TokenManagementException("Error: invalid String length for device name.");
         }
 
-        if (!patternChecker.checkRegex(this.getSerialNumber(), RegexConstants.SERIAL_NUMBER)) {
+        if (!patternChecker.checkRegex(this.getSerialNumber(), RegexConstants.SERIAL_NUMBER)
+        || typeChecker.isInteger(this.getSerialNumber())) {
             throw new TokenManagementException("Error: invalid String length for serial number.");
         }
-
         if (!patternChecker.checkLengthBetween(this.getDriverVersion(), 1, 25)
-                || !patternChecker.checkRegex(this.getDriverVersion(), RegexConstants.DRIVER_VERSION)) {
+                || !patternChecker.checkRegex(this.getDriverVersion(), RegexConstants.DRIVER_VERSION)
+                || typeChecker.isInteger(this.getDriverVersion())) {
             throw new TokenManagementException("Error: invalid String length for driver version.");
         }
 

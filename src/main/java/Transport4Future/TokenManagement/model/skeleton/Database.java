@@ -37,12 +37,7 @@ public abstract class Database<T, L> {
      */
     protected Database() {
         FileManager fileManager = new FileManager();
-        try {
-            fileManager.createPathRecursive(Constants.STORAGE_PATH);
-            fileManager.createJsonFileIfNotExists(Constants.TOKEN_REQUEST_STORAGE_FILE, new HashMap<>());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        fileManager.createPathRecursive(Constants.STORAGE_PATH);
     }
 
     /**

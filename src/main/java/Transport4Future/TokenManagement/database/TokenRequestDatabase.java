@@ -22,6 +22,7 @@ import Transport4Future.TokenManagement.model.skeleton.Database;
 import Transport4Future.TokenManagement.service.FileManager;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -36,6 +37,12 @@ public class TokenRequestDatabase extends Database<HashMap<String, TokenRequest>
 
     private TokenRequestDatabase() {
         super();
+        try {
+            FileManager fileManager = new FileManager();
+            fileManager.createJsonFileIfNotExists(Constants.TOKEN_REQUEST_STORAGE_FILE, new HashMap<>());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -79,7 +86,6 @@ public class TokenRequestDatabase extends Database<HashMap<String, TokenRequest>
         try {
             this.inMemoryDb = fileManager.readJsonFile(Constants.TOKEN_REQUEST_STORAGE_FILE, new TypeToken<HashMap<String, TokenRequest>>(){}.getType());
         } catch (Exception e) {
-            e.printStackTrace();
             throw new TokenManagementException("Error: unable to recover Token Requests Store.");
         }
     }
