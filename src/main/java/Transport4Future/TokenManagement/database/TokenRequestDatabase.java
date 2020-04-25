@@ -34,6 +34,10 @@ public class TokenRequestDatabase extends Database<HashMap<String, TokenRequest>
      * The constant database.
      */
     protected static TokenRequestDatabase database;
+    /**
+     * The In memory db.
+     */
+    protected static HashMap<String, TokenRequest> inMemoryDb;
 
     private TokenRequestDatabase() {
         super();
@@ -60,8 +64,9 @@ public class TokenRequestDatabase extends Database<HashMap<String, TokenRequest>
     @Override
     public void add(TokenRequest tokenRequest) throws TokenManagementException {
         this.reload();
-        if (!this.inMemoryDb.containsKey(tokenRequest.getHex())) {
-            this.inMemoryDb.put(tokenRequest.getHex(), tokenRequest);
+        if (!inMemoryDb.containsKey(tokenRequest.getHex())) {
+            inMemoryDb.put(tokenRequest.getHex(), tokenRequest);
+            this.save();
         }
     }
 
@@ -69,7 +74,7 @@ public class TokenRequestDatabase extends Database<HashMap<String, TokenRequest>
     protected void save() throws TokenManagementException {
         FileManager fileManager = new FileManager();
         try {
-            fileManager.writeObjectToJsonFile(Constants.TOKEN_REQUEST_STORAGE_FILE, this.inMemoryDb);
+            fileManager.writeObjectToJsonFile(Constants.TOKEN_REQUEST_STORAGE_FILE, inMemoryDb);
         } catch (Exception e) {
             throw new TokenManagementException("Error: Unable to save a new token in the internal licenses store");
         }
@@ -77,15 +82,16 @@ public class TokenRequestDatabase extends Database<HashMap<String, TokenRequest>
 
     @Override
     public TokenRequest find(String tokenRequestToFind) throws TokenManagementException {
-        return this.inMemoryDb.get(tokenRequestToFind);
+        return inMemoryDb.get(tokenRequestToFind);
     }
 
     @Override
     protected void reload() throws TokenManagementException {
         FileManager fileManager = new FileManager();
         try {
-            this.inMemoryDb = fileManager.readJsonFile(Constants.TOKEN_REQUEST_STORAGE_FILE, new TypeToken<HashMap<String, TokenRequest>>(){}.getType());
+            inMemoryDb = fileManager.readJsonFile(Constants.TOKEN_REQUEST_STORAGE_FILE, new TypeToken<HashMap<String, TokenRequest>>(){}.getType());
         } catch (Exception e) {
+            e.printStackTrace();
             throw new TokenManagementException("Error: unable to recover Token Requests Store.");
         }
     }
@@ -98,7 +104,7 @@ public class TokenRequestDatabase extends Database<HashMap<String, TokenRequest>
      */
     public void isRequestRegistered(Token token) throws TokenManagementException {
         this.reload();
-        if (this.inMemoryDb == null || !this.inMemoryDb.containsKey(token.getDevice())) {
+        if (inMemoryDb == null || !inMemoryDb.containsKey(token.getDevice())) {
             throw new TokenManagementException("Error: Token Request Not Previously Registered");
         }
     }

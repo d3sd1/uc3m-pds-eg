@@ -129,6 +129,8 @@ public class FileManager {
      * @throws IOException the io exception
      */
     public <T> void createJsonFileIfNotExists(String filePath, T content) throws IOException {
-        this.writeObjectToJsonFile(filePath, content);
+        if(!(new File(filePath).exists())) {
+            this.writeObjectToJsonFile(filePath, content);
+        }
     }
 }

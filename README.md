@@ -52,3 +52,8 @@
 - La calidad de código basada en SonarCloud puede verse mediante una exposición, que podemos tener durante cualquier meeting.
 - Revisados errores de seguridad del proyecto.
 - Se ha utilizado Jackson ya que Gson no ofrecía todas las posibilidades requeridas para nuestra casuística, pero se intentó implementar con ello.
+
+** TESTS MODIFICADOS Y POR QUE **
+TokenRequestTest -> WithSeparattorAtTheEnd.json -> Valor inicial: Error: invalid date data in JSON structure.,
+ valor modificado a: Error: JSON object cannot be created due to incorrect representation
+ motivo: el json está malformado, no tiene nada que ver con la fecha, así que el mensaje que debería devolver es el que se ha dado en la modificación.

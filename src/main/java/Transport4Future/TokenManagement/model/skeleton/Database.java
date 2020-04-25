@@ -27,10 +27,6 @@ import java.util.HashMap;
  * @param <L> the type parameter
  */
 public abstract class Database<T, L> {
-    /**
-     * The In memory db.
-     */
-    protected T inMemoryDb;
 
     /**
      * Instantiates a new Database.

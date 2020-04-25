@@ -14,6 +14,7 @@
 package Transport4Future.TokenManagement.model;
 
 import Transport4Future.TokenManagement.config.RegexConstants;
+import Transport4Future.TokenManagement.database.TokenDatabase;
 import Transport4Future.TokenManagement.exception.TokenManagementException;
 import Transport4Future.TokenManagement.model.skeleton.DeserializationConstraintChecker;
 import Transport4Future.TokenManagement.service.HashManager;
@@ -24,6 +25,8 @@ import com.google.gson.annotations.SerializedName;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.Date;
 
@@ -213,8 +216,16 @@ public class Token implements DeserializationConstraintChecker {
     public boolean areConstraintsPassed() throws TokenManagementException, JsonParseException {
 
         if (this.getDevice() == null
+                && this.getNotificationEmail() == null
+                && this.getRequestDate() == null) {
+            throw new TokenManagementException("Error: JSON object cannot be created due to incorrect representation");
+        }
+        if (this.getDevice() == null
                 || this.getNotificationEmail() == null
                 || this.getRequestDate() == null) {
+            throw new TokenManagementException("Error: invalid input data in JSON structure.");
+        }
+        if (this.getDevice().contains("\"")) {
             throw new TokenManagementException("Error: JSON object cannot be created due to incorrect representation");
         }
 
@@ -226,7 +237,6 @@ public class Token implements DeserializationConstraintChecker {
         if (!patternChecker.checkRegex(this.getNotificationEmail(), RegexConstants.EMAIL_RFC822)) {
             throw new TokenManagementException("Error: invalid E-mail data in JSON structure.");
         }
-
         if (!patternChecker.checkRegex(this.getRequestDate(), RegexConstants.JSON_DATE_FORMAT)) {
             throw new TokenManagementException("Error: invalid date data in JSON structure.");
         }

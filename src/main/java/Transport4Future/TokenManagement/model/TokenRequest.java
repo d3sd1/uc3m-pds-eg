@@ -65,6 +65,11 @@ public class TokenRequest implements DeserializationConstraintChecker {
         this.supportEMail = supportEMail;
         this.serialNumber = serialNumber;
         this.macAddress = macAddress;
+        try {
+            this.updateHex();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -151,7 +156,6 @@ public class TokenRequest implements DeserializationConstraintChecker {
                 ",\n\t\\Serial Number=" + this.serialNumber +
                 ",\n\t\\MAC Address=" + this.macAddress + "\n]";
     }
-
     @Override
     public boolean areConstraintsPassed() throws TokenManagementException, JsonParseException {
         TypeChecker typeChecker = new TypeChecker();
@@ -164,7 +168,6 @@ public class TokenRequest implements DeserializationConstraintChecker {
         ) {
             throw new TokenManagementException("Error: invalid input data in JSON structure.");
         }
-        System.out.println(this);
         PatternChecker patternChecker = new PatternChecker();
         if (!patternChecker.checkLengthBetween(this.getDeviceName(), 1, 20)) {
             throw new TokenManagementException("Error: invalid String length for device name.");

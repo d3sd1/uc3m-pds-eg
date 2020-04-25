@@ -21,6 +21,7 @@ import Transport4Future.TokenManagement.model.TokenRequest;
 import Transport4Future.TokenManagement.model.skeleton.TokenManager;
 import Transport4Future.TokenManagement.service.FileManager;
 import com.google.gson.JsonSyntaxException;
+import com.google.gson.stream.MalformedJsonException;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -54,7 +55,6 @@ public class TokenController implements TokenManager {
      */
     public String generate(String inputFile) throws TokenManagementException {
         TokenRequest tokenRequest;
-        byte[] encodedTokenRequest;
         String hex;
         FileManager fileManager = new FileManager();
         TokenRequestDatabase tokenRequestDatabase = TokenRequestDatabase.getInstance();
@@ -62,10 +62,15 @@ public class TokenController implements TokenManager {
         try {
             tokenRequest = fileManager.readJsonFileWithConstraints(inputFile, TokenRequest.class);
         } catch (JsonSyntaxException e) {
+            e.printStackTrace();
             throw new TokenManagementException("Error: JSON object cannot be created due to incorrect representation");
         } catch (FileNotFoundException e) {
             throw new TokenManagementException("Error: input file not found.");
-        } catch (IOException e) {
+        } catch (MalformedJsonException e) {
+            throw new TokenManagementException("Error: JSON object cannot be created due to incorrect representation");
+        }
+        catch (IOException e) {
+            e.printStackTrace();
             throw new TokenManagementException("Error: JSON object cannot be created due to incorrect representation");
         } catch (NullPointerException e) {
             throw new TokenManagementException("Error: invalid input data in JSON structure.");
@@ -106,8 +111,6 @@ public class TokenController implements TokenManager {
             throw new TokenManagementException("Error: JSON object cannot be created due to incorrect representation");
         } catch (IOException e) {
             throw new TokenManagementException("Error: JSON object cannot be created due to incorrect representation");
-        } catch(NullPointerException e) {
-            throw new TokenManagementException("");
         }
 
         tokenRequestDatabase.isRequestRegistered(token);
