@@ -13,20 +13,13 @@
 
 package Transport4Future.TokenManagement.model;
 
-import Transport4Future.TokenManagement.config.RegexConstants;
-import Transport4Future.TokenManagement.database.TokenDatabase;
-import Transport4Future.TokenManagement.exception.TokenManagementException;
 import Transport4Future.TokenManagement.model.skeleton.DeserializationConstraintChecker;
-import Transport4Future.TokenManagement.service.HashManager;
-import Transport4Future.TokenManagement.service.PatternChecker;
-import com.google.gson.JsonParseException;
+import Transport4Future.TokenManagement.service.Sha256Hasher;
 import com.google.gson.annotations.SerializedName;
 
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.Date;
 
@@ -179,9 +172,9 @@ public class Token implements DeserializationConstraintChecker {
      * @throws NoSuchAlgorithmException the no such algorithm exception
      */
     public void encodeValue() throws NoSuchAlgorithmException {
-        HashManager hashManager = new HashManager();
-        byte[] sha256 = hashManager.sha256Encode(this.getHeader() + this.getPayload());
-        String hex = hashManager.getSha256Hex(sha256);
+        Sha256Hasher sha256Hasher = new Sha256Hasher();
+        byte[] sha256 = sha256Hasher.sha256Encode(this.getHeader() + this.getPayload());
+        String hex = sha256Hasher.getSha256Hex(sha256);
         this.setSignature(hex);
         String stringToEncode = this.getHeader() + this.getPayload() + this.getSignature();
         String encodedString = Base64.getUrlEncoder().encodeToString(stringToEncode.getBytes());
