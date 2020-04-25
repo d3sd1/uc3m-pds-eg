@@ -109,7 +109,7 @@ public class TokenController implements TokenManager {
         } catch (FileNotFoundException e) {
             throw new TokenManagementException("Error: input file not found.");
         } catch (JsonSyntaxException e) {
-            throw new TokenManagementException("Error: JSON object cannot be created due to incorrect representation");
+            throw new TokenManagementException(e.getMessage());
         } catch (IOException e) {
             throw new TokenManagementException("Error: JSON object cannot be created due to incorrect representation");
         }

@@ -213,35 +213,4 @@ public class Token implements DeserializationConstraintChecker {
         return (!this.isExpired()) && (this.isGranted());
     }
 
-    //@Override
-    public boolean areConstraintsPassed() throws TokenManagementException, JsonParseException {
-
-        if (this.getDevice() == null
-                && this.getNotificationEmail() == null
-                && this.getRequestDate() == null) {
-            throw new TokenManagementException("Error: JSON object cannot be created due to incorrect representation");
-        }
-        if (this.getDevice() == null
-                || this.getNotificationEmail() == null
-                || this.getRequestDate() == null) {
-            throw new TokenManagementException("Error: invalid input data in JSON structure.");
-        }
-        if (this.getDevice().contains("\"")) {
-            throw new TokenManagementException("Error: JSON object cannot be created due to incorrect representation");
-        }
-
-        PatternChecker patternChecker = new PatternChecker();
-        if (!patternChecker.checkRegex(this.getDevice(), RegexConstants.DEVICE)) {
-            throw new TokenManagementException("Error: invalid Device in token request.");
-        }
-
-        if (!patternChecker.checkRegex(this.getNotificationEmail(), RegexConstants.EMAIL_RFC822)) {
-            throw new TokenManagementException("Error: invalid E-mail data in JSON structure.");
-        }
-        if (!patternChecker.checkRegex(this.getRequestDate(), RegexConstants.JSON_DATE_FORMAT)) {
-            throw new TokenManagementException("Error: invalid date data in JSON structure.");
-        }
-
-        return false;
-    }
 }

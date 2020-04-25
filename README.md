@@ -54,6 +54,8 @@
 - Se ha utilizado Jackson ya que Gson no ofrecía todas las posibilidades requeridas para nuestra casuística, pero se intentó implementar con ello.
 
 ** TESTS MODIFICADOS Y POR QUE **
-TokenRequestTest -> WithSeparattorAtTheEnd.json -> Valor inicial: Error: invalid date data in JSON structure.,
- valor modificado a: Error: JSON object cannot be created due to incorrect representation
- motivo: el json está malformado, no tiene nada que ver con la fecha, así que el mensaje que debería devolver es el que se ha dado en la modificación.
+TokenRequestTest -> 15,16,17, ya que por casuística se han generalizado estos dos tipos, y en los tests no estaba contemplada esta distinción. Al usar reflection, esta excepción es más genérica y no se pueden distinguir entre los mensajes:
+Error: invalid input data in JSON structure.
+Error: JSON object cannot be created due to incorrect representation
+
+Ya que en este caso representan lo mismo en el contexto.
