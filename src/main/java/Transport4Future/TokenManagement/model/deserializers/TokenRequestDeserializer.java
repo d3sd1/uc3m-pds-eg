@@ -16,7 +16,6 @@ public class TokenRequestDeserializer extends TypeAdapter<TokenRequest> {
 
     @Override
     public TokenRequest read(JsonReader reader) throws IOException {
-        System.out.println("DESERIALIZING");
         try {
             reader.beginObject();
         } catch (IllegalStateException e) {
@@ -46,10 +45,8 @@ public class TokenRequestDeserializer extends TypeAdapter<TokenRequest> {
                 System.out.println("FJSON IELD " + fieldname);
             }
 
-            token = reader.peek();
             if (fieldname == null) {
-                //TODO DO SMT
-                System.out.println("FIELDNAME NULL");
+                throw new JsonSyntaxException("Unexpected errorr on TokenRequestDeserializer.");
             } else if (fieldname.equals("Device Name")) {
                 deviceName = reader.nextString();
                 foundDeviceName = true;

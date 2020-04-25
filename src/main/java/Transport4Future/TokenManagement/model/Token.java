@@ -22,7 +22,6 @@ import Transport4Future.TokenManagement.service.PatternChecker;
 import com.google.gson.JsonParseException;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -35,25 +34,45 @@ import java.util.Date;
  * The type Token.
  */
 public class Token implements DeserializationConstraintChecker {
-    private String alg;
-    private String typ;
-    private long iat;
-    private long exp;
+    private final String alg;
+    private final String typ;
+    private final long iat;
+    private final long exp;
     @SerializedName("Token Request")
-    private String device;
+    private final String device;
     @SerializedName("Request Date")
-    private String requestDate;
+    private final String requestDate;
     @SerializedName("Notification e-mail")
-    private String notificationEmail;
+    private final String notificationEmail;
     private String signature;
     private String tokenValue;
 
     /**
      * Instantiates a new Token.
      *
+     * @param Device            the device
+     * @param RequestDate       the request date
+     * @param NotificationEmail the notification email
      */
-    public Token() {
-// GSON DOES NOT ACCEPT CONSTRUCTORS AS ARGS SOOOO WE HAVE TO PUT THJIS INSIDE A METHOD UPDATEOBJECT
+    public Token(
+            String Device,
+            String RequestDate,
+            String NotificationEmail) {
+        this.alg = "HS256";
+        this.typ = "PDS";
+        this.device = Device;
+        this.requestDate = RequestDate;
+        this.notificationEmail = NotificationEmail;
+//		this.iat = System.currentTimeMillis();
+        // SOLO PARA PRUEBAS
+        this.iat = 1584523340892l;
+        if ((this.device.startsWith("5"))) {
+            this.exp = this.iat + 604800000l;
+        } else {
+            this.exp = this.iat + 65604800000l;
+        }
+        this.signature = null;
+        this.tokenValue = null;
     }
 
     /**
@@ -160,18 +179,7 @@ public class Token implements DeserializationConstraintChecker {
      * @throws NoSuchAlgorithmException the no such algorithm exception
      */
     public void encodeValue() throws NoSuchAlgorithmException {
-        this.alg = "HS256";
-        this.typ = "PDS";
-//		this.iat = System.currentTimeMillis();
-        // SOLO PARA PRUEBAS
-        this.iat = 1584523340892l;
-        if ((this.device.startsWith("5"))) {
-            this.exp = this.iat + 604800000l;
-        } else {
-            this.exp = this.iat + 65604800000l;
-        }
-        this.signature = null;
-        this.tokenValue = null;
+        System.out.println("TO encode " + this);
         HashManager hashManager = new HashManager();
         byte[] sha256 = hashManager.sha256Encode(this.getHeader() + this.getPayload());
         String hex = hashManager.getSha256Hex(sha256);
@@ -236,5 +244,4 @@ public class Token implements DeserializationConstraintChecker {
 
         return false;
     }
-
 }
