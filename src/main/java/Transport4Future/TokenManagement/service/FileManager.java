@@ -16,6 +16,7 @@ package Transport4Future.TokenManagement.service;
 import Transport4Future.TokenManagement.exception.TokenManagementException;
 import Transport4Future.TokenManagement.model.skeleton.DeserializationConstraintChecker;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -46,6 +47,19 @@ public class FileManager {
 
         reader.close();
         return fileContents.toString();
+    }
+
+    /**
+     * Read file string.
+     *
+     * @param filePath the file path
+     * @return the string
+     * @throws IOException the io exception
+     */
+    public void writeFile(String filePath, String content) throws IOException {
+        FileWriter myWriter = new FileWriter(filePath);
+        myWriter.write(content);
+        myWriter.close();
     }
 
     /**
@@ -88,10 +102,8 @@ public class FileManager {
      * @throws IOException the io exception
      */
     public <T> void writeObjectToJsonFile(String filePath, T content) throws IOException {
-        Gson gson = new Gson();
-        Writer writer = Files.newBufferedWriter(Paths.get(filePath));
-        gson.toJson(content, writer);
-        writer.close();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        this.writeFile(filePath, gson.toJson(content));
     }
 
     /**
@@ -129,7 +141,7 @@ public class FileManager {
      * @throws IOException the io exception
      */
     public <T> void createJsonFileIfNotExists(String filePath, T content) throws IOException {
-        if(!(new File(filePath).exists())) {
+        if (!(new File(filePath).exists())) {
             this.writeObjectToJsonFile(filePath, content);
         }
     }

@@ -34,45 +34,25 @@ import java.util.Date;
  * The type Token.
  */
 public class Token implements DeserializationConstraintChecker {
-    private final String alg;
-    private final String typ;
-    private final long iat;
-    private final long exp;
+    private String alg;
+    private String typ;
+    private long iat;
+    private long exp;
     @SerializedName("Token Request")
-    private final String device;
+    private String device;
     @SerializedName("Request Date")
-    private final String requestDate;
+    private String requestDate;
     @SerializedName("Notification e-mail")
-    private final String notificationEmail;
+    private String notificationEmail;
     private String signature;
     private String tokenValue;
 
     /**
      * Instantiates a new Token.
      *
-     * @param Device            the device
-     * @param RequestDate       the request date
-     * @param NotificationEmail the notification email
      */
-    public Token(
-            String Device,
-            String RequestDate,
-            String NotificationEmail) {
-        this.alg = "HS256";
-        this.typ = "PDS";
-        this.device = Device;
-        this.requestDate = RequestDate;
-        this.notificationEmail = NotificationEmail;
-//		this.iat = System.currentTimeMillis();
-        // SOLO PARA PRUEBAS
-        this.iat = 1584523340892l;
-        if ((this.device.startsWith("5"))) {
-            this.exp = this.iat + 604800000l;
-        } else {
-            this.exp = this.iat + 65604800000l;
-        }
-        this.signature = null;
-        this.tokenValue = null;
+    public Token() {
+// GSON DOES NOT ACCEPT CONSTRUCTORS AS ARGS SOOOO WE HAVE TO PUT THJIS INSIDE A METHOD UPDATEOBJECT
     }
 
     /**
@@ -179,6 +159,19 @@ public class Token implements DeserializationConstraintChecker {
      * @throws NoSuchAlgorithmException the no such algorithm exception
      */
     public void encodeValue() throws NoSuchAlgorithmException {
+        this.alg = "HS256";
+        this.typ = "PDS";
+//		this.iat = System.currentTimeMillis();
+        // SOLO PARA PRUEBAS
+        this.iat = 1584523340892l;
+        if ((this.device.startsWith("5"))) {
+            this.exp = this.iat + 604800000l;
+        } else {
+            this.exp = this.iat + 65604800000l;
+        }
+        this.signature = null;
+        this.tokenValue = null;
+        System.out.println("TO encode " + this);
         HashManager hashManager = new HashManager();
         byte[] sha256 = hashManager.sha256Encode(this.getHeader() + this.getPayload());
         String hex = hashManager.getSha256Hex(sha256);
@@ -186,15 +179,6 @@ public class Token implements DeserializationConstraintChecker {
         String stringToEncode = this.getHeader() + this.getPayload() + this.getSignature();
         String encodedString = Base64.getUrlEncoder().encodeToString(stringToEncode.getBytes());
         this.tokenValue = encodedString;
-    }
-
-    /**
-     * Is valid boolean.
-     *
-     * @return the boolean
-     */
-    public boolean isValid() {
-        return (!this.isExpired()) && (this.isGranted());
     }
 
     @Override
@@ -210,6 +194,15 @@ public class Token implements DeserializationConstraintChecker {
                 ", signature='" + signature + '\'' +
                 ", tokenValue='" + tokenValue + '\'' +
                 '}';
+    }
+
+    /**
+     * Is valid boolean.
+     *
+     * @return the boolean
+     */
+    public boolean isValid() {
+        return (!this.isExpired()) && (this.isGranted());
     }
 
     @Override

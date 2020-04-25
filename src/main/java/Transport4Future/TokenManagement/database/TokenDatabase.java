@@ -20,9 +20,11 @@ import Transport4Future.TokenManagement.model.Token;
 import Transport4Future.TokenManagement.model.TokenRequest;
 import Transport4Future.TokenManagement.model.skeleton.Database;
 import Transport4Future.TokenManagement.service.FileManager;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -45,6 +47,7 @@ public class TokenDatabase extends Database<List<Token>, Token> {
         try {
             FileManager fileManager = new FileManager();
             fileManager.createJsonFileIfNotExists(Constants.TOKEN_STORAGE_FILE, new ArrayList<>());
+            this.reload();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -64,9 +67,9 @@ public class TokenDatabase extends Database<List<Token>, Token> {
 
     @Override
     public void add(Token newToken) throws TokenManagementException {
-        this.reload();
-        if (find(newToken.getTokenValue()) == null) {
+        if (this.find(newToken.getTokenValue()) == null) {
             inMemoryDb.add(newToken);
+            System.out.println("ADDED NEW VALUE TO INMEMORY " + newToken.getTokenValue());
             this.save();
         }
     }
@@ -75,22 +78,33 @@ public class TokenDatabase extends Database<List<Token>, Token> {
     protected void save() throws TokenManagementException {
         try {
             FileManager fileManager = new FileManager();
-            fileManager.writeObjectToJsonFile(Constants.TOKEN_STORAGE_FILE, inMemoryDb);
-        } catch (IOException e) {
+            if(inMemoryDb != null) {
+                fileManager.writeObjectToJsonFile(Constants.TOKEN_STORAGE_FILE, inMemoryDb);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
             throw new TokenManagementException("Error: Unable to save a new token in the internal licenses store");
         }
     }
 
     @Override
     public Token find(String tokenToFind) {
-
         Token result = null;
-        this.reload();
+        System.out.println("-----------------------------");
+        System.out.println("MEMORY DB " + inMemoryDb);
+        System.out.println("VALUE TO FIND: " + tokenToFind);
         for (Token token : inMemoryDb) {
+            try {
+                token.encodeValue();
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
+            System.out.println("VALUE STORED: " + token.getTokenValue());
             if (token.getTokenValue().equals(tokenToFind)) {
                 result = token;
             }
         }
+        System.out.println("-----------------------------");
         return result;
     }
 
@@ -98,12 +112,12 @@ public class TokenDatabase extends Database<List<Token>, Token> {
     protected void reload() {
         FileManager fileManager = new FileManager();
         try {
-            inMemoryDb = fileManager.readJsonFile(Constants.TOKEN_STORAGE_FILE, new TypeToken<List<Token>>(){}.getType());
-        } catch (Exception ignored) {
-        } finally {
-            if(inMemoryDb == null) {
-                inMemoryDb = new ArrayList<Token>();
+            List<Token> tokens = fileManager.readJsonFile(Constants.TOKEN_STORAGE_FILE, new TypeToken<List<Token>>(){}.getType());
+            if(tokens == null) {
+                throw new JsonSyntaxException("No tokens previously stored");
             }
+        } catch (Exception e) {
+            inMemoryDb = new ArrayList<Token>();
         }
     }
 
