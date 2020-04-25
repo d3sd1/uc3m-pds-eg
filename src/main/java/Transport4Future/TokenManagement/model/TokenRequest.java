@@ -156,15 +156,30 @@ public class TokenRequest implements DeserializationConstraintChecker {
                 ",\n\t\\Serial Number=" + this.serialNumber +
                 ",\n\t\\MAC Address=" + this.macAddress + "\n]";
     }
-    @Override
+    //@Override
     public boolean areConstraintsPassed() throws TokenManagementException, JsonParseException {
         TypeChecker typeChecker = new TypeChecker();
+        if (this.getDeviceName() == null
+                && this.getDriverVersion() == null
+                && this.getSerialNumber() == null
+                && this.getSupportEMail() == null
+                && this.getTypeOfDevice() == null
+                && this.getMacAddress() == null) {
+            throw new TokenManagementException("Error: JSON object cannot be created due to incorrect representation");
+        }
+        // we must check for integers since gson reflection does not divide strings nor ints, it threats it as the same
         if (this.getDeviceName() == null
                 || this.getDriverVersion() == null
                 || this.getSerialNumber() == null
                 || this.getSupportEMail() == null
                 || this.getTypeOfDevice() == null
                 || this.getMacAddress() == null
+                || typeChecker.isInteger(this.getSerialNumber())
+                || typeChecker.isInteger(this.getDriverVersion())
+                || typeChecker.isInteger(this.getMacAddress())
+                || typeChecker.isInteger(this.getTypeOfDevice())
+                || typeChecker.isInteger(this.getSupportEMail())
+                || typeChecker.isInteger(this.getDeviceName())
         ) {
             throw new TokenManagementException("Error: invalid input data in JSON structure.");
         }
@@ -173,13 +188,11 @@ public class TokenRequest implements DeserializationConstraintChecker {
             throw new TokenManagementException("Error: invalid String length for device name.");
         }
 
-        if (!patternChecker.checkRegex(this.getSerialNumber(), RegexConstants.SERIAL_NUMBER)
-        || typeChecker.isInteger(this.getSerialNumber())) {
+        if (!patternChecker.checkRegex(this.getSerialNumber(), RegexConstants.SERIAL_NUMBER)) {
             throw new TokenManagementException("Error: invalid String length for serial number.");
         }
         if (!patternChecker.checkLengthBetween(this.getDriverVersion(), 1, 25)
-                || !patternChecker.checkRegex(this.getDriverVersion(), RegexConstants.DRIVER_VERSION)
-                || typeChecker.isInteger(this.getDriverVersion())) {
+                || !patternChecker.checkRegex(this.getDriverVersion(), RegexConstants.DRIVER_VERSION)) {
             throw new TokenManagementException("Error: invalid String length for driver version.");
         }
 

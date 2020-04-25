@@ -15,13 +15,8 @@ package Transport4Future.TokenManagement.service;
 
 import Transport4Future.TokenManagement.exception.TokenManagementException;
 import Transport4Future.TokenManagement.model.skeleton.DeserializationConstraintChecker;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import java.io.*;
 import java.lang.reflect.Type;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 /**
  * The type File manager.
@@ -72,11 +67,8 @@ public class FileManager {
      * @throws IOException the io exception
      */
     public <T> T readJsonFile(String filePath, Type typeReference) throws IOException {
-        Gson gson = new Gson();
-        return gson.fromJson(
-                this.readFile(filePath),
-                typeReference
-        );
+        Deserializer deserializer = new Deserializer();
+        return deserializer.jsonDecode(this.readFile(filePath), typeReference);
     }
 
     /**
@@ -89,8 +81,8 @@ public class FileManager {
      * @throws IOException the io exception
      */
     public <T> T readJsonFile(String filePath, Class<T> deserializeClass) throws IOException {
-        Gson gson = new Gson();
-        return gson.fromJson(this.readFile(filePath), deserializeClass);
+        Deserializer deserializer = new Deserializer();
+        return deserializer.jsonDecode(this.readFile(filePath), deserializeClass);
     }
 
     /**
@@ -102,8 +94,8 @@ public class FileManager {
      * @throws IOException the io exception
      */
     public <T> void writeObjectToJsonFile(String filePath, T content) throws IOException {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        this.writeFile(filePath, gson.toJson(content));
+        Deserializer deserializer = new Deserializer();
+        this.writeFile(filePath, deserializer.jsonEncode(content));
     }
 
     /**
@@ -116,9 +108,9 @@ public class FileManager {
      * @throws IOException              the io exception
      * @throws TokenManagementException the token management exception
      */
-    public <T extends DeserializationConstraintChecker> T readJsonFileWithConstraints(String filePath, Class<T> deserializeClass) throws IOException, TokenManagementException {
+    public <T extends DeserializationConstraintChecker> T readJsonFileWithConstraints(String filePath, Class<T> deserializeClass) throws IOException {
         T obj = this.readJsonFile(filePath, deserializeClass);
-        obj.areConstraintsPassed();
+        //obj.areConstraintsPassed();
         return obj;
     }
 

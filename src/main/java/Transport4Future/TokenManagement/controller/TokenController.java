@@ -20,21 +20,12 @@ import Transport4Future.TokenManagement.model.Token;
 import Transport4Future.TokenManagement.model.TokenRequest;
 import Transport4Future.TokenManagement.model.skeleton.TokenManager;
 import Transport4Future.TokenManagement.service.FileManager;
-import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.MalformedJsonException;
 
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.Type;
-import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
-import java.util.HashMap;
 
 
 /**
@@ -70,9 +61,8 @@ public class TokenController implements TokenManager {
 
         try {
             tokenRequest = fileManager.readJsonFileWithConstraints(inputFile, TokenRequest.class);
-        } catch (JsonSyntaxException e) {
-            e.printStackTrace();
-            throw new TokenManagementException("Error: JSON object cannot be created due to incorrect representation");
+        } catch ( JsonSyntaxException e) {
+            throw new TokenManagementException(e.getMessage());
         } catch (FileNotFoundException e) {
             throw new TokenManagementException("Error: input file not found.");
         } catch (MalformedJsonException e) {
@@ -89,6 +79,8 @@ public class TokenController implements TokenManager {
             hex = tokenRequest.updateHex();
         } catch (NoSuchAlgorithmException e) {
             throw new TokenManagementException("Error: no such hashing algorithm.");
+        } catch (NullPointerException e) {
+            throw new TokenManagementException("Error: JSON object cannot be created due to incorrect representation");
         } catch (Exception e) {
             throw new TokenManagementException("Error: could not encode token request.");
         }

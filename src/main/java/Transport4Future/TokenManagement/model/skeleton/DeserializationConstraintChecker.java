@@ -16,6 +16,8 @@ package Transport4Future.TokenManagement.model.skeleton;
 import Transport4Future.TokenManagement.exception.TokenManagementException;
 import com.google.gson.JsonParseException;
 
+import java.io.IOException;
+
 /**
  * The interface Deserialization constraint checker.
  */
@@ -27,5 +29,6 @@ public interface DeserializationConstraintChecker {
      * @throws TokenManagementException the token management exception
      * @throws JsonParseException     the json mapping exception
      */
-    boolean areConstraintsPassed() throws TokenManagementException, JsonParseException;
+    //boolean areConstraintsPassed() throws TokenManagementException, JsonParseException;
+    //void runAfterDeserializing() throws IOException;
 }

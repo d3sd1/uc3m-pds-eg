@@ -22,6 +22,7 @@ import Transport4Future.TokenManagement.service.PatternChecker;
 import com.google.gson.JsonParseException;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -171,7 +172,6 @@ public class Token implements DeserializationConstraintChecker {
         }
         this.signature = null;
         this.tokenValue = null;
-        System.out.println("TO encode " + this);
         HashManager hashManager = new HashManager();
         byte[] sha256 = hashManager.sha256Encode(this.getHeader() + this.getPayload());
         String hex = hashManager.getSha256Hex(sha256);
@@ -205,7 +205,7 @@ public class Token implements DeserializationConstraintChecker {
         return (!this.isExpired()) && (this.isGranted());
     }
 
-    @Override
+    //@Override
     public boolean areConstraintsPassed() throws TokenManagementException, JsonParseException {
 
         if (this.getDevice() == null
@@ -236,4 +236,5 @@ public class Token implements DeserializationConstraintChecker {
 
         return false;
     }
+
 }

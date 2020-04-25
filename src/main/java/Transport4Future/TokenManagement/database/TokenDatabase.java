@@ -69,7 +69,6 @@ public class TokenDatabase extends Database<List<Token>, Token> {
     public void add(Token newToken) throws TokenManagementException {
         if (this.find(newToken.getTokenValue()) == null) {
             inMemoryDb.add(newToken);
-            System.out.println("ADDED NEW VALUE TO INMEMORY " + newToken.getTokenValue());
             this.save();
         }
     }
@@ -90,21 +89,16 @@ public class TokenDatabase extends Database<List<Token>, Token> {
     @Override
     public Token find(String tokenToFind) {
         Token result = null;
-        System.out.println("-----------------------------");
-        System.out.println("MEMORY DB " + inMemoryDb);
-        System.out.println("VALUE TO FIND: " + tokenToFind);
         for (Token token : inMemoryDb) {
             try {
                 token.encodeValue();
             } catch (NoSuchAlgorithmException e) {
                 e.printStackTrace();
             }
-            System.out.println("VALUE STORED: " + token.getTokenValue());
             if (token.getTokenValue().equals(tokenToFind)) {
                 result = token;
             }
         }
-        System.out.println("-----------------------------");
         return result;
     }
 
