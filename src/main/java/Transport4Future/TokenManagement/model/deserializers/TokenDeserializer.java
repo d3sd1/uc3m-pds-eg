@@ -30,13 +30,11 @@ public class TokenDeserializer extends TypeAdapter<Token> {
             reader.beginObject();
             String fieldname = null;
 
-            System.out.println(reader.getPath());
             while (reader.hasNext()) {
                 JsonToken token = reader.peek();
                 if (token.equals(JsonToken.NAME)) {
                     //get the current token
                     fieldname = reader.nextName();
-                    System.out.println("FJSON IELD " + fieldname);
                 }
 
                 if (fieldname == null) {
