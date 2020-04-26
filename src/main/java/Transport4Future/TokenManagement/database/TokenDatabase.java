@@ -90,7 +90,6 @@ public class TokenDatabase extends Database<List<Token>, Token> {
                 fileManager.writeObjectToJsonFile(Constants.TOKEN_STORAGE_FILE, inMemoryDb);
             }
         } catch (Exception e) {
-            e.printStackTrace();
             throw new TokenManagementException("Error: Unable to save a new token in the internal licenses store");
         }
     }

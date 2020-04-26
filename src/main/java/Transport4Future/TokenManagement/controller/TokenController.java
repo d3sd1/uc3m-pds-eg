@@ -72,7 +72,6 @@ public class TokenController implements TokenManager {
             throw new TokenManagementException("Error: JSON object cannot be created due to incorrect representation");
         }
         catch (IOException e) {
-            e.printStackTrace();
             throw new TokenManagementException("Error: JSON object cannot be created due to incorrect representation");
         } catch (NullPointerException e) {
             throw new TokenManagementException("Error: invalid input data in JSON structure.");
@@ -126,7 +125,6 @@ public class TokenController implements TokenManager {
         } catch (NoSuchAlgorithmException e) {
             throw new TokenManagementException("Error: no such hashing algorithm.");
         } catch (Exception e) {
-            e.printStackTrace();
             throw new TokenManagementException("Error: could not encode token request.");
         }
 
