@@ -13,6 +13,7 @@
 
 package Transport4Future.TokenManagement.model;
 
+import Transport4Future.TokenManagement.model.skeleton.Hasher;
 import Transport4Future.TokenManagement.service.Sha256Hasher;
 import com.google.gson.annotations.SerializedName;
 
@@ -171,7 +172,7 @@ public class Token {
      * @throws NoSuchAlgorithmException the no such algorithm exception
      */
     public void encodeValue() throws NoSuchAlgorithmException {
-        Sha256Hasher sha256Hasher = new Sha256Hasher();
+        Hasher sha256Hasher = new Sha256Hasher();
         byte[] sha256 = sha256Hasher.encode(this.getHeader() + this.getPayload());
         String hex = sha256Hasher.hex(sha256);
         this.setSignature(hex);

@@ -33,7 +33,8 @@
 - Se ha seguido la normativa de código.
 - Subidos XML de ejecución del código de tests satisfactorios.
 - Usado patrón Singleton en TokenManager (-> Renamed to TokenController), TokenRequestsStore (renamed to TokenRequestDatabase) y TokensStore (renamed to TokenDatabase)
-                            
+- Verificada normativa de código
+       
 **Trabajos EXTRA (Práctica 4)**:
 - Se ha refactorizado usando tipos genéricos.
 - Se ha agregado la herramienta de checking SonarCloud mediante integración continua.

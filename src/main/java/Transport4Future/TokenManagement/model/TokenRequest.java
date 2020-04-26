@@ -13,12 +13,8 @@
 
 package Transport4Future.TokenManagement.model;
 
-import Transport4Future.TokenManagement.config.RegexConstants;
-import Transport4Future.TokenManagement.exception.TokenManagementException;
+import Transport4Future.TokenManagement.model.skeleton.Hasher;
 import Transport4Future.TokenManagement.service.Md5Hasher;
-import Transport4Future.TokenManagement.service.PatternChecker;
-import Transport4Future.TokenManagement.service.TypeChecker;
-import com.google.gson.JsonParseException;
 import com.google.gson.annotations.SerializedName;
 
 import java.security.NoSuchAlgorithmException;
@@ -132,7 +128,7 @@ public class TokenRequest {
      * @throws NoSuchAlgorithmException the no such algorithm exception
      */
     public String updateHex() throws NoSuchAlgorithmException {
-        Md5Hasher md5Hasher = new Md5Hasher();
+        Hasher md5Hasher = new Md5Hasher();
         this.hex = md5Hasher.hex(md5Hasher.encode(this.toString()));
         return this.hex;
     }
