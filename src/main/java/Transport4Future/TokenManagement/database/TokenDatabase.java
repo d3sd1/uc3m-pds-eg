@@ -17,16 +17,13 @@ import Transport4Future.TokenManagement.config.Constants;
 import Transport4Future.TokenManagement.controller.TokenController;
 import Transport4Future.TokenManagement.exception.TokenManagementException;
 import Transport4Future.TokenManagement.model.Token;
-import Transport4Future.TokenManagement.model.TokenRequest;
 import Transport4Future.TokenManagement.model.skeleton.Database;
 import Transport4Future.TokenManagement.service.FileManager;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -107,11 +104,6 @@ public class TokenDatabase extends Database<List<Token>, Token> {
     public Token find(String tokenToFind) {
         Token result = null;
         for (Token token : inMemoryDb) {
-            try {
-                token.encodeValue();
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            }
             if (token.getTokenValue().equals(tokenToFind)) {
                 result = token;
             }

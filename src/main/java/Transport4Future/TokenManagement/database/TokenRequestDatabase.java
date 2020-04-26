@@ -24,7 +24,6 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * The type Token request database.
@@ -127,7 +126,7 @@ public class TokenRequestDatabase extends Database<HashMap<String, TokenRequest>
      */
     public void isRequestRegistered(Token token) throws TokenManagementException {
         this.reload();
-        if (inMemoryDb == null || !inMemoryDb.containsKey(token.getDevice())) {
+        if (inMemoryDb == null || !inMemoryDb.containsKey(token.getTokenRequest())) {
             throw new TokenManagementException("Error: Token Request Not Previously Registered");
         }
     }

@@ -130,7 +130,7 @@ public class TokenTypeAdapter extends TypeAdapter<Token> {
     public void write(JsonWriter writer, Token token) throws IOException {
         writer.beginObject();
         writer.name("Token Request");
-        writer.value(token.getDevice());
+        writer.value(token.getTokenRequest());
         writer.name("Notification e-mail");
         writer.value(token.getNotificationEmail());
         writer.name("Request Date");

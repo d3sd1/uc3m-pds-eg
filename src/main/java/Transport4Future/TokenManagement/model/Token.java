@@ -13,6 +13,7 @@
 
 package Transport4Future.TokenManagement.model;
 
+import Transport4Future.TokenManagement.config.Constants;
 import Transport4Future.TokenManagement.model.skeleton.Hasher;
 import Transport4Future.TokenManagement.service.Sha256Hasher;
 
@@ -27,11 +28,11 @@ import java.util.Objects;
  * The type Token.
  */
 public class Token {
-    private final String alg;
-    private final String typ;
+    private final TokenAlgorytm alg;
+    private final TokenType typ;
     private final long iat;
     private final long exp;
-    private final String device;
+    private final String tokenRequest;
     private final String requestDate;
     private final String notificationEmail;
     private String signature;
@@ -40,27 +41,35 @@ public class Token {
     /**
      * Instantiates a new Token.
      *
-     * @param Device            the device
+     * @param tokenRequest      the device
      * @param RequestDate       the request date
      * @param NotificationEmail the notification email
      */
     public Token(
-            String Device,
+            String tokenRequest,
             String RequestDate,
             String NotificationEmail) {
-        this.alg = "HS256";
-        this.typ = "PDS";
-        this.device = Device;
+        this.alg = TokenAlgorytm.HS256;
+        this.typ = TokenType.PDS;
+        this.tokenRequest = tokenRequest;
         this.requestDate = RequestDate;
         this.notificationEmail = NotificationEmail;
-//		this.iat = System.currentTimeMillis();
-        // SOLO PARA PRUEBAS
-        this.iat = 1584523340892l;
-        if ((this.device.startsWith("5"))) {
-            this.exp = this.iat + 604800000l;
+        if (Constants.IS_DEV) {
+            this.iat = 1584523340892l;
+            if ((this.tokenRequest.startsWith("5"))) {
+                this.exp = this.iat + 604800000l;
+            } else {
+                this.exp = this.iat + 65604800000l;
+            }
         } else {
-            this.exp = this.iat + 65604800000l;
+            this.iat = System.currentTimeMillis();
         }
+        try {
+            this.encodeValue();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
         this.signature = null;
         this.tokenValue = null;
     }
@@ -70,8 +79,8 @@ public class Token {
      *
      * @return the device
      */
-    public String getDevice() {
-        return device;
+    public String getTokenRequest() {
+        return tokenRequest;
     }
 
     /**
@@ -130,7 +139,7 @@ public class Token {
 
         DateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
-        return "Dev=" + this.device
+        return "Dev=" + this.tokenRequest
                 + "\\n iat=" + df.format(iatDate)
                 + "\\n exp=" + df.format(expDate);
     }
@@ -164,7 +173,7 @@ public class Token {
 
 
     /**
-     * Encode value.
+     * Encode value hash for current token.
      *
      * @throws NoSuchAlgorithmException the no such algorithm exception
      */
@@ -180,7 +189,7 @@ public class Token {
 
 
     /**
-     * Is valid boolean.
+     * Check if token is valid, granted, on database and not expired.
      *
      * @return the boolean
      */
@@ -197,7 +206,7 @@ public class Token {
                 exp == token.exp &&
                 Objects.equals(alg, token.alg) &&
                 Objects.equals(typ, token.typ) &&
-                Objects.equals(getDevice(), token.getDevice()) &&
+                Objects.equals(getTokenRequest(), token.getTokenRequest()) &&
                 Objects.equals(getRequestDate(), token.getRequestDate()) &&
                 Objects.equals(getNotificationEmail(), token.getNotificationEmail()) &&
                 Objects.equals(getSignature(), token.getSignature()) &&
@@ -206,7 +215,7 @@ public class Token {
 
     @Override
     public int hashCode() {
-        return Objects.hash(alg, typ, iat, exp, getDevice(), getRequestDate(), getNotificationEmail(), getSignature(), getTokenValue());
+        return Objects.hash(alg, typ, iat, exp, getTokenRequest(), getRequestDate(), getNotificationEmail(), getSignature(), getTokenValue());
     }
 
     @Override
@@ -216,7 +225,7 @@ public class Token {
                 ", typ='" + typ + '\'' +
                 ", iat=" + iat +
                 ", exp=" + exp +
-                ", device='" + device + '\'' +
+                ", device='" + tokenRequest + '\'' +
                 ", requestDate='" + requestDate + '\'' +
                 ", notificationEmail='" + notificationEmail + '\'' +
                 ", signature='" + signature + '\'' +
