@@ -130,7 +130,12 @@ public class TokenRequest {
      */
     public String updateHex() throws NoSuchAlgorithmException {
         Hasher md5Hasher = new Md5Hasher();
-        this.hex = md5Hasher.hex(md5Hasher.encode(this.toString()));
+        this.hex = md5Hasher.hex(md5Hasher.encode("TokenRequest [\\n\\Device Name=" + this.deviceName +
+                ",\n\t\\Type of Device=" + this.typeOfDevice +
+                ",\n\t\\Driver Version=" + this.driverVersion +
+                ",\n\t\\Support e-Mail=" + this.supportEMail +
+                ",\n\t\\Serial Number=" + this.serialNumber +
+                ",\n\t\\MAC Address=" + this.macAddress + "\n]"));
         return this.hex;
     }
 
