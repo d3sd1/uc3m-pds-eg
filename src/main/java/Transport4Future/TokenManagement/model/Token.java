@@ -15,7 +15,6 @@ package Transport4Future.TokenManagement.model;
 
 import Transport4Future.TokenManagement.model.skeleton.Hasher;
 import Transport4Future.TokenManagement.service.Sha256Hasher;
-import com.google.gson.annotations.SerializedName;
 
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
@@ -32,11 +31,8 @@ public class Token {
     private final String typ;
     private final long iat;
     private final long exp;
-    @SerializedName("Token Request")
     private final String device;
-    @SerializedName("Request Date")
     private final String requestDate;
-    @SerializedName("Notification e-mail")
     private final String notificationEmail;
     private String signature;
     private String tokenValue;

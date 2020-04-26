@@ -35,4 +35,14 @@ public class Constants {
      * This should be done with maven and CLI args, but we don't want more complexity.
      */
     public static final boolean IS_DEV = true;
+    /**
+     * Determine if we are in dev mode or not.
+     * This should be done with maven and CLI args, but we don't want more complexity.
+     */
+    public static final String TOKEN_REQUEST_ENCODER_HEX = "TokenRequest [\\n\\Device Name={{DEVICE_NAME}}" +
+            ",\n\t\\Type of Device={{TYPE_OF_DEVICE}}" +
+            ",\n\t\\Driver Version={{DRIVER_VERSION}}" +
+            ",\n\t\\Support e-Mail={{SUPPORT_EMAIL}}" +
+            ",\n\t\\Serial Number={{SERIAL_NUMBER}}" +
+            ",\n\t\\MAC Address={{MAC_ADDRESS}}\n]";
 }

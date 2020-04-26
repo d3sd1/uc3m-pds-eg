@@ -13,9 +13,9 @@
 
 package Transport4Future.TokenManagement.model;
 
+import Transport4Future.TokenManagement.config.Constants;
 import Transport4Future.TokenManagement.model.skeleton.Hasher;
 import Transport4Future.TokenManagement.service.Md5Hasher;
-import com.google.gson.annotations.SerializedName;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
@@ -24,19 +24,12 @@ import java.util.Objects;
  * The type Token request.
  */
 public class TokenRequest {
-    @SerializedName("Device Name")
     private final String deviceName;
-    @SerializedName("Type of Device")
     private final String typeOfDevice;
-    @SerializedName("Driver Version")
     private final String driverVersion;
-    @SerializedName("Support e-mail")
     private final String supportEMail;
-    @SerializedName("Serial Number")
     private final String serialNumber;
-    @SerializedName("MAC Address")
     private final String macAddress;
-    private String hex;
 
     /**
      * Instantiates a new Token request.
@@ -61,11 +54,6 @@ public class TokenRequest {
         this.supportEMail = supportEMail;
         this.serialNumber = serialNumber;
         this.macAddress = macAddress;
-        try {
-            this.updateHex();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -126,26 +114,22 @@ public class TokenRequest {
      * Update hex string.
      *
      * @return the string
-     * @throws NoSuchAlgorithmException the no such algorithm exception
-     */
-    public String updateHex() throws NoSuchAlgorithmException {
-        Hasher md5Hasher = new Md5Hasher();
-        this.hex = md5Hasher.hex(md5Hasher.encode("TokenRequest [\\n\\Device Name=" + this.deviceName +
-                ",\n\t\\Type of Device=" + this.typeOfDevice +
-                ",\n\t\\Driver Version=" + this.driverVersion +
-                ",\n\t\\Support e-Mail=" + this.supportEMail +
-                ",\n\t\\Serial Number=" + this.serialNumber +
-                ",\n\t\\MAC Address=" + this.macAddress + "\n]"));
-        return this.hex;
-    }
-
-    /**
-     * Gets hex.
-     *
-     * @return the hex
      */
     public String getHex() {
-        return hex;
+        Hasher md5Hasher = new Md5Hasher();
+        try {
+            return md5Hasher.hex(md5Hasher.encode(
+                    Constants.TOKEN_REQUEST_ENCODER_HEX
+                            .replace("{{DEVICE_NAME}}", this.deviceName)
+                            .replace("{{TYPE_OF_DEVICE}}", this.typeOfDevice)
+                            .replace("{{DRIVER_VERSION}}", this.driverVersion)
+                            .replace("{{SUPPORT_EMAIL}}", this.supportEMail)
+                            .replace("{{SERIAL_NUMBER}}", this.serialNumber)
+                            .replace("{{MAC_ADDRESS}}", this.macAddress)
+            ));
+        } catch (NoSuchAlgorithmException e) {
+            return null;
+        }
     }
 
     @Override
@@ -157,7 +141,6 @@ public class TokenRequest {
                 ", supportEMail='" + supportEMail + '\'' +
                 ", serialNumber='" + serialNumber + '\'' +
                 ", macAddress='" + macAddress + '\'' +
-                ", hex='" + hex + '\'' +
                 '}';
     }
 
@@ -171,12 +154,11 @@ public class TokenRequest {
                 Objects.equals(getDriverVersion(), that.getDriverVersion()) &&
                 Objects.equals(getSupportEMail(), that.getSupportEMail()) &&
                 Objects.equals(getSerialNumber(), that.getSerialNumber()) &&
-                Objects.equals(getMacAddress(), that.getMacAddress()) &&
-                Objects.equals(getHex(), that.getHex());
+                Objects.equals(getMacAddress(), that.getMacAddress());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getDeviceName(), getTypeOfDevice(), getDriverVersion(), getSupportEMail(), getSerialNumber(), getMacAddress(), getHex());
+        return Objects.hash(getDeviceName(), getTypeOfDevice(), getDriverVersion(), getSupportEMail(), getSerialNumber(), getMacAddress());
     }
 }

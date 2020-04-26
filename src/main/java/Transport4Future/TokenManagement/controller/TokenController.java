@@ -79,9 +79,7 @@ public class TokenController implements TokenManager {
         }
 
         try {
-            hex = tokenRequest.updateHex();
-        } catch (NoSuchAlgorithmException e) {
-            throw new TokenManagementException("Error: no such hashing algorithm.");
+            hex = tokenRequest.getHex();
         } catch (NullPointerException e) {
             throw new TokenManagementException("Error: JSON object cannot be created due to incorrect representation");
         } catch (Exception e) {
