@@ -111,7 +111,7 @@ public class TokenRequest {
     }
 
     /**
-     * Update hex string.
+     * Returns hex string.
      *
      * @return the string
      */
@@ -132,6 +132,11 @@ public class TokenRequest {
         }
     }
 
+    /**
+     * Encoded string, previously used to retuen hex, but now it's self-independent.
+     *
+     * @return String value of the object and it's fields.
+     */
     @Override
     public String toString() {
         return "TokenRequest{" +
@@ -144,6 +149,12 @@ public class TokenRequest {
                 '}';
     }
 
+    /**
+     * Object comparator.
+     *
+     * @param o other object to compare to this.
+     * @return wetter object is nor not equals.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -157,6 +168,11 @@ public class TokenRequest {
                 Objects.equals(getMacAddress(), that.getMacAddress());
     }
 
+    /**
+     * Unique hash code object to JVM.
+     *
+     * @return int value of the hashcode.
+     */
     @Override
     public int hashCode() {
         return Objects.hash(getDeviceName(), getTypeOfDevice(), getDriverVersion(), getSupportEMail(), getSerialNumber(), getMacAddress());
