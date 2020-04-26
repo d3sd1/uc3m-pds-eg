@@ -32,20 +32,8 @@ public class Sha256Hasher implements Hasher {
      * @return the byte [ ]
      * @throws NoSuchAlgorithmException the no such algorithm exception
      */
+    @Override
     public byte[] encode(String dataToSign) throws NoSuchAlgorithmException {
-        MessageDigest md = MessageDigest.getInstance("SHA-256");
-        md.update(dataToSign.getBytes(StandardCharsets.UTF_8));
-        return md.digest();
-    }
-    /**
-     * Sha 256 encode byte [ ].
-     *
-     * @param dataToSign the data to sign
-     * @return the byte [ ]
-     * @throws NoSuchAlgorithmException the no such algorithm exception
-     */
-    public byte[] decode(String dataToSign) throws NoSuchAlgorithmException {
-        //TODO
         MessageDigest md = MessageDigest.getInstance("SHA-256");
         md.update(dataToSign.getBytes(StandardCharsets.UTF_8));
         return md.digest();
@@ -57,7 +45,8 @@ public class Sha256Hasher implements Hasher {
      * @param sha256 the sha 256
      * @return the sha 256 hex
      */
-    public String getHex(byte[] sha256) {
+    @Override
+    public String hex(byte[] sha256) {
         return String.format("%064x", new BigInteger(1, sha256));
     }
 }

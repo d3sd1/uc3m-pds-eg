@@ -16,6 +16,7 @@ package Transport4Future.TokenManagement.model;
 import Transport4Future.TokenManagement.config.RegexConstants;
 import Transport4Future.TokenManagement.exception.TokenManagementException;
 import Transport4Future.TokenManagement.model.skeleton.DeserializationConstraintChecker;
+import Transport4Future.TokenManagement.service.Md5Hasher;
 import Transport4Future.TokenManagement.service.Sha256Hasher;
 import Transport4Future.TokenManagement.service.PatternChecker;
 import Transport4Future.TokenManagement.service.TypeChecker;
@@ -133,8 +134,8 @@ public class TokenRequest implements DeserializationConstraintChecker {
      * @throws NoSuchAlgorithmException the no such algorithm exception
      */
     public String updateHex() throws NoSuchAlgorithmException {
-        Sha256Hasher sha256Hasher = new Sha256Hasher();
-        this.hex = sha256Hasher.getShaMd5Hex(sha256Hasher.md5Encode(this.toString()));
+        Md5Hasher md5Hasher = new Md5Hasher();
+        this.hex = md5Hasher.hex(md5Hasher.encode(this.toString()));
         return this.hex;
     }
 

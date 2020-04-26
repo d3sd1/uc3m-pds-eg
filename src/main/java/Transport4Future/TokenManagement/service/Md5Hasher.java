@@ -31,34 +31,12 @@ public class Md5Hasher implements Hasher {
      * @return the byte [ ]
      * @throws NoSuchAlgorithmException the no such algorithm exception
      */
-    public byte[] md5Encode(String dataToEncode) throws NoSuchAlgorithmException {
+    @Override
+    public byte[] encode(String dataToEncode) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("MD5");
         String input = "Stardust" + "-" + dataToEncode;
         md.update(input.getBytes(StandardCharsets.UTF_8));
         return md.digest();
-    }
-
-    /**
-     * Sha 256 encode byte [ ].
-     *
-     * @param dataToSign the data to sign
-     * @return the byte [ ]
-     * @throws NoSuchAlgorithmException the no such algorithm exception
-     */
-    public byte[] sha256Encode(String dataToSign) throws NoSuchAlgorithmException {
-        MessageDigest md = MessageDigest.getInstance("SHA-256");
-        md.update(dataToSign.getBytes(StandardCharsets.UTF_8));
-        return md.digest();
-    }
-
-    /**
-     * Gets sha 256 hex.
-     *
-     * @param sha256 the sha 256
-     * @return the sha 256 hex
-     */
-    public String getSha256Hex(byte[] sha256) {
-        return String.format("%064x", new BigInteger(1, sha256));
     }
 
     /**
@@ -67,7 +45,8 @@ public class Md5Hasher implements Hasher {
      * @param md5 the md 5
      * @return the sha md 5 hex
      */
-    public String getShaMd5Hex(byte[] md5) {
+    @Override
+    public String hex(byte[] md5) {
         return String.format("%32x", new BigInteger(1, md5));
     }
 }

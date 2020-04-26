@@ -173,8 +173,8 @@ public class Token implements DeserializationConstraintChecker {
      */
     public void encodeValue() throws NoSuchAlgorithmException {
         Sha256Hasher sha256Hasher = new Sha256Hasher();
-        byte[] sha256 = sha256Hasher.sha256Encode(this.getHeader() + this.getPayload());
-        String hex = sha256Hasher.getSha256Hex(sha256);
+        byte[] sha256 = sha256Hasher.encode(this.getHeader() + this.getPayload());
+        String hex = sha256Hasher.hex(sha256);
         this.setSignature(hex);
         String stringToEncode = this.getHeader() + this.getPayload() + this.getSignature();
         String encodedString = Base64.getUrlEncoder().encodeToString(stringToEncode.getBytes());
