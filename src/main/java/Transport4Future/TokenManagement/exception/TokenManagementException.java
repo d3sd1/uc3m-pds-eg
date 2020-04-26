@@ -33,6 +33,10 @@ public class TokenManagementException extends Exception {
         this.message = message;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getMessage() {
 
         return this.message;

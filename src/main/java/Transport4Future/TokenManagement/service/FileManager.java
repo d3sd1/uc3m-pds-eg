@@ -14,7 +14,7 @@
 package Transport4Future.TokenManagement.service;
 
 import Transport4Future.TokenManagement.exception.TokenManagementException;
-import Transport4Future.TokenManagement.model.skeleton.DeserializationConstraintChecker;
+
 import java.io.*;
 import java.lang.reflect.Type;
 
@@ -108,7 +108,7 @@ public class FileManager {
      * @throws IOException              the io exception
      * @throws TokenManagementException the token management exception
      */
-    public <T extends DeserializationConstraintChecker> T readJsonFileWithConstraints(String filePath, Class<T> deserializeClass) throws IOException {
+    public <T> T readJsonFileWithConstraints(String filePath, Class<T> deserializeClass) throws IOException {
         T obj = this.readJsonFile(filePath, deserializeClass);
         //obj.areConstraintsPassed();
         return obj;

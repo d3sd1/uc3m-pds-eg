@@ -48,6 +48,9 @@ public class TokenController implements TokenManager {
     /**
      * This class generates a TokenRequest, that will be use to
      *
+     * NOTE: Gettting exception "JsonSyntaxException" means deserializers got an exception,
+     * that we poreviously configured the message, so we convert it to TokenManagementException and throw it,
+     * since we cannot throw TokenManagementException from deserializers due to Gson issues.
      * @param inputFile File path to retrieve a valid RequestToken file. If not valid, see @throws.
      * @return tokenRequest HEX code, if request went success.
      * @throws TokenManagementException with specific message based on cases.
@@ -92,6 +95,9 @@ public class TokenController implements TokenManager {
 
     /**
      * This method requests a token to access api after getting the tokenRequest.
+     * NOTE: Gettting exception "JsonSyntaxException" means deserializers got an exception,
+     * that we poreviously configured the message, so we convert it to TokenManagementException and throw it,
+     * since we cannot throw TokenManagementException from deserializers due to Gson issues.
      *
      * @param inputFile File path to retrieve a valid Token file. If not valid, see @throws.
      * @return Encoded token value.
@@ -133,6 +139,9 @@ public class TokenController implements TokenManager {
     /**
      * This method verifies that a token is valid, not expired and stored in database.
      *
+     * NOTE: Gettting exception "JsonSyntaxException" means deserializers got an exception,
+     * that we poreviously configured the message, so we convert it to TokenManagementException and throw it,
+     * since we cannot throw TokenManagementException from deserializers due to Gson issues.
      * @param encodedToken
      * @return Wetter is valid or not.
      * @return Wetter is valid or not.

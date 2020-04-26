@@ -15,9 +15,7 @@ package Transport4Future.TokenManagement.model;
 
 import Transport4Future.TokenManagement.config.RegexConstants;
 import Transport4Future.TokenManagement.exception.TokenManagementException;
-import Transport4Future.TokenManagement.model.skeleton.DeserializationConstraintChecker;
 import Transport4Future.TokenManagement.service.Md5Hasher;
-import Transport4Future.TokenManagement.service.Sha256Hasher;
 import Transport4Future.TokenManagement.service.PatternChecker;
 import Transport4Future.TokenManagement.service.TypeChecker;
 import com.google.gson.JsonParseException;
@@ -28,7 +26,7 @@ import java.security.NoSuchAlgorithmException;
 /**
  * The type Token request.
  */
-public class TokenRequest implements DeserializationConstraintChecker {
+public class TokenRequest {
     @SerializedName("Device Name")
     private final String deviceName;
     @SerializedName("Type of Device")
@@ -156,59 +154,5 @@ public class TokenRequest implements DeserializationConstraintChecker {
                 ",\n\t\\Support e-Mail=" + this.supportEMail +
                 ",\n\t\\Serial Number=" + this.serialNumber +
                 ",\n\t\\MAC Address=" + this.macAddress + "\n]";
-    }
-    //@Override
-    public boolean areConstraintsPassed() throws TokenManagementException, JsonParseException {
-        TypeChecker typeChecker = new TypeChecker();
-        if (this.getDeviceName() == null
-                && this.getDriverVersion() == null
-                && this.getSerialNumber() == null
-                && this.getSupportEMail() == null
-                && this.getTypeOfDevice() == null
-                && this.getMacAddress() == null) {
-            throw new TokenManagementException("Error: JSON object cannot be created due to incorrect representation");
-        }
-        // we must check for integers since gson reflection does not divide strings nor ints, it threats it as the same
-        if (this.getDeviceName() == null
-                || this.getDriverVersion() == null
-                || this.getSerialNumber() == null
-                || this.getSupportEMail() == null
-                || this.getTypeOfDevice() == null
-                || this.getMacAddress() == null
-                || typeChecker.isInteger(this.getSerialNumber())
-                || typeChecker.isInteger(this.getDriverVersion())
-                || typeChecker.isInteger(this.getMacAddress())
-                || typeChecker.isInteger(this.getTypeOfDevice())
-                || typeChecker.isInteger(this.getSupportEMail())
-                || typeChecker.isInteger(this.getDeviceName())
-        ) {
-            throw new TokenManagementException("Error: invalid input data in JSON structure.");
-        }
-        PatternChecker patternChecker = new PatternChecker();
-        if (!patternChecker.checkLengthBetween(this.getDeviceName(), 1, 20)) {
-            throw new TokenManagementException("Error: invalid String length for device name.");
-        }
-
-        if (!patternChecker.checkRegex(this.getSerialNumber(), RegexConstants.SERIAL_NUMBER)) {
-            throw new TokenManagementException("Error: invalid String length for serial number.");
-        }
-        if (!patternChecker.checkLengthBetween(this.getDriverVersion(), 1, 25)
-                || !patternChecker.checkRegex(this.getDriverVersion(), RegexConstants.DRIVER_VERSION)) {
-            throw new TokenManagementException("Error: invalid String length for driver version.");
-        }
-
-        if (!patternChecker.checkRegex(this.getSupportEMail(), RegexConstants.EMAIL_RFC822)) {
-            throw new TokenManagementException("Error: invalid E-mail data in JSON structure.");
-        }
-
-        if (!patternChecker.checkValueInAccepted(this.getTypeOfDevice(), RegexConstants.VALID_TYPE_OF_DEVICE)) {
-            throw new TokenManagementException("Error: invalid type of sensor.");
-        }
-
-        if (!patternChecker.checkRegex(this.getMacAddress(), RegexConstants.MAC_ADDRESS)) {
-            throw new TokenManagementException("Error: invalid MAC Address data in JSON structure.");
-        }
-
-        return true;
     }
 }

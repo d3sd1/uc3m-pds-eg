@@ -30,4 +30,9 @@ public class Constants {
      * The absolute path to Token database.
      */
     public static final String TOKEN_STORAGE_FILE = STORAGE_PATH + "/token.json";
+    /**
+     * Determine if we are in dev mode or not.
+     * This should be done with maven and CLI args, but we don't want more complexity.
+     */
+    public static final boolean IS_DEV = true;
 }

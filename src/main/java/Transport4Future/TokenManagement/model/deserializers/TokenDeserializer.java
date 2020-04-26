@@ -15,8 +15,17 @@ import com.google.gson.stream.MalformedJsonException;
 import java.io.EOFException;
 import java.io.IOException;
 
+/**
+ *
+ */
 public class TokenDeserializer extends TypeAdapter<Token> {
 
+    /**
+     *
+     * @param reader
+     * @return
+     * @throws IOException
+     */
     @Override
     public Token read(JsonReader reader) throws IOException {
         String tokenRequest = "",
@@ -76,6 +85,12 @@ public class TokenDeserializer extends TypeAdapter<Token> {
         );
     }
 
+    /**
+     *
+     * @param tokenRequest
+     * @param notificationEmail
+     * @param requestDate
+     */
     private void doConstraints(String tokenRequest,
             String notificationEmail,
             String requestDate) {
@@ -107,6 +122,12 @@ public class TokenDeserializer extends TypeAdapter<Token> {
         }
     }
 
+    /**
+     *
+     * @param writer
+     * @param token
+     * @throws IOException
+     */
     @Override
     public void write(JsonWriter writer, Token token) throws IOException {
         writer.beginObject();

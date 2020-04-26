@@ -39,6 +39,9 @@ public class TokenRequestDatabase extends Database<HashMap<String, TokenRequest>
      */
     protected static HashMap<String, TokenRequest> inMemoryDb;
 
+    /**
+     *
+     */
     private TokenRequestDatabase() {
         super();
         try {
@@ -61,6 +64,11 @@ public class TokenRequestDatabase extends Database<HashMap<String, TokenRequest>
         return database;
     }
 
+    /**
+     *
+     * @param tokenRequest
+     * @throws TokenManagementException
+     */
     @Override
     public void add(TokenRequest tokenRequest) throws TokenManagementException {
         this.reload();
@@ -70,6 +78,10 @@ public class TokenRequestDatabase extends Database<HashMap<String, TokenRequest>
         }
     }
 
+    /**
+     *
+     * @throws TokenManagementException
+     */
     @Override
     protected void save() throws TokenManagementException {
         FileManager fileManager = new FileManager();
@@ -81,11 +93,21 @@ public class TokenRequestDatabase extends Database<HashMap<String, TokenRequest>
         }
     }
 
+    /**
+     *
+     * @param tokenRequestToFind
+     * @return
+     * @throws TokenManagementException
+     */
     @Override
     public TokenRequest find(String tokenRequestToFind) throws TokenManagementException {
         return inMemoryDb.get(tokenRequestToFind);
     }
 
+    /**
+     *
+     * @throws TokenManagementException
+     */
     @Override
     protected void reload() throws TokenManagementException {
         FileManager fileManager = new FileManager();
@@ -110,6 +132,11 @@ public class TokenRequestDatabase extends Database<HashMap<String, TokenRequest>
         }
     }
 
+    /**
+     *
+     * @return
+     * @throws CloneNotSupportedException
+     */
     @Override
     public TokenController clone() throws CloneNotSupportedException {
         throw new CloneNotSupportedException();

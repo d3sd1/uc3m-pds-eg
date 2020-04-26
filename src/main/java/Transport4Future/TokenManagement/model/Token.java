@@ -13,7 +13,6 @@
 
 package Transport4Future.TokenManagement.model;
 
-import Transport4Future.TokenManagement.model.skeleton.DeserializationConstraintChecker;
 import Transport4Future.TokenManagement.service.Sha256Hasher;
 import com.google.gson.annotations.SerializedName;
 
@@ -26,7 +25,7 @@ import java.util.Date;
 /**
  * The type Token.
  */
-public class Token implements DeserializationConstraintChecker {
+public class Token {
     private final String alg;
     private final String typ;
     private final long iat;
@@ -181,6 +180,10 @@ public class Token implements DeserializationConstraintChecker {
         this.tokenValue = encodedString;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "Token{" +

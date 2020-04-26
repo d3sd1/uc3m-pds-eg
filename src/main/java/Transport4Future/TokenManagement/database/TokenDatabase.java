@@ -42,6 +42,9 @@ public class TokenDatabase extends Database<List<Token>, Token> {
      */
     protected static List<Token> inMemoryDb;
 
+    /**
+     *
+     */
     private TokenDatabase() {
         super();
         try {
@@ -65,6 +68,11 @@ public class TokenDatabase extends Database<List<Token>, Token> {
         return database;
     }
 
+    /**
+     *
+     * @param newToken
+     * @throws TokenManagementException
+     */
     @Override
     public void add(Token newToken) throws TokenManagementException {
         if (this.find(newToken.getTokenValue()) == null) {
@@ -73,6 +81,10 @@ public class TokenDatabase extends Database<List<Token>, Token> {
         }
     }
 
+    /**
+     *
+     * @throws TokenManagementException
+     */
     @Override
     protected void save() throws TokenManagementException {
         try {
@@ -86,6 +98,11 @@ public class TokenDatabase extends Database<List<Token>, Token> {
         }
     }
 
+    /**
+     *
+     * @param tokenToFind
+     * @return
+     */
     @Override
     public Token find(String tokenToFind) {
         Token result = null;
@@ -102,6 +119,9 @@ public class TokenDatabase extends Database<List<Token>, Token> {
         return result;
     }
 
+    /**
+     *
+     */
     @Override
     protected void reload() {
         FileManager fileManager = new FileManager();
@@ -115,6 +135,11 @@ public class TokenDatabase extends Database<List<Token>, Token> {
         }
     }
 
+    /**
+     *
+     * @return
+     * @throws CloneNotSupportedException
+     */
     @Override
     public TokenController clone() throws CloneNotSupportedException {
         throw new CloneNotSupportedException();

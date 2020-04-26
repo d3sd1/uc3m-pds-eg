@@ -12,8 +12,17 @@ import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
 
+/**
+ *
+ */
 public class TokenRequestDeserializer extends TypeAdapter<TokenRequest> {
 
+    /**
+     *
+     * @param reader
+     * @return
+     * @throws IOException
+     */
     @Override
     public TokenRequest read(JsonReader reader) throws IOException {
         try {
@@ -92,6 +101,16 @@ public class TokenRequestDeserializer extends TypeAdapter<TokenRequest> {
         );
     }
 
+    /**
+     *
+     * @param deviceName
+     * @param typeOfDevice
+     * @param driverVersion
+     * @param supportEmail
+     * @param serialNumber
+     * @param macAddress
+     * @throws JsonSyntaxException
+     */
     private void doConstraints(String deviceName,
                                String typeOfDevice,
                                String driverVersion,
@@ -150,6 +169,12 @@ public class TokenRequestDeserializer extends TypeAdapter<TokenRequest> {
         }
     }
 
+    /**
+     *
+     * @param writer
+     * @param token
+     * @throws IOException
+     */
     @Override
     public void write(JsonWriter writer, TokenRequest token) throws IOException {
         writer.beginObject();
