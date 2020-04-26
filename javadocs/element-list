@@ -5,6 +5,6 @@ Transport4Future.TokenManagement.controller
 Transport4Future.TokenManagement.database
 Transport4Future.TokenManagement.exception
 Transport4Future.TokenManagement.model
-Transport4Future.TokenManagement.model.deserializers
+Transport4Future.TokenManagement.model.typeadapter
 Transport4Future.TokenManagement.model.skeleton
 Transport4Future.TokenManagement.service

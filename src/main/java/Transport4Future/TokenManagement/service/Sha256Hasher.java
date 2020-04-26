@@ -22,6 +22,7 @@ import java.security.NoSuchAlgorithmException;
 
 /**
  * The type Hash manager.
+ * Follows Strategy pattern.
  */
 public class Sha256Hasher implements Hasher {
 

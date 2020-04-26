@@ -22,6 +22,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * The type Token.
@@ -181,10 +182,37 @@ public class Token {
         this.tokenValue = encodedString;
     }
 
+
     /**
+     * Is valid boolean.
      *
-     * @return
+     * @return the boolean
      */
+    public boolean isValid() {
+        return (!this.isExpired()) && (this.isGranted());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Token)) return false;
+        Token token = (Token) o;
+        return iat == token.iat &&
+                exp == token.exp &&
+                Objects.equals(alg, token.alg) &&
+                Objects.equals(typ, token.typ) &&
+                Objects.equals(getDevice(), token.getDevice()) &&
+                Objects.equals(getRequestDate(), token.getRequestDate()) &&
+                Objects.equals(getNotificationEmail(), token.getNotificationEmail()) &&
+                Objects.equals(getSignature(), token.getSignature()) &&
+                Objects.equals(getTokenValue(), token.getTokenValue());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(alg, typ, iat, exp, getDevice(), getRequestDate(), getNotificationEmail(), getSignature(), getTokenValue());
+    }
+
     @Override
     public String toString() {
         return "Token{" +
@@ -199,14 +227,4 @@ public class Token {
                 ", tokenValue='" + tokenValue + '\'' +
                 '}';
     }
-
-    /**
-     * Is valid boolean.
-     *
-     * @return the boolean
-     */
-    public boolean isValid() {
-        return (!this.isExpired()) && (this.isGranted());
-    }
-
 }

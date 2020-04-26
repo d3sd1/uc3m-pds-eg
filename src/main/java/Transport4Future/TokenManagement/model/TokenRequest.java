@@ -18,6 +18,7 @@ import Transport4Future.TokenManagement.service.Md5Hasher;
 import com.google.gson.annotations.SerializedName;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.Objects;
 
 /**
  * The type Token request.
@@ -144,11 +145,33 @@ public class TokenRequest {
 
     @Override
     public String toString() {
-        return "TokenRequest [\\n\\Device Name=" + this.deviceName +
-                ",\n\t\\Type of Device=" + this.typeOfDevice +
-                ",\n\t\\Driver Version=" + this.driverVersion +
-                ",\n\t\\Support e-Mail=" + this.supportEMail +
-                ",\n\t\\Serial Number=" + this.serialNumber +
-                ",\n\t\\MAC Address=" + this.macAddress + "\n]";
+        return "TokenRequest{" +
+                "deviceName='" + deviceName + '\'' +
+                ", typeOfDevice='" + typeOfDevice + '\'' +
+                ", driverVersion='" + driverVersion + '\'' +
+                ", supportEMail='" + supportEMail + '\'' +
+                ", serialNumber='" + serialNumber + '\'' +
+                ", macAddress='" + macAddress + '\'' +
+                ", hex='" + hex + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof TokenRequest)) return false;
+        TokenRequest that = (TokenRequest) o;
+        return Objects.equals(getDeviceName(), that.getDeviceName()) &&
+                Objects.equals(getTypeOfDevice(), that.getTypeOfDevice()) &&
+                Objects.equals(getDriverVersion(), that.getDriverVersion()) &&
+                Objects.equals(getSupportEMail(), that.getSupportEMail()) &&
+                Objects.equals(getSerialNumber(), that.getSerialNumber()) &&
+                Objects.equals(getMacAddress(), that.getMacAddress()) &&
+                Objects.equals(getHex(), that.getHex());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getDeviceName(), getTypeOfDevice(), getDriverVersion(), getSupportEMail(), getSerialNumber(), getMacAddress(), getHex());
     }
 }

@@ -20,6 +20,7 @@ import java.util.regex.PatternSyntaxException;
 
 /**
  * The type Pattern checker.
+ * Required by constraint checker.
  */
 public class PatternChecker {
     /**
@@ -70,10 +71,10 @@ public class PatternChecker {
      */
     public boolean checkRegex(String toCheck, String regex) throws PatternSyntaxException {
         if (toCheck == null || regex == null) {
-            return false;
+            return true;
         }
         Pattern serialNumberPattern = Pattern.compile(regex);
-        return serialNumberPattern.matcher(toCheck).matches();
+        return !serialNumberPattern.matcher(toCheck).matches();
     }
 
     /**

@@ -63,7 +63,7 @@ public class TokenController implements TokenManager {
         TokenRequestDatabase tokenRequestDatabase = TokenRequestDatabase.getInstance();
 
         try {
-            tokenRequest = fileManager.readJsonFileWithConstraints(inputFile, TokenRequest.class);
+            tokenRequest = fileManager.readJsonFile(inputFile, TokenRequest.class);
         } catch ( JsonSyntaxException e) {
             throw new TokenManagementException(e.getMessage());
         } catch (FileNotFoundException e) {
@@ -111,7 +111,7 @@ public class TokenController implements TokenManager {
         TokenDatabase myStore = TokenDatabase.getInstance();
 
         try {
-            token = fileManager.readJsonFileWithConstraints(inputFile, Token.class);
+            token = fileManager.readJsonFile(inputFile, Token.class);
         } catch (FileNotFoundException e) {
             throw new TokenManagementException("Error: input file not found.");
         } catch (JsonSyntaxException e) {

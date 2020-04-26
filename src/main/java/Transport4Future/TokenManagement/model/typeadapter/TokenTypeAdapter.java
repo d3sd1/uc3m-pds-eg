@@ -1,9 +1,7 @@
-package Transport4Future.TokenManagement.model.deserializers;
+package Transport4Future.TokenManagement.model.typeadapter;
 
 import Transport4Future.TokenManagement.config.RegexConstants;
-import Transport4Future.TokenManagement.exception.TokenManagementException;
 import Transport4Future.TokenManagement.model.Token;
-import Transport4Future.TokenManagement.model.TokenRequest;
 import Transport4Future.TokenManagement.service.PatternChecker;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.TypeAdapter;
@@ -18,7 +16,7 @@ import java.io.IOException;
 /**
  *
  */
-public class TokenDeserializer extends TypeAdapter<Token> {
+public class TokenTypeAdapter extends TypeAdapter<Token> {
 
     /**
      *
@@ -110,14 +108,14 @@ public class TokenDeserializer extends TypeAdapter<Token> {
         }
 
         PatternChecker patternChecker = new PatternChecker();
-        if (!patternChecker.checkRegex(tokenRequest, RegexConstants.DEVICE)) {
+        if (patternChecker.checkRegex(tokenRequest, RegexConstants.DEVICE)) {
             throw new JsonSyntaxException("Error: invalid Device in token request.");
         }
 
-        if (!patternChecker.checkRegex(notificationEmail, RegexConstants.EMAIL_RFC822)) {
+        if (patternChecker.checkRegex(notificationEmail, RegexConstants.EMAIL_RFC822)) {
             throw new JsonSyntaxException("Error: invalid E-mail data in JSON structure.");
         }
-        if (!patternChecker.checkRegex(requestDate, RegexConstants.JSON_DATE_FORMAT)) {
+        if (patternChecker.checkRegex(requestDate, RegexConstants.JSON_DATE_FORMAT)) {
             throw new JsonSyntaxException("Error: invalid date data in JSON structure.");
         }
     }

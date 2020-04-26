@@ -13,8 +13,6 @@
 
 package Transport4Future.TokenManagement.service;
 
-import Transport4Future.TokenManagement.exception.TokenManagementException;
-
 import java.io.*;
 import java.lang.reflect.Type;
 
@@ -67,8 +65,8 @@ public class FileManager {
      * @throws IOException the io exception
      */
     public <T> T readJsonFile(String filePath, Type typeReference) throws IOException {
-        Deserializer deserializer = new Deserializer();
-        return deserializer.jsonDecode(this.readFile(filePath), typeReference);
+        JsonManager jsonManager = new JsonManager();
+        return jsonManager.decode(this.readFile(filePath), typeReference);
     }
 
     /**
@@ -81,8 +79,8 @@ public class FileManager {
      * @throws IOException the io exception
      */
     public <T> T readJsonFile(String filePath, Class<T> deserializeClass) throws IOException {
-        Deserializer deserializer = new Deserializer();
-        return deserializer.jsonDecode(this.readFile(filePath), deserializeClass);
+        JsonManager jsonManager = new JsonManager();
+        return jsonManager.decode(this.readFile(filePath), deserializeClass);
     }
 
     /**
@@ -94,25 +92,10 @@ public class FileManager {
      * @throws IOException the io exception
      */
     public <T> void writeObjectToJsonFile(String filePath, T content) throws IOException {
-        Deserializer deserializer = new Deserializer();
-        this.writeFile(filePath, deserializer.jsonEncode(content));
+        JsonManager jsonManager = new JsonManager();
+        this.writeFile(filePath, jsonManager.encode(content));
     }
 
-    /**
-     * Read json file with constraints t.
-     *
-     * @param <T>              the type parameter
-     * @param filePath         the file path
-     * @param deserializeClass the deserialize class
-     * @return the t
-     * @throws IOException              the io exception
-     * @throws TokenManagementException the token management exception
-     */
-    public <T> T readJsonFileWithConstraints(String filePath, Class<T> deserializeClass) throws IOException {
-        T obj = this.readJsonFile(filePath, deserializeClass);
-        //obj.areConstraintsPassed();
-        return obj;
-    }
 
     /**
      * Create path recursive boolean.

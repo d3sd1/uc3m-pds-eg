@@ -1,4 +1,4 @@
-package Transport4Future.TokenManagement.model.deserializers;
+package Transport4Future.TokenManagement.model.typeadapter;
 
 import Transport4Future.TokenManagement.config.RegexConstants;
 import Transport4Future.TokenManagement.model.TokenRequest;
@@ -15,7 +15,7 @@ import java.io.IOException;
 /**
  *
  */
-public class TokenRequestDeserializer extends TypeAdapter<TokenRequest> {
+public class TokenRequestTypeAdapter extends TypeAdapter<TokenRequest> {
 
     /**
      *
@@ -148,15 +148,15 @@ public class TokenRequestDeserializer extends TypeAdapter<TokenRequest> {
             throw new JsonSyntaxException("Error: invalid String length for device name.");
         }
 
-        if (!patternChecker.checkRegex(serialNumber, RegexConstants.SERIAL_NUMBER)) {
+        if (patternChecker.checkRegex(serialNumber, RegexConstants.SERIAL_NUMBER)) {
             throw new JsonSyntaxException("Error: invalid String length for serial number.");
         }
         if (!patternChecker.checkLengthBetween(driverVersion, 1, 25)
-                || !patternChecker.checkRegex(driverVersion, RegexConstants.DRIVER_VERSION)) {
+                || patternChecker.checkRegex(driverVersion, RegexConstants.DRIVER_VERSION)) {
             throw new JsonSyntaxException("Error: invalid String length for driver version.");
         }
 
-        if (!patternChecker.checkRegex(supportEmail, RegexConstants.EMAIL_RFC822)) {
+        if (patternChecker.checkRegex(supportEmail, RegexConstants.EMAIL_RFC822)) {
             throw new JsonSyntaxException("Error: invalid E-mail data in JSON structure.");
         }
 
@@ -164,7 +164,7 @@ public class TokenRequestDeserializer extends TypeAdapter<TokenRequest> {
             throw new JsonSyntaxException("Error: invalid type of sensor.");
         }
 
-        if (!patternChecker.checkRegex(macAddress, RegexConstants.MAC_ADDRESS)) {
+        if (patternChecker.checkRegex(macAddress, RegexConstants.MAC_ADDRESS)) {
             throw new JsonSyntaxException("Error: invalid MAC Address data in JSON structure.");
         }
     }

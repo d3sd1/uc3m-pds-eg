@@ -53,7 +53,9 @@
 - La calidad de código basada en SonarCloud puede verse mediante una exposición, que podemos tener durante cualquier meeting.
 - Revisados errores de seguridad del proyecto.
 - Se ha utilizado Jackson ya que Gson no ofrecía todas las posibilidades requeridas para nuestra casuística, pero se intentó implementar con ello.
+- El mensaje de arriba es mentira y al final se utilizó Gson, pese al aneurisma derivado de ello.
 - Agregada integración continua a los test, de este modo, se prueba siempre que se sube un commit.
+- Optimizadas dependencias.
 
 ** TESTS MODIFICADOS Y POR QUE **
 TokenRequestTest -> 15,16,17, ya que por casuística se han generalizado estos dos tipos, y en los tests no estaba contemplada esta distinción. Al usar reflection, esta excepción es más genérica y no se pueden distinguir entre los mensajes:
