@@ -40,7 +40,6 @@ public class TokenTypeAdapter extends TypeAdapter<Token> {
             while (reader.hasNext()) {
                 JsonToken token = reader.peek();
                 if (token.equals(JsonToken.NAME)) {
-                    //get the current token
                     fieldname = reader.nextName();
                 }
 

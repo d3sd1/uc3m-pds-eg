@@ -18,6 +18,7 @@ import java.io.IOException;
 public class TokenRequestTypeAdapter extends TypeAdapter<TokenRequest> {
 
     /**
+     * we must check for integers since gson reflection does not divide strings nor ints, it threats it as the same
      *
      * @param reader
      * @return
@@ -48,7 +49,6 @@ public class TokenRequestTypeAdapter extends TypeAdapter<TokenRequest> {
         while (reader.hasNext()) {
             JsonToken token = reader.peek();
             if (token.equals(JsonToken.NAME)) {
-                //get the current token
                 fieldname = reader.nextName();
             }
 
@@ -127,7 +127,6 @@ public class TokenRequestTypeAdapter extends TypeAdapter<TokenRequest> {
                 && macAddress == null) {
             throw new JsonSyntaxException("Error: JSON object cannot be created due to incorrect representation");
         }
-        // we must check for integers since gson reflection does not divide strings nor ints, it threats it as the same
         if (deviceName == null
                 || typeOfDevice == null
                 || serialNumber == null
