@@ -84,7 +84,7 @@
                             <archive>
                                 <manifest>
                                     <mainClass>
-                                        Transport4Future.TokenManagement.controller.TokenController
+                                        Transport4Future.TokenManagement.controller.TokenManager
                                     </mainClass>
                                 </manifest>
                             </archive>

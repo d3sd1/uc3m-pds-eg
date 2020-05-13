@@ -22,7 +22,7 @@
 - Tamaño de las clases reducido.
 - Refactorizados los métodos de las clases.
 - Creados singletons para los accesos de las bases de datos.
-- Se ha usado Strategy para la encriptación de ficheros.
+- Se ha usado Strategy para el hashing.
 - Se han usado bloques try/catch para homogeneizar las excepciones salientes.
 - Se han usado los bloques try/catch apartado por apartado, para prevenir excepciones no esperadas/innecesarias en otro contexto.
 - Se han reducido todos los argumentos de las funciones a 3 o menos.
@@ -32,7 +32,7 @@
 - Nomenclatura y naming de clases/métodos ajustado.
 - Se ha seguido la normativa de código.
 - Subidos XML de ejecución del código de tests satisfactorios.
-- Usado patrón Singleton en TokenManager (-> Renamed to TokenController), TokenRequestsStore (renamed to TokenRequestDatabase) y TokensStore (renamed to TokenDatabase)
+- Usado patrón Singleton en TokenManager, TokenRequestsStore y TokensStore 
 - Verificada normativa de código
        
 **Trabajos EXTRA (Práctica 4)**:

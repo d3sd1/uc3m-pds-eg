@@ -13,12 +13,12 @@
 
 package Transport4Future.TokenManagement.controller;
 
-import Transport4Future.TokenManagement.database.TokenDatabase;
-import Transport4Future.TokenManagement.database.TokenRequestDatabase;
+import Transport4Future.TokenManagement.database.TokenRequestsStore;
+import Transport4Future.TokenManagement.database.TokensStore;
 import Transport4Future.TokenManagement.exception.TokenManagementException;
 import Transport4Future.TokenManagement.model.Token;
 import Transport4Future.TokenManagement.model.TokenRequest;
-import Transport4Future.TokenManagement.model.skeleton.TokenManager;
+import Transport4Future.TokenManagement.model.skeleton.TokenManagerInterface;
 import Transport4Future.TokenManagement.service.FileManager;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.MalformedJsonException;
@@ -31,16 +31,16 @@ import java.security.NoSuchAlgorithmException;
 /**
  * This class manages tokens, so it's purely a controller that handles actions on Tokens.
  */
-public class TokenController implements TokenManager {
-    private static TokenController instance;
+public class TokenManager implements TokenManagerInterface {
+    private static TokenManager instance;
 
-    private TokenController() {
+    private TokenManager() {
         super();
     }
 
-    public static TokenController getInstance() {
+    public static TokenManager getInstance() {
         if (instance == null) {
-            instance = new TokenController();
+            instance = new TokenManager();
         }
         return instance;
     }
@@ -56,15 +56,15 @@ public class TokenController implements TokenManager {
      * @throws TokenManagementException with specific message based on cases.
      * @throws TokenManagementException nested, from other project sides instead catching 'em.
      */
-    public String generate(String inputFile) throws TokenManagementException {
+    public String TokenRequestGeneration(String inputFile) throws TokenManagementException {
         TokenRequest tokenRequest;
         String hex;
         FileManager fileManager = new FileManager();
-        TokenRequestDatabase tokenRequestDatabase = TokenRequestDatabase.getInstance();
+        TokenRequestsStore tokenRequestsStore = TokenRequestsStore.getInstance();
 
         try {
             tokenRequest = fileManager.readJsonFile(inputFile, TokenRequest.class);
-        } catch ( JsonSyntaxException e) {
+        } catch (JsonSyntaxException e) {
             throw new TokenManagementException(e.getMessage());
         } catch (FileNotFoundException e) {
             throw new TokenManagementException("Error: input file not found.");
@@ -85,7 +85,7 @@ public class TokenController implements TokenManager {
             throw new TokenManagementException("Error: could not encode token request.");
         }
 
-        tokenRequestDatabase.add(tokenRequest);
+        tokenRequestsStore.add(tokenRequest);
 
         return hex;
     }
@@ -101,11 +101,11 @@ public class TokenController implements TokenManager {
      * @throws TokenManagementException with specific message based on cases.
      * @throws TokenManagementException nested, from other project sides instead catching 'em.
      */
-    public String request(String inputFile) throws TokenManagementException {
+    public String RequestToken(String inputFile) throws TokenManagementException {
         Token token = null;
         FileManager fileManager = new FileManager();
-        TokenRequestDatabase tokenRequestDatabase = TokenRequestDatabase.getInstance();
-        TokenDatabase myStore = TokenDatabase.getInstance();
+        TokenRequestsStore tokenRequestsStore = TokenRequestsStore.getInstance();
+        TokensStore myStore = TokensStore.getInstance();
 
         try {
             token = fileManager.readJsonFile(inputFile, Token.class);
@@ -117,7 +117,7 @@ public class TokenController implements TokenManager {
             throw new TokenManagementException("Error: JSON object cannot be created due to incorrect representation");
         }
 
-        tokenRequestDatabase.isRequestRegistered(token);
+        tokenRequestsStore.isRequestRegistered(token);
 
         try {
             token.encodeValue();
@@ -143,8 +143,8 @@ public class TokenController implements TokenManager {
      * @return Wetter is valid or not.
      * @throws TokenManagementException If there is a crash during the verification.
      */
-    public boolean verify(String encodedToken) throws TokenManagementException {
-        Token tokenFound = TokenDatabase.getInstance().find(encodedToken);
+    public boolean VerifyToken(String encodedToken) throws TokenManagementException {
+        Token tokenFound = TokensStore.getInstance().find(encodedToken);
         if (tokenFound != null) {
             return tokenFound.isValid();
         }
@@ -152,7 +152,7 @@ public class TokenController implements TokenManager {
     }
 
     @Override
-    public TokenController clone() throws CloneNotSupportedException {
+    public TokenManager clone() throws CloneNotSupportedException {
         throw new CloneNotSupportedException();
     }
 }

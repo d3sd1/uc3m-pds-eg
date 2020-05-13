@@ -14,7 +14,7 @@
 package Transport4Future.TokenManagement.database;
 
 import Transport4Future.TokenManagement.config.Constants;
-import Transport4Future.TokenManagement.controller.TokenController;
+import Transport4Future.TokenManagement.controller.TokenManager;
 import Transport4Future.TokenManagement.exception.TokenManagementException;
 import Transport4Future.TokenManagement.model.Token;
 import Transport4Future.TokenManagement.model.TokenRequest;
@@ -28,11 +28,11 @@ import java.util.HashMap;
 /**
  * The type Token request database.
  */
-public class TokenRequestDatabase extends Database<HashMap<String, TokenRequest>, TokenRequest> {
+public class TokenRequestsStore extends Database<HashMap<String, TokenRequest>, TokenRequest> {
     /**
      * The constant database.
      */
-    protected static TokenRequestDatabase database;
+    protected static TokenRequestsStore database;
     /**
      * The In memory db.
      */
@@ -41,7 +41,7 @@ public class TokenRequestDatabase extends Database<HashMap<String, TokenRequest>
     /**
      *
      */
-    private TokenRequestDatabase() {
+    private TokenRequestsStore() {
         super();
         try {
             FileManager fileManager = new FileManager();
@@ -56,9 +56,9 @@ public class TokenRequestDatabase extends Database<HashMap<String, TokenRequest>
      *
      * @return the instance
      */
-    public static TokenRequestDatabase getInstance() {
+    public static TokenRequestsStore getInstance() {
         if (database == null) {
-            database = new TokenRequestDatabase();
+            database = new TokenRequestsStore();
         }
         return database;
     }
@@ -135,7 +135,7 @@ public class TokenRequestDatabase extends Database<HashMap<String, TokenRequest>
      * @throws CloneNotSupportedException
      */
     @Override
-    public TokenController clone() throws CloneNotSupportedException {
+    public TokenManager clone() throws CloneNotSupportedException {
         throw new CloneNotSupportedException();
     }
 

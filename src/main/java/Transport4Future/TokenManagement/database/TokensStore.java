@@ -14,7 +14,7 @@
 package Transport4Future.TokenManagement.database;
 
 import Transport4Future.TokenManagement.config.Constants;
-import Transport4Future.TokenManagement.controller.TokenController;
+import Transport4Future.TokenManagement.controller.TokenManager;
 import Transport4Future.TokenManagement.exception.TokenManagementException;
 import Transport4Future.TokenManagement.model.Token;
 import Transport4Future.TokenManagement.model.skeleton.Database;
@@ -29,11 +29,11 @@ import java.util.List;
 /**
  * The type Token database.
  */
-public class TokenDatabase extends Database<List<Token>, Token> {
+public class TokensStore extends Database<List<Token>, Token> {
     /**
      * The constant database.
      */
-    protected static TokenDatabase database;
+    protected static TokensStore database;
     /**
      * The In memory db.
      */
@@ -42,7 +42,7 @@ public class TokenDatabase extends Database<List<Token>, Token> {
     /**
      *
      */
-    private TokenDatabase() {
+    private TokensStore() {
         super();
         try {
             FileManager fileManager = new FileManager();
@@ -58,9 +58,9 @@ public class TokenDatabase extends Database<List<Token>, Token> {
      *
      * @return the instance
      */
-    public static TokenDatabase getInstance() {
+    public static TokensStore getInstance() {
         if (database == null) {
-            database = new TokenDatabase();
+            database = new TokensStore();
         }
         return database;
     }
@@ -132,7 +132,7 @@ public class TokenDatabase extends Database<List<Token>, Token> {
      * @throws CloneNotSupportedException
      */
     @Override
-    public TokenController clone() throws CloneNotSupportedException {
+    public TokenManager clone() throws CloneNotSupportedException {
         throw new CloneNotSupportedException();
     }
 }
